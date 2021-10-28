@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Libro</title>
+</head>
+<body>
+    <h1>Agregar Libro:</h1>
+    <form action="" method="post" autocomplete="off">
+        <div>
+            <label for="titulo">Título:</label> <br />
+            <input type="text" id="titulo" name="titulo" required="true" placeholder="Escriba aquí el título"/>
+        </div>
+        <div>
+            <label for="autor">Autor:</label> <br />
+            <input type="text" id="autor" name="autor" required="true" placeholder="Escriba aquí el autor"/>
+        </div>
+        <div>
+            <label for="materia">Materia:</label> <br />
+            <input type="text" id="materia" name="materia" required="true" placeholder="Escriba aquí la materia"/>
+        </div>
+        <div>
+            <label for="alarma">Fecha de Alarma:</label> <br />
+            <input type="date" id="alarma" name="alarma" required="true"/>
+        </div>
+        <div>
+            <label for="descripcion">Descripción:</label> <br />
+            <input type="text" id="descripcion" name="descripcion" required="false" placeholder="Escriba aquí la descripción"/>
+        </div>
+        <div>
+            <input type="radio" id="obligatorio" name="obligatorio" value="obligatorio"/>
+            <label for="obligatorio">Obligatorio</label> <br>
+        </div>
+        <div>
+            <label for="diasAlarma">Diás anticipación de alarma:</label> <br />
+            <select name="transporte" type="number" id="diasAlarma" name="diasAlarma">
+                <option>2</option>  
+                <option>5</option>
+                <option>10</option>
+            </select>
+        </div>
+        <input type="submit" value="Enviar" />
+    </form>
+</body>
+</html>
