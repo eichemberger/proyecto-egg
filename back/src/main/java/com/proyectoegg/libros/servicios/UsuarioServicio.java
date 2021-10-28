@@ -1,6 +1,7 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Foto;
+import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
@@ -17,7 +18,14 @@ public class UsuarioServicio {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
-
+    @Autowired
+    LibroServicio libroServcio;
+    
+//    public Libro agregarLibro(Libro libro){
+//        
+//    }
+//    
+    
     @Transactional
     public Usuario guardar(String nombre, String email, String contrasenia, String contrasenia2, MultipartFile archivo) throws ServiceException, IOException {
         validar(nombre, email, contrasenia, contrasenia2);
@@ -114,6 +122,9 @@ public class UsuarioServicio {
         }
     }
 
+    public Usuario encontrarPorID(String id){
+        return usuarioRepositorio.getById(id);
+    }
     public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
