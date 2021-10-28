@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Libros</title>
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link href="tabla-style.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <nav>
+      <p class="nombre-app primer-item">📚 Nombre app</p>
+      <p class="nav-item"><a href="#">Mi Perfil</a></p>
+      <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+    </nav>
+
+    <h1 class="titulo-tabla">LIBROS</h1>
+
+    <div class="select-materia">
+      <label for="materias">Materia:</label>
+      <select name="materias" id="materias">
+        <option value="Todas">Todas</option>
+        <option value="Programación">Programación</option>
+        <option value="Economía">Economía</option>
+        <option value="Programacióm">Programacióm</option>
+      </select>
+      <span><a href="#">↓ ORDENAR</a></span>
+    </div>
+    <table>
+      <thead class="theader">
+        <tr class="container">
+          <th>Titulo</th>
+          <th>Materia</th>
+          <th>Días restantes</th>
+          <th>Leído</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="container fila">
+          <td>Java Spring</td>
+          <td>Programación</td>
+          <td>15</td>
+          <td><a href="#">✅</a></td>
+          <td><a href="#">❌</a></td>
+        </tr>
+
+        <tr class="container fila">
+          <td>Economía empresarial</td>
+          <td>Economía</td>
+          <td>9</td>
+          <td>✅</td>
+          <td>❌</td>
+        </tr>
+
+        <tr class="container fila">
+          <td>React</td>
+          <td>Programacióm</td>
+          <td>25</td>
+          <td><a href="#">✅</a></td>
+          <td><a href="#">❌</a></td>
+        </tr>
+
+        <tr class="container fila">
+          <td>Probabilidad</td>
+          <td>Matemática</td>
+          <td>12</td>
+          <td>✅</td>
+          <td>❌</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="fill">Agregar</button>
+  </body>
+</html>
