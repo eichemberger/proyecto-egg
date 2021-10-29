@@ -7,41 +7,49 @@
     <title>Agregar Libro</title>
 </head>
 <body>
-    <h1>Agregar Libro:</h1>
-    <form action="" method="post" autocomplete="off">
-        <div>
-            <label for="titulo">Título:</label> <br />
-            <input type="text" id="titulo" name="titulo" required="true" placeholder="Escriba aquí el título"/>
-        </div>
-        <div>
-            <label for="autor">Autor:</label> <br />
-            <input type="text" id="autor" name="autor" required="true" placeholder="Escriba aquí el autor"/>
-        </div>
-        <div>
-            <label for="materia">Materia:</label> <br />
-            <input type="text" id="materia" name="materia" required="true" placeholder="Escriba aquí la materia"/>
-        </div>
-        <div>
-            <label for="alarma">Fecha de Alarma:</label> <br />
-            <input type="date" id="alarma" name="alarma" required="true"/>
-        </div>
-        <div>
-            <label for="descripcion">Descripción:</label> <br />
-            <input type="text" id="descripcion" name="descripcion" required="false" placeholder="Escriba aquí la descripción"/>
-        </div>
-        <div>
-            <input type="radio" id="obligatorio" name="obligatorio" value="obligatorio"/>
-            <label for="obligatorio">Obligatorio</label> <br>
-        </div>
-        <div>
-            <label for="diasAlarma">Diás anticipación de alarma:</label> <br />
-            <select name="transporte" type="number" id="diasAlarma" name="diasAlarma">
-                <option>2</option>  
-                <option>5</option>
-                <option>10</option>
-            </select>
-        </div>
-        <input type="submit" value="Enviar" />
-    </form>
+    <div>
+        <h1>Agregar Libro:</h1>
+        <form action="" method="post" autocomplete="off">
+            <fieldset>
+                <legend>Nuevo libro:</legend>
+                <div>
+                    <label for="titulo">Título:</label> <br />
+                    <input type="text" name="titulo" id="titulo" required="true" placeholder="Escriba aquí el título"/>
+                </div>
+                <div>
+                    <label for="autor">Autor:</label> <br />
+                    <input type="text" name="autor" id="autor" required="true" placeholder="Escriba aquí el autor"/>
+                </div>
+                <div>
+                    <label for="materia">Materia:</label> <br />
+                    <input type="text" name="materia" id="materia" required="true" placeholder="Escriba aquí la materia"/>
+                </div>
+                <div>
+                    <label for="alarma">Fecha de Alarma:</label> <br />
+                    <input type="date" name="alarma" id="alarma" required="true"/>
+                </div>
+                <div>
+                    <label for="descripcion">Descripción:</label> <br />
+                    <textarea name="descripcion" id="descripcion" cols="20" rows="5" required="false" placeholder="Escriba aquí la descripción"></textarea>
+                </div>
+                <div>
+                    <input type="radio" name="obligatorio" id="obligatorio" value="obligatorio" required="false"/>
+                    <label for="obligatorio">Obligatorio</label> <br>
+                </div>
+                <div>
+                    <label for="diasAlarma">Diás anticipación de alarma:</label> <br />
+                    <select type="number" name="diasAlarma" id="diasAlarma" required="true" >
+                        <option value="2" selected="true">2</option>  
+                        <option value="5">5</option>
+                        <option value="7">7</option>
+                    </select>
+                </div> <br>
+                <div>
+                    <input type="reset" value="Restablecer">
+                    <input type="submit" value="Enviar" />
+                </div>
+            </fieldset>
+        </form>
+    </div>
 </body>
 </html>

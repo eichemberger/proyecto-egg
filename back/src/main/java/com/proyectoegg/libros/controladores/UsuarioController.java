@@ -32,4 +32,16 @@ public class UsuarioController {
             return "registroForm";
         }
     }
+    
+    @GetMapping("/editar")
+    public String editarUsuario(){
+       return "editar-usuario"; 
+    }
+    
+    @GetMapping("/login")
+    public String iniciarSesion(){
+        return "iniciar-sesion";
+    }
+    
+    
 }

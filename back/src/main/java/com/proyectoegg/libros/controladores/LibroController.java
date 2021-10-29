@@ -1,13 +1,26 @@
 package com.proyectoegg.libros.controladores;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/libros")
 public class LibroController {
     
+    @GetMapping("/agregar")
+public String agregarLibro(){
+    return "agregarLibroForm";
+}
+    
+@GetMapping("/")
+public String editarlibro(){
+    return "";
+}    
 
-    
-    
+@GetMapping("/listaLeidos")
+public String listaLeidos(){
+    return "libros-leidos";
+}
+
 }
