@@ -1,7 +1,6 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Foto;
-import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
@@ -9,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,19 +20,15 @@ public class UsuarioServicio {
     UsuarioRepositorio usuarioRepositorio;
     @Autowired
     LibroServicio libroServcio;
-    
-//    public Libro agregarLibro(Libro libro){
-//        
-//    }
-//    
-    
+
     @Transactional
-    public Usuario guardar(String nombre, String email, String contrasenia, String contrasenia2, MultipartFile archivo) throws ServiceException, IOException {
-        validar(nombre, email, contrasenia, contrasenia2);
+    public Usuario guardar(String nombre, String email, String contrasenia, MultipartFile archivo) throws ServiceException, IOException {
+        validar(nombre, email, contrasenia);
         Usuario usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setEmail(email);
-        usuario.setContrasenia(contrasenia);
+        String contraseniaEncriptada = new BCryptPasswordEncoder().encode(contrasenia);
+        usuario.setContrasenia(contraseniaEncriptada);
         usuario.setAlta(true);
 
         if (archivo != null) {
@@ -42,19 +38,19 @@ public class UsuarioServicio {
             foto.setNombre(nombre);
             usuario.setFoto(foto);
         }
-
         return usuarioRepositorio.save(usuario);
     }
 
     @Transactional
-    public Usuario editar(String id, String nombre, String email, String contrasenia, String contrasenia2, MultipartFile archivo) throws ServiceException, IOException {
+    public Usuario editar(String id, String nombre, String email, String contrasenia, MultipartFile archivo) throws ServiceException, IOException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
             Usuario usuario = resultado.get();
-            validar(nombre, email, contrasenia, contrasenia2);
+            validar(nombre, email, contrasenia);
             usuario.setNombre(nombre);
             usuario.setEmail(email);
-            usuario.setContrasenia(contrasenia);
+            String contraseniaEncriptada = new BCryptPasswordEncoder().encode(contrasenia);
+            usuario.setContrasenia(contraseniaEncriptada);
 
             if (archivo != null) {
                 Foto foto = new Foto();
@@ -79,7 +75,7 @@ public class UsuarioServicio {
         }
     }
 
-    private void validar(String nombre, String email, String contrasenia, String contrasenia2) throws ServiceException {
+    private void validar(String nombre, String email, String contrasenia) throws ServiceException {
 
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("El nombre del usuario no puede estar vacío");
@@ -109,24 +105,25 @@ public class UsuarioServicio {
             throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
         }
 
-        if (contrasenia2.isEmpty() || contrasenia2 == null || contrasenia2.contains(" ")) {
-            throw new ServiceException("La contraseña no puede estar vacía");
-        }
-
-        if (contrasenia2.length() < 8 || contrasenia2.length() > 20) {
-            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
-        }
-
-        if (!contrasenia.equals(contrasenia2)) {
-            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
-        }
+//        if (contrasenia2.isEmpty() || contrasenia2 == null || contrasenia2.contains(" ")) {
+//            throw new ServiceException("La contraseña no puede estar vacía");
+//        }
+//
+//        if (contrasenia2.length() < 8 || contrasenia2.length() > 20) {
+//            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
+//        }
+//
+//        if (!contrasenia.equals(contrasenia2)) {
+//            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
+//        }
     }
 
-    public Usuario encontrarPorID(String id){
+    public Usuario encontrarPorID(String id) {
         return usuarioRepositorio.getById(id);
     }
+
     public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
-    
+
 }

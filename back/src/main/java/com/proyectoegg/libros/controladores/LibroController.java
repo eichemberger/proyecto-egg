@@ -1,26 +1,56 @@
 package com.proyectoegg.libros.controladores;
 
+import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Usuario;
+import com.proyectoegg.libros.servicios.LibroServicio;
+import com.proyectoegg.libros.servicios.UsuarioServicio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/libros")
 public class LibroController {
-    
-    @GetMapping("/agregar")
-public String agregarLibro(){
-    return "agregarLibroForm";
-}
-    
-@GetMapping("/")
-public String editarlibro(){
-    return "";
-}    
 
-@GetMapping("/listaLeidos")
-public String listaLeidos(){
-    return "libros-leidos";
-}
+    @Autowired
+    LibroServicio libroServicio;
+
+    @Autowired
+    UsuarioServicio usuarioServicio;
+
+    @GetMapping("/agregar")
+    public String agregarLibro() {
+        return "agregarLibroForm";
+    }
+
+    @PostMapping("/agregar")
+    public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
+        try {
+            libroServicio.agregarLibro(libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getUsuario());
+        } catch (Exception e) {
+            model.addAttribute(e.getMessage());
+        }
+        return "agregarLibroForm";
+    }
+
+    @GetMapping("/")
+    public String editarlibro() {
+        return "";
+    }
+
+    @GetMapping("/listaLeidos")
+    public String listaLeidos() {
+        return "libros-leidos";
+    }
+
+    @GetMapping("/listarLibros")
+    public String listaLibros() {
+        return "tabla-libros";
+    }
 
 }

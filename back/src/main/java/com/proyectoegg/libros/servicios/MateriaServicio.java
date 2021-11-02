@@ -1,8 +1,9 @@
 package com.proyectoegg.libros.servicios;
 
+import com.proyectoegg.libros.entidades.Materia;
+import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
-import java.util.ArrayList;
-import java.util.List;
+import com.proyectoegg.libros.repositorios.MateriaRepositorio;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class MateriaServicio {
     private MateriaRepositorio materiaRepositorio;
 
     @Transactional
-    public Materia agregarMateria(String nombre, Usuario usuario) {
+    public Materia agregarMateria(String nombre, Usuario usuario) throws ServiceException {
 
-        Materia materia = new Materia;
+        Materia materia = new Materia();
 
         validar(nombre, usuario);
 
@@ -31,7 +32,7 @@ public class MateriaServicio {
     }
 
     @Transactional
-    public Materia editar(String id, String nombre, Usuario usuario) throws ServiceException, IOException {
+    public Materia editar(String id, String nombre, Usuario usuario) throws ServiceException {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
@@ -49,7 +50,7 @@ public class MateriaServicio {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
-            return materiaRepositorio.delete(materia);
+            materiaRepositorio.delete(materia);
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }
@@ -58,10 +59,7 @@ public class MateriaServicio {
     public Materia encontrarPorID(String id) {
         return materiaRepositorio.getById(id);
     }
-
-//En repositorio de materias iría:
-//@Query("SELECT m FROM Materia m WHERE m.nombre = :nombre")
-//public Materia buscarPorNombre(@Param("nombre") String nombre);
+    
     public Materia encontrarPorNombre(String nombre) {
         return materiaRepositorio.buscarPorNombre(nombre);
     }
@@ -76,9 +74,5 @@ public class MateriaServicio {
         if (usuarioServicio.encontrarPorID(usuario.getId()) == null) {
             throw new ServiceException("No se encontró el usuario");
         }
-
     }
-
-
-
 }
