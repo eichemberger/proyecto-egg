@@ -21,19 +21,21 @@ public class UsuarioController {
     UsuarioServicio usuarioServicio;
 
     @GetMapping("/registro")
-    public String registrarUsuario() {
+    public String registrarUsuario(ModelMap model) {
+        model.addAttribute("usuario", new Usuario());
         return "registroForm";
     }
 
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {
-            usuarioServicio.guardar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia(), (MultipartFile) usuario.getFoto());
-//           Usuario nuevoUsuario = usuarioServicio.encontrarPorID(usuario.getId());
-//           model.addAttribute("nuevoUsuario", nuevoUsuario); 
+            usuarioServicio.guardar(usuario);
+            //           Usuario nuevoUsuario = usuarioServicio.encontrarPorID(usuario.getId());
+            //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
             return "registroForm";
         }
     }
@@ -43,7 +45,7 @@ public class UsuarioController {
         try {
             usuarioServicio.editar(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia(), (MultipartFile) usuario.getFoto());
             //           Usuario nuevoUsuario = usuarioServicio.encontrarPorID(usuario.getId());
-//           model.addAttribute("nuevoUsuario", nuevoUsuario); 
+            //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
