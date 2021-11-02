@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -18,14 +20,17 @@ public class Libro implements Serializable {
     private String materia;
     private Boolean leido;
     private Boolean obligatorio;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
+    @ManyToOne
+    private Usuario usuario; 
 
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion) {
+    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -35,6 +40,7 @@ public class Libro implements Serializable {
         this.fechaLimite = fechaLimite;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
+        this.usuario = usuario;
     }
 
     public String getId() {
@@ -107,6 +113,14 @@ public class Libro implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
