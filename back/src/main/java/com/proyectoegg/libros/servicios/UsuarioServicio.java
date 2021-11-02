@@ -24,40 +24,47 @@ public class UsuarioServicio {
     @Transactional
     public Usuario guardar(Usuario usuario) throws ServiceException, IOException {
         validar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia());
-        
         usuario.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
         usuario.setAlta(true);
-        System.out.println(usuario.getContrasenia());
-        
+
 //        if (usuario.getFoto() != null) {
 //            Foto foto = new Foto();
-//            foto.setMime(archivo.getContentType());
+//            foto.setMime(usuario.getFoto().getContentType());
 //            foto.setContenido(archivo.getBytes());
 //            foto.setNombre(nombre);
 //            usuario.setFoto(foto);
 //        }
+
+//        if (usuario.getFoto() != null) {
+//            usuario.setFoto(usuario.getFoto());
+//        }
+
         return usuarioRepositorio.save(usuario);
     }
 
     @Transactional
-    public Usuario editar(String id, String nombre, String email, String contrasenia, MultipartFile archivo) throws ServiceException, IOException {
-        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
+    public Usuario editar(Usuario usuario) throws ServiceException, IOException {
+        Optional<Usuario> resultado = usuarioRepositorio.findById(usuario.getId());
         if (resultado.isPresent()) {
-            Usuario usuario = resultado.get();
-            validar(nombre, email, contrasenia);
-            usuario.setNombre(nombre);
-            usuario.setEmail(email);
-            String contraseniaEncriptada = new BCryptPasswordEncoder().encode(contrasenia);
-            usuario.setContrasenia(contraseniaEncriptada);
+            Usuario usuarioEditar = resultado.get();
+            validar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia());
+            usuarioEditar.setNombre(usuario.getNombre());
+            usuarioEditar.setEmail(usuario.getEmail());
+            usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
 
-            if (archivo != null) {
-                Foto foto = new Foto();
-                foto.setMime(archivo.getContentType());
-                foto.setContenido(archivo.getBytes());
-                foto.setNombre(nombre);
-                usuario.setFoto(foto);
-            }
-            return usuarioRepositorio.save(usuario);
+//            if (archivo != null) {
+//                Foto foto = new Foto();
+//                foto.setMime(archivo.getContentType());
+//                foto.setContenido(archivo.getBytes());
+//                foto.setNombre(nombre);
+//                usuario.setFoto(foto);
+//            }
+
+//            if (usuario.getFoto() != null) {
+//                usuario.setFoto(usuario.getFoto());
+//            }
+//            
+            return usuarioRepositorio.save(usuarioEditar);
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }

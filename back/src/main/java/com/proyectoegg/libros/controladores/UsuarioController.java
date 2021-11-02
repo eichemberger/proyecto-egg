@@ -30,7 +30,7 @@ public class UsuarioController {
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {
             usuarioServicio.guardar(usuario);
-            //           Usuario nuevoUsuario = usuarioServicio.encontrarPorID(usuario.getId());
+            
             //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
@@ -43,8 +43,8 @@ public class UsuarioController {
     @GetMapping("/editar")
     public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {
-            usuarioServicio.editar(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia(), (MultipartFile) usuario.getFoto());
-            //           Usuario nuevoUsuario = usuarioServicio.encontrarPorID(usuario.getId());
+            usuarioServicio.editar(usuario);
+            
             //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
