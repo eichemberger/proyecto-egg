@@ -128,5 +128,5 @@ public class UsuarioServicio {
     public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
-
+    
 }

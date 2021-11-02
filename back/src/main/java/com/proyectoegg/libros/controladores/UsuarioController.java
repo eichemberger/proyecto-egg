@@ -25,6 +25,7 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @RequestParam String nombre, @RequestParam String email, @RequestParam String contrasenia, @RequestParam String contrasenia2, @RequestParam MultipartFile archivo) {
         try {
+            
             usuarioServicio.guardar(nombre, email, contrasenia, contrasenia2, archivo);
             return "redirect: /index";
         } catch (Exception e) {
