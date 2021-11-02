@@ -1,0 +1,118 @@
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f3f3f3;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+.primer-item {
+    margin-right: auto;
+}
+
+.nav-item {
+    margin: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.titulo {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    margin: auto;
+    padding: 10px;
+}
+
+.formHeader {
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    height: 51px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color:#fff;
+    padding: 10px;
+}
+
+form {
+    width: 55%;
+    margin: auto;
+}
+
+fieldset {
+    border: 2px solid #39b385;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;	
+    border-radius: 8px;	
+    box-shadow: 0 0 5px #9be15d;
+}
+
+label {
+    padding: 15px;
+}
+
+button {
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.fill {
+    font-size: 16px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    padding: 10px 20px 10px;
+    outline: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+.fill::after {
+    content: '';
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    top: 7px;
+    left: 7px;
+    transition: 0.2s;
+}
+
+.fill:hover::after {
+    top: 0px;
+    left: 0px;
+}
+
+.input {
+    width:33%;
+    border:2px solid #39b385;
+    border-radius:4px;
+    margin:8px 12px;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+}
+  
+.input:focus{
+    border-color:#39b385;
+    box-shadow:0 0 8px 0 #9be15d;
+}
+.radio{
+    margin-left: 20px;
+}

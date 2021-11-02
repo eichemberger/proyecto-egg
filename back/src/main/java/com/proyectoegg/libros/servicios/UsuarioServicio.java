@@ -22,22 +22,20 @@ public class UsuarioServicio {
     LibroServicio libroServcio;
 
     @Transactional
-    public Usuario guardar(String nombre, String email, String contrasenia, MultipartFile archivo) throws ServiceException, IOException {
-        validar(nombre, email, contrasenia);
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setEmail(email);
-        String contraseniaEncriptada = new BCryptPasswordEncoder().encode(contrasenia);
-        usuario.setContrasenia(contraseniaEncriptada);
+    public Usuario guardar(Usuario usuario) throws ServiceException, IOException {
+        validar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia());
+        
+        usuario.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
         usuario.setAlta(true);
-
-        if (archivo != null) {
-            Foto foto = new Foto();
-            foto.setMime(archivo.getContentType());
-            foto.setContenido(archivo.getBytes());
-            foto.setNombre(nombre);
-            usuario.setFoto(foto);
-        }
+        System.out.println(usuario.getContrasenia());
+        
+//        if (usuario.getFoto() != null) {
+//            Foto foto = new Foto();
+//            foto.setMime(archivo.getContentType());
+//            foto.setContenido(archivo.getBytes());
+//            foto.setNombre(nombre);
+//            usuario.setFoto(foto);
+//        }
         return usuarioRepositorio.save(usuario);
     }
 
