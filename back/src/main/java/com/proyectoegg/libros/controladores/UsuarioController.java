@@ -56,4 +56,9 @@ public class UsuarioController {
         return "iniciar-sesion";
     }
 
+        @GetMapping("/logout")
+    public String logout() {
+        return "index";
+    }
+    
 }
