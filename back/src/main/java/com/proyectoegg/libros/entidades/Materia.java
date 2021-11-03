@@ -15,15 +15,15 @@ public class Materia implements Serializable {
 private String id; 
 private String nombre; 
 @ManyToOne
-private Usuario usuario; 
+private String idUsuario; 
 
     public Materia() {
     }
 
-    public Materia(String id, String nombre, Usuario usuario) {
+    public Materia(String id, String nombre, String idUsuario) {
         this.id = id;
         this.nombre = nombre;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
     }
 
     public String getId() {
@@ -42,17 +42,17 @@ private Usuario usuario;
         this.nombre = nombre;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override
     public String toString() {
-        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", usuario=" + usuario + '}';
+        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", usuario=" + idUsuario + '}';
     }
 
 }

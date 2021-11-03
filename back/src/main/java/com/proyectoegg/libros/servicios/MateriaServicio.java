@@ -1,7 +1,6 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Materia;
-import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
 import java.util.Optional;
@@ -19,26 +18,26 @@ public class MateriaServicio {
     private MateriaRepositorio materiaRepositorio;
 
     @Transactional
-    public Materia agregarMateria(String nombre, Usuario usuario) throws ServiceException {
+    public Materia agregarMateria(String nombre, String idUsuario) throws ServiceException {
 
         Materia materia = new Materia();
 
-        validar(nombre, usuario);
+        validar(nombre, idUsuario);
 
         materia.setNombre(nombre);
-        materia.setUsuario(usuario);
+        materia.setIdUsuario(idUsuario);
 
         return materiaRepositorio.save(materia);
     }
 
     @Transactional
-    public Materia editar(String id, String nombre, Usuario usuario) throws ServiceException {
+    public Materia editar(String id, String nombre, String idUsuario) throws ServiceException {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
-            validar(nombre, usuario);
+            validar(nombre, idUsuario);
             materia.setNombre(nombre);
-            materia.setUsuario(usuario);
+            materia.setIdUsuario(idUsuario);
 
             return materiaRepositorio.save(materia);
         } else {
@@ -64,14 +63,14 @@ public class MateriaServicio {
         return materiaRepositorio.buscarPorNombre(nombre);
     }
 
-    public void validar(String nombre, Usuario usuario) throws ServiceException, ServiceException {
+    public void validar(String nombre, String idUsuario) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
         }
         if (encontrarPorNombre(nombre) != null) {
             throw new ServiceException("La materia ya existe");
         }
-        if (usuarioServicio.encontrarPorID(usuario.getId()) == null) {
+        if (usuarioServicio.encontrarPorID(idUsuario) == null) {
             throw new ServiceException("No se encontró el usuario");
         }
     }

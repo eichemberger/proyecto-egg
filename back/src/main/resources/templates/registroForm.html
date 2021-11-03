@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../styles/formStyle.css"> 
+    <link rel="stylesheet" href="formStyle.css"> 
+    <!-- <link rel="stylesheet" href="../styles/formStyle.css"> --> 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet"/>
 
     <title>Registro Usuario</title>
@@ -35,11 +36,20 @@
                         <input class="input" type="password" name="contrasenia" th:field="*{contrasenia}" id="contrasenia" required="true" placeholder="Escriba aquí su contraseña"/>
                     </div>
                     <div>
-                        <button type="submit" class="fill">Enviar</button>
+                        <label for="confirmarContrasenia">Confirme su contraseña:</label> <br />
+                        <input class="input" type="password" name="confirmarContrasenia" th:field="*{confirmarContrasenia}" id="confirmarContrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
+                    </div>
+                    <div>
+                        <label for="Foto">Foto:</label> <br />
+                        <input class="input" type="file" name="foto" id="foto"/>
+                    </div>
+                    <div>
+                        <button type="submit" class="fill" id="boton">Enviar</button>
                     </div>
                 </div>
             </fieldset>
         </form>
     </section>
+    <script src="validacion.js"></script>
 </body>
 </html>
