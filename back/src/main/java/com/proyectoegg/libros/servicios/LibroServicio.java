@@ -19,8 +19,8 @@ public class LibroServicio {
     private UsuarioServicio usuarioServicio;
 
     @Transactional
-    public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
-        validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, usuario);
+    public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
+        validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
         Libro libro = new Libro();
         libro.setTitulo(titulo);
         libro.setAutor(autor);
@@ -30,18 +30,18 @@ public class LibroServicio {
         libro.setLeido(false);
         libro.setMateria(materia);
         libro.setObligatorio(obligatorio);
-        libro.setUsuario(usuario);
+        libro.setIdUsuario(idUsuario);
 
         return libroRepositorio.save(libro);
     }
 
     @Transactional
-    public Libro editarLibro(String id, String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
+    public Libro editarLibro(String id, String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
 
         if (resultado.isPresent()) {
             Libro libro = resultado.get();
-            validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, usuario);
+            validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
             libro.setTitulo(titulo);
             libro.setAutor(autor);
             libro.setDescripcion(descripcion);
@@ -85,7 +85,7 @@ public class LibroServicio {
         }
     }
 
-    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
+    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
         if (titulo == null || titulo.isEmpty() || titulo.equals(" ")) {
             throw new ServiceException("Debe escribir un título");
         }
@@ -103,7 +103,7 @@ public class LibroServicio {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
 
-        if (usuario == null) {
+        if (idUsuario == null || idUsuario.isEmpty()) {
             throw new ServiceException("El usuario no puede ser nulo");
         }
     }
