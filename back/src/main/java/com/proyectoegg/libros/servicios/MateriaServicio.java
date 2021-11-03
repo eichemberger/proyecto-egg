@@ -3,6 +3,7 @@ package com.proyectoegg.libros.servicios;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,10 @@ public class MateriaServicio {
 
     @Transactional
     public Materia agregarMateria(String nombre, String idUsuario) throws ServiceException {
-
         Materia materia = new Materia();
-
         validar(nombre, idUsuario);
-
         materia.setNombre(nombre);
         materia.setIdUsuario(idUsuario);
-
         return materiaRepositorio.save(materia);
     }
 
@@ -38,7 +35,6 @@ public class MateriaServicio {
             validar(nombre, idUsuario);
             materia.setNombre(nombre);
             materia.setIdUsuario(idUsuario);
-
             return materiaRepositorio.save(materia);
         } else {
             throw new ServiceException("La materia no se encuentra en el sistema");
@@ -62,6 +58,14 @@ public class MateriaServicio {
     public Materia encontrarPorNombre(String nombre) {
         return materiaRepositorio.buscarPorNombre(nombre);
     }
+    
+    public List<Materia> listarTodas(){
+        return materiaRepositorio.findAll();
+    }
+//    
+//    public List<Materia> listarPorUsuario(String idUsuario) {
+//        return materiaRepositorio.listarPorUsuario(idUsuario);
+//    }
 
     public void validar(String nombre, String idUsuario) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {

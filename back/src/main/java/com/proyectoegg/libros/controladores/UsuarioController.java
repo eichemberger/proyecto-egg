@@ -1,9 +1,12 @@
 package com.proyectoegg.libros.controladores;
 
+import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
+import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,6 +22,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioServicio usuarioServicio;
+    
+    @Autowired
+    MateriaServicio materiaServicio;
 
     @GetMapping("/registro")
     public String registrarUsuario(ModelMap model) {
@@ -52,6 +58,13 @@ public class UsuarioController {
         }
     }
 
+    @GetMapping("/inicio")
+    public String inicio(ModelMap model) {
+        List<Materia> materias = materiaServicio.listarTodas();
+        model.addAttribute("materias", materias);
+        return "inicio.html";
+    }
+    
     @GetMapping("/login")
     public String iniciarSesion() {
         return "iniciar-sesion";

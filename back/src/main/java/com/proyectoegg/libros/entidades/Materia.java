@@ -13,6 +13,7 @@ public class Materia implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 private String id; 
 private String nombre;
+
 private String idUsuario; 
 
     public Materia() {
