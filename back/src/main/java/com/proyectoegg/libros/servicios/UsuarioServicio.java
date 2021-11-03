@@ -5,16 +5,23 @@ import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio {
+public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
@@ -51,10 +58,7 @@ public class UsuarioServicio {
 //            try {
 //fotoServicio.editar(idFoto, archivo);
 //} catch (Exception e) {
-        
 //        }
-
-
 //            if (archivo != null) {
 //                Foto foto = new Foto();
 //                foto.setMime(archivo.getContentType());
@@ -130,6 +134,21 @@ public class UsuarioServicio {
 
     public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
+        try {
+            Usuario usuario = usuarioRepositorio.buscarPorNombre(nombre);
+            User user;
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("USUARIOLOGUEADO"));
+
+            return new User(nombre, usuario.getContrasenia(), authorities);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("El usuario solicitado no existe ");
+        }
     }
 
 }
