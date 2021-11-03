@@ -52,7 +52,7 @@ public class MateriaServicio {
             Materia materia = resultado.get();
             materiaRepositorio.delete(materia);
         } else {
-            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+            throw new ServiceException("La materia indicada no se encuentra en el sistema");
         }
     }
     

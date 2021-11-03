@@ -5,6 +5,7 @@ import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.LibroRepositorio;
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,6 @@ public class LibroServicio {
     private LibroRepositorio libroRepositorio;
     @Autowired
     private UsuarioServicio usuarioServicio;
-
 
     @Transactional
     public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
@@ -33,6 +33,56 @@ public class LibroServicio {
         libro.setUsuario(usuario);
 
         return libroRepositorio.save(libro);
+    }
+
+    @Transactional
+    public Libro editarLibro(String id, String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, usuario);
+            libro.setTitulo(titulo);
+            libro.setAutor(autor);
+            libro.setDescripcion(descripcion);
+            libro.setFechaLimite(fechaLimite);
+            libro.setDiasAnticipacion(diasAnticipacion);
+            libro.setMateria(materia);
+            libro.setObligatorio(obligatorio);
+
+
+            return libroRepositorio.save(libro);
+        } else {
+            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+        }
+    }
+
+    @Transactional
+    public Libro cambiarLeido(String id) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            if (libro.getLeido()) {
+                libro.setLeido(Boolean.FALSE);
+            } else {
+                libro.setLeido(Boolean.TRUE);
+            }
+
+            return libroRepositorio.save(libro);
+        } else {
+            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+        }
+    }
+    @Transactional
+    public void eliminar(String id) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            libroRepositorio.delete(libro);
+        } else {
+            throw new ServiceException("La materia indicado no se encuentra en el sistema");
+        }
     }
 
     public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
@@ -52,14 +102,14 @@ public class LibroServicio {
         if (materia == null || materia.isEmpty()) {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
-        
+
         if (usuario == null) {
             throw new ServiceException("El usuario no puede ser nulo");
-        }  
+        }
     }
 
     public Libro buscarPorId(String id) {
         return libroRepositorio.getById(id);
     }
- 
+
 }

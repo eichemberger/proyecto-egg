@@ -38,9 +38,14 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    @GetMapping("/")
-    public String editarlibro() {
-        return "";
+    @GetMapping("/editar")
+    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
+         try {
+            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getUsuario());
+        } catch (Exception e) {
+            model.addAttribute(e.getMessage());
+        }
+        return "agregarLibroForm";
     }
 
     @GetMapping("/listaLeidos")
