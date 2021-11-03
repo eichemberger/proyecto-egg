@@ -1,5 +1,6 @@
 package com.proyectoegg.libros.servicios;
 
+import com.proyectoegg.libros.entidades.Foto;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServicio {
@@ -18,25 +20,21 @@ public class UsuarioServicio {
     UsuarioRepositorio usuarioRepositorio;
     @Autowired
     LibroServicio libroServcio;
+    @Autowired
+    FotoServicio fotoServicio;
 
     @Transactional
-    public Usuario guardar(Usuario usuario) throws ServiceException, IOException {
+    public Usuario guardar(Usuario usuario, MultipartFile archivo) throws ServiceException, IOException, Exception {
         validar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia());
         usuario.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
         usuario.setAlta(true);
 
-//        if (usuario.getFoto() != null) {
-//            Foto foto = new Foto();
-//            foto.setMime(archivo.getContentType());
-//            foto.setContenido(archivo.getBytes());
-//            foto.setNombre(nombre);
-//            usuario.setFoto(foto);
-//        }
-
-//        if (usuario.getFoto() != null) {
-//            usuario.setFoto(usuario.getFoto());
-//        }
-
+        try {
+            Foto foto = fotoServicio.guardar(archivo);
+            usuario.setFoto(foto);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
         return usuarioRepositorio.save(usuario);
     }
 
@@ -54,14 +52,12 @@ public class UsuarioServicio {
 //                Foto foto = new Foto();
 //                foto.setMime(archivo.getContentType());
 //                foto.setContenido(archivo.getBytes());
-//                foto.setNombre(nombre);
+//                foto.setNombre(archivo.getName());
 //                usuario.setFoto(foto);
 //            }
-
 //            if (usuario.getFoto() != null) {
 //                usuario.setFoto(usuario.getFoto());
 //            }
-//            
             return usuarioRepositorio.save(usuarioEditar);
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");

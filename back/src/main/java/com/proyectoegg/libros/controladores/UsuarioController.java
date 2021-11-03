@@ -27,15 +27,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
+    public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, MultipartFile archivo) {
         try {
-            usuarioServicio.guardar(usuario);
-            return "inicio";
+            usuarioServicio.guardar(usuario, archivo);
+            return "redirect:/";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
             return "registroForm";
+        } catch (Exception ex) {
+              System.out.println(ex.getMessage());
         }
+        return null;
     }
 
     @GetMapping("/editar")
