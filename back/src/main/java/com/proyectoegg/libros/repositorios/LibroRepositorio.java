@@ -13,10 +13,10 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
     @Query("SELECT l FROM Libro l WHERE l.idUsuario = :idUsuario")
     public ArrayList<Libro> listaLibros(@Param("idUsuario") String idUsuario);
 
-    @Query("SELECT l FROM Libro l WHERE l.leido = 1")
-    public ArrayList<Libro> listaLeidos();
+    @Query("SELECT l FROM Libro l WHERE l.leido = 1 AND l.idUsuario = :idUsuario")
+    public ArrayList<Libro> listaLeidos(@Param("idUsuario") String idUsuario);
 
-    @Query("SELECT l FROM Libro l WHERE l.leido = 0")
-    public ArrayList<Libro> listaNoLeidos();
+    @Query("SELECT l FROM Libro l WHERE l.leido = 0 AND l.idUsuario = :idUsuario")
+    public ArrayList<Libro> listaNoLeidos(@Param("idUsuario") String idUsuario);
 
 }
