@@ -5,6 +5,7 @@ import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,8 @@ public class UsuarioController {
         }
         return null;
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
     @GetMapping("/editar")
     public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {

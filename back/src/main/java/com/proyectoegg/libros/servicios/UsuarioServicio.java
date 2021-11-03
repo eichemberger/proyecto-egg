@@ -150,7 +150,7 @@ public class UsuarioServicio implements UserDetailsService {
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true);
-            session.setAttribute("sesion", usuario);
+            session.setAttribute("usuariosession", usuario);
 
             return new User(nombre, usuario.getContrasenia(), authorities);
         } catch (Exception e) {

@@ -5,7 +5,9 @@ import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +25,14 @@ public class LibroController {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model) {
         model.addAttribute("libro", new Libro());
         return "agregarLibroForm";
     }
+    
 
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model) {
@@ -42,7 +46,8 @@ public class LibroController {
             return "agregarLibroForm";
         }
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
     @GetMapping("/editar")
     public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
          try {
@@ -52,12 +57,14 @@ public class LibroController {
         }
         return "agregarLibroForm";
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
     @GetMapping("/listaLeidos")
     public String listaLeidos() {
         return "libros-leidos";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
     @GetMapping("/listarLibros")
     public String listaLibros() {
         return "tabla-libros";
