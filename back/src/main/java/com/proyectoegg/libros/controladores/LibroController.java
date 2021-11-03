@@ -2,6 +2,7 @@ package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Usuario;
+import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +25,22 @@ public class LibroController {
     UsuarioServicio usuarioServicio;
 
     @GetMapping("/agregar")
-    public String agregarLibro() {
+    public String agregarLibro(ModelMap model) {
+        model.addAttribute("libro", new Libro());
         return "agregarLibroForm";
     }
 
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model) {
         try {
-            libroServicio.agregarLibro(libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
-        } catch (Exception e) {
+            System.out.println(libro.getTitulo());
+            libroServicio.agregarLibro(libro);
+            return "redirect:/";
+        } catch (ServiceException e) {
+            System.out.println(e.getMessage());
             model.addAttribute(e.getMessage());
+            return "agregarLibroForm";
         }
-        return "agregarLibroForm";
     }
 
     @GetMapping("/editar")

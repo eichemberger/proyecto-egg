@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="formStyle.css"> 
+    <link rel="stylesheet" href="../styles/formStyle.css"> 
     <!-- <link rel="stylesheet" href="../styles/formStyle.css"> --> 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet"/>
 
@@ -19,7 +19,7 @@
     </nav>
     <section>
         <h1 class="titulo">Agregar Libro:</h1>
-        <form th:action="@{/libro/agregar}" method="POST" th:object="${libro}"  autocomplete="off">
+        <form th:action="@{/libros/agregar}" method="POST" th:object="${libro}"  autocomplete="off">
             <fieldset>
                 <legend class="formHeader">Nuevo libro</legend>
                 <div class="container">

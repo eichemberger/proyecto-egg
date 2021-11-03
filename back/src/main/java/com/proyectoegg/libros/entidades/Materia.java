@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -13,8 +12,7 @@ public class Materia implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 private String id; 
-private String nombre; 
-@ManyToOne
+private String nombre;
 private String idUsuario; 
 
     public Materia() {
