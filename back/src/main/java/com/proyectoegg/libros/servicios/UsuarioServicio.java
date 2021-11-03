@@ -48,6 +48,13 @@ public class UsuarioServicio {
             usuarioEditar.setEmail(usuario.getEmail());
             usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
 
+//            try {
+//fotoServicio.editar(idFoto, archivo);
+//} catch (Exception e) {
+        
+//        }
+
+
 //            if (archivo != null) {
 //                Foto foto = new Foto();
 //                foto.setMime(archivo.getContentType());

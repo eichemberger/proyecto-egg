@@ -34,7 +34,7 @@ public class LibroController {
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model) {
         try {
             System.out.println(libro.getTitulo());
-            libroServicio.agregarLibro(libro);
+            libroServicio.agregarLibro(libro, "f55ac1e5-afd5-4864-b31e-0940326c4cf3");
             return "redirect:/";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -46,7 +46,7 @@ public class LibroController {
     @GetMapping("/editar")
     public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
          try {
-            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
+//            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
         } catch (Exception e) {
             model.addAttribute(e.getMessage());
         }
