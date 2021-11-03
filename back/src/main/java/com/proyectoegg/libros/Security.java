@@ -15,9 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Security extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    UsuarioServicio usuarioServicio;
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -29,16 +26,21 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/inicio")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error=error")
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/login?logout")
                 .permitAll().and().csrf().disable();
     }
     
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    private UsuarioServicio usuarioServicio;
+    
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioServicio).passwordEncoder(new BCryptPasswordEncoder());
     }
+    
 }

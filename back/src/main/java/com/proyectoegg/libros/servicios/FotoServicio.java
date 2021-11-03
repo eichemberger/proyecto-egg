@@ -17,7 +17,7 @@ public class FotoServicio {
     FotoRepositorio fotoRepositorio;
 
     @Transactional
-    public Foto guardar(MultipartFile archivo) throws IOException, Exception {
+    public Foto guardar(MultipartFile archivo) throws IOException, ServiceException {
         try {
             if (archivo != null) {
                 Foto foto = new Foto();
@@ -25,16 +25,16 @@ public class FotoServicio {
                 foto.setNombre(archivo.getName());
                 foto.setContenido(archivo.getBytes());
                 return fotoRepositorio.save(foto);
+            } else {
+                throw new ServiceException("El archivo ingresado no pudo ser procesado.");
             }
-        } catch (IOException e) {
-            throw new Exception(e.getMessage());
+        } catch (IOException ex) {
+            throw new IOException(ex.getMessage());
         }
-    return null;
     }
 
-
-@Transactional
-        public Foto actualizar(String idFoto, MultipartFile archivo) throws ServiceException, Exception {
+    @Transactional
+    public Foto editar(String idFoto, MultipartFile archivo) throws ServiceException, Exception {
         if (archivo != null) {
             try {
                 Foto foto = new Foto();
@@ -43,18 +43,18 @@ public class FotoServicio {
                     if (respuesta.isPresent()) {
                         foto = respuesta.get();
                     }
+                } else {
+                    throw new ServiceException("La foto no pudo ser procesada.");
                 }
                 foto.setMime(archivo.getContentType());
                 foto.setNombre(archivo.getName());
                 foto.setContenido(archivo.getBytes());
                 return fotoRepositorio.save(foto);
             } catch (IOException e) {
-                throw new Exception(e.getMessage());
+                throw new IOException(e.getMessage());
             }
+        } else {
+            throw new ServiceException("El archivo ingresado no pudo ser procesado.");
         }
-        return null;
     }
-    
-    
-    
 }

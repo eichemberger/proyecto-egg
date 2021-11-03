@@ -5,9 +5,10 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 public class Libro implements Serializable {
@@ -21,6 +22,7 @@ public class Libro implements Serializable {
     private Boolean leido;
     private Boolean obligatorio;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @DateTimeFormat(iso=ISO.DATE)
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
@@ -29,7 +31,7 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) {
+    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;

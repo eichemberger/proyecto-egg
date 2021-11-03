@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UsuarioServicio implements UserDetailsService{
+public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     UsuarioRepositorio usuarioRepositorio;
@@ -55,6 +55,10 @@ public class UsuarioServicio implements UserDetailsService{
             usuarioEditar.setEmail(usuario.getEmail());
             usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
 
+//            try {
+//fotoServicio.editar(idFoto, archivo);
+//} catch (Exception e) {
+//        }
 //            if (archivo != null) {
 //                Foto foto = new Foto();
 //                foto.setMime(archivo.getContentType());
@@ -136,16 +140,15 @@ public class UsuarioServicio implements UserDetailsService{
     public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
         try {
             Usuario usuario = usuarioRepositorio.buscarPorNombre(nombre);
-            
-            List<GrantedAuthority> permisos = new ArrayList<>();
-            permisos.add(new SimpleGrantedAuthority("USUARIO"));
-            
-            return new User(usuario.getNombre(), usuario.getContrasenia(), permisos);
+            User user;
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("USUARIOLOGUEADO"));
+
+            return new User(nombre, usuario.getContrasenia(), authorities);
         } catch (Exception e) {
-            throw new UsernameNotFoundException("El usuario no existe");
+            throw new UsernameNotFoundException("El usuario solicitado no existe ");
         }
-        
-        
     }
 
 }

@@ -18,42 +18,36 @@ public class LibroServicio {
     private UsuarioServicio usuarioServicio;
 
     @Transactional
-    public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
-        validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
-        Libro libro = new Libro();
-        libro.setTitulo(titulo);
-        libro.setAutor(autor);
-        libro.setDescripcion(descripcion);
-        libro.setFechaLimite(fechaLimite);
-        libro.setDiasAnticipacion(diasAnticipacion);
-        libro.setLeido(false);
-        libro.setMateria(materia);
-        libro.setObligatorio(obligatorio);
+    public Libro agregarLibro(Libro libro, String idUsuario) throws ServiceException {
+        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
         libro.setIdUsuario(idUsuario);
-
         return libroRepositorio.save(libro);
     }
 
     @Transactional
-    public Libro editarLibro(String id, String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
-        Optional<Libro> resultado = libroRepositorio.findById(id);
-
-        if (resultado.isPresent()) {
-            Libro libro = resultado.get();
-            validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
-            libro.setTitulo(titulo);
-            libro.setAutor(autor);
-            libro.setDescripcion(descripcion);
-            libro.setFechaLimite(fechaLimite);
-            libro.setDiasAnticipacion(diasAnticipacion);
-            libro.setMateria(materia);
-            libro.setObligatorio(obligatorio);
-
-
-            return libroRepositorio.save(libro);
-        } else {
-            throw new ServiceException("El libro indicado no se encuentra en el sistema");
-        }
+    public Libro editarLibro(Libro libro) throws ServiceException {
+//        Optional<Libro> resultado = libroRepositorio.findById(libro.getId());
+//        if (resultado.isPresent()) {
+//            Libro libroEditar = resultado.get();
+////            validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
+////            libro.setIdUsuario(idUsuario);
+//            libroEditar.setTitulo(libro.getTitulo());
+//            libroEditar.setAutor(libro.getAutor());
+//            libroEditar.setDescripcion(libro.getDescripcion());
+//            libroEditar.setFechaLimite(libro.getFechaLimite());
+//            libroEditar.setDiasAnticipacion(libro.getDiasAnticipacion());
+//            libroEditar.setMateria(libro.getMateria());
+//            libroEditar.setObligatorio(libro.getObligatorio());
+//            return libroRepositorio.save(libroEditar);
+//        } else {
+//            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+//        }
+        
+                        //EDITAR CON ENTIDAD LIBRO COMO EL REGISTRO?
+//        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
+//        libro.setIdUsuario(idUsuario);
+//        return libroRepositorio.save(libro);
+        return null;
     }
 
     @Transactional
@@ -73,6 +67,7 @@ public class LibroServicio {
             throw new ServiceException("El libro indicado no se encuentra en el sistema");
         }
     }
+
     @Transactional
     public void eliminar(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
