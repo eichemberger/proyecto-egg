@@ -30,8 +30,6 @@ public class UsuarioController {
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {
             usuarioServicio.guardar(usuario);
-            
-            //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
@@ -44,8 +42,6 @@ public class UsuarioController {
     public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
         try {
             usuarioServicio.editar(usuario);
-            
-            //           model.addAttribute("nuevoUsuario", nuevoUsuario); 
             return "inicio";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());

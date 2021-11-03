@@ -1,6 +1,5 @@
 package com.proyectoegg.libros.servicios;
 
-import com.proyectoegg.libros.entidades.Foto;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServicio {
@@ -29,7 +27,7 @@ public class UsuarioServicio {
 
 //        if (usuario.getFoto() != null) {
 //            Foto foto = new Foto();
-//            foto.setMime(usuario.getFoto().getContentType());
+//            foto.setMime(archivo.getContentType());
 //            foto.setContenido(archivo.getBytes());
 //            foto.setNombre(nombre);
 //            usuario.setFoto(foto);

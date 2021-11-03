@@ -1,10 +1,10 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Libro;
-import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.LibroRepositorio;
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +17,9 @@ public class LibroServicio {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-
     @Transactional
-    public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
-        validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, usuario);
+    public Libro agregarLibro(String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
+        validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
         Libro libro = new Libro();
         libro.setTitulo(titulo);
         libro.setAutor(autor);
@@ -30,12 +29,62 @@ public class LibroServicio {
         libro.setLeido(false);
         libro.setMateria(materia);
         libro.setObligatorio(obligatorio);
-        libro.setUsuario(usuario);
+        libro.setIdUsuario(idUsuario);
 
         return libroRepositorio.save(libro);
     }
 
-    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, Usuario usuario) throws ServiceException {
+    @Transactional
+    public Libro editarLibro(String id, String titulo, String autor, String materia, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            validar(titulo, materia, fechaLimite, diasAnticipacion, descripcion, idUsuario);
+            libro.setTitulo(titulo);
+            libro.setAutor(autor);
+            libro.setDescripcion(descripcion);
+            libro.setFechaLimite(fechaLimite);
+            libro.setDiasAnticipacion(diasAnticipacion);
+            libro.setMateria(materia);
+            libro.setObligatorio(obligatorio);
+
+
+            return libroRepositorio.save(libro);
+        } else {
+            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+        }
+    }
+
+    @Transactional
+    public Libro cambiarLeido(String id) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            if (libro.getLeido()) {
+                libro.setLeido(Boolean.FALSE);
+            } else {
+                libro.setLeido(Boolean.TRUE);
+            }
+
+            return libroRepositorio.save(libro);
+        } else {
+            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+        }
+    }
+    @Transactional
+    public void eliminar(String id) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            Libro libro = resultado.get();
+            libroRepositorio.delete(libro);
+        } else {
+            throw new ServiceException("La materia indicado no se encuentra en el sistema");
+        }
+    }
+
+    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
         if (titulo == null || titulo.isEmpty() || titulo.equals(" ")) {
             throw new ServiceException("Debe escribir un título");
         }
@@ -52,14 +101,14 @@ public class LibroServicio {
         if (materia == null || materia.isEmpty()) {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
-        
-        if (usuario == null) {
+
+        if (idUsuario == null || idUsuario.isEmpty()) {
             throw new ServiceException("El usuario no puede ser nulo");
-        }  
+        }
     }
 
     public Libro buscarPorId(String id) {
         return libroRepositorio.getById(id);
     }
- 
+
 }
