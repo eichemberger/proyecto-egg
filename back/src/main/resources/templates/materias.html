@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Materias</title>
+  </head>
+  <body>
+    <form th:action="@{/materia/agregar}" method="POST"
+    autocomplete="off" th:object="${materia}">
+    <label for="nombre">Materia:</label> 
+    <br />
+    <input
+      type="text"
+      name="nombre"
+      id="nombre"
+      required="true"
+      placeholder="Materia"
+      th:field="*{nombre}"
+    />
+    <input type="submit" value="Enviar"/>
+    <form />
+  </body>
+</html>

@@ -19,7 +19,7 @@
     </nav>
     <section class="sectionUsuario">
         <h1 class="titulo">Registro de usuario:</h1>
-        <form th:action="@{/usuario/registro}" method="POST" enctype="multipart/form-data" th:object="${usuario}"  autocomplete="off">
+        <form th:action="@{/usuario/registro}" method="POST" th:object="${usuario}" enctype="multipart/form-data" autocomplete="off">
             <fieldset>   
                 <legend class="formHeader"><span class="spanFormHeader">Nuevo usuario</span></legend>
                 <div class="container">
@@ -35,9 +35,13 @@
                         <label for="contrasenia">Contraseña:</label> <br />
                         <input class="input" type="password" name="contrasenia" th:field="*{contrasenia}" id="contrasenia" required="true" placeholder="Escriba aquí su contraseña"/>
                     </div>
+<!--                    <div>
+                        <label for="confirmarContrasenia">Confirme su contraseña:</label> <br />
+                        <input class="input" type="password" name="confirmarContrasenia" th:field="*{confirmarContrasenia}" id="confirmarContrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
+                    </div>-->
                     <div>
                         <label for="archivo">Foto:</label> <br />
-                        <input class="input" type="file" name="archivo" th:value="${foto}" id="archivo"/>
+                        <input class="input" type="file" name="archivo" id="archivo" th:value="*{foto}"/>
                     </div>
                     <div>
                         <button type="submit" class="fill" id="boton">Enviar</button>

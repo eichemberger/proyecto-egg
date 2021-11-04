@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="styles/inicio.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
       rel="stylesheet"
@@ -23,21 +23,15 @@
       <h1>Hola ${Nombre}...</h1>
     </div> -->
 
-    <div>
       <h1 class="titulo-tabla">Materias</h1>
 
-      <div class="container">
-        <p class="item-materia"><a href="#">Programación</a></p>
-        <a class="eliminar-materia" href="#">❌</a>
-      </div>
-      <div class="container">
-        <p class="item-materia"><a href="#">Economía</a></p>
-        <a class="eliminar-materia" href="#">❌</a>
+      <div th:each="materia  : ${materias}" class="container">
+        <p th:text="${materia.nombre}" class="item-materia"><a href="#">x</a></p>
+        <a class="eliminar-materia" th:href="@{/materias/eliminar/}+${materia.id}">❌</a>
       </div>
 
-    <div class="botones">
-      <button type="button" class="fill-agg">Mostrar todas</button>
-      <button type="button" class="fill">Agregar</button>
-    </div>
+      <div class="botones">
+        <a th:href="@{/materias/agregar}" type="button" class="fill">Agregar</a>
+      </div>
   </body>
 </html>

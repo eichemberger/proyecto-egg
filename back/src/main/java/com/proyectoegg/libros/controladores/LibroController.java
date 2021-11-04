@@ -32,7 +32,7 @@ public class LibroController {
     @Autowired
     MateriaServicio materiaServicio;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -42,7 +42,7 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
@@ -58,7 +58,7 @@ public class LibroController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
         try {
@@ -69,13 +69,13 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/listaLeidos")
     public String listaLeidos() {
         return "libros-leidos";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/listarLibros")
     public String listaLibros() {
         return "tabla-libros";
