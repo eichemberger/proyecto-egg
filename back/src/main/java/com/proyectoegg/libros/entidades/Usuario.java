@@ -2,9 +2,12 @@ package com.proyectoegg.libros.entidades;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,6 +21,9 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
+//    @OneToMany
+//    @JoinColumn(name = "idUsuario")
+//    private ArrayList<Libro> libros;
     @OneToOne
     private Foto foto;
     

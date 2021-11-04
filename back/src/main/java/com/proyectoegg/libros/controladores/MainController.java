@@ -1,7 +1,6 @@
 package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.servicios.MateriaServicio;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +30,4 @@ public class MainController {
         }
         return "iniciar-sesion";
     }
-    
-    
 }
