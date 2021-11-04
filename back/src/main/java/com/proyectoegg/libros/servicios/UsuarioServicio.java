@@ -83,19 +83,24 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public void agregarMateria(String idUsuario, String idMateria) throws ServiceException {
+        try {
 
-        Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
-        if (resultado.isPresent()) {
-            Usuario usuario = resultado.get();
-            try {
-                Materia materia = materiaServicio.encontrarPorID(idMateria);
-                usuario.getMaterias().add(materia);
-                usuarioRepositorio.save(usuario);
-            } catch (Exception e) {
-                throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
+            Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
+            if (resultado.isPresent()) {
+                Usuario usuario = resultado.get();
+                try {
+                    Materia materia = materiaServicio.encontrarPorID(idMateria);
+                    usuario.getMaterias().add(materia);
+                    usuarioRepositorio.save(usuario);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
+                }
+            } else {
+                throw new ServiceException("El usuario indicado no se encuentra en el sistema");
             }
-        } else {
-            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 

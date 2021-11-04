@@ -26,14 +26,14 @@ public class MateriaController {
 
     UsuarioServicio usuarioServicio;
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarMateria(ModelMap model) {
         model.addAttribute("materia", new Materia());
         return "materias.html";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
@@ -42,6 +42,7 @@ public class MateriaController {
             usuarioServicio.agregarMateria(usuario.getId(), materia.getId());
             return "redirect:/usuario/inicio";
         } catch (ServiceException e) {
+            System.out.println(e.getMessage());
             model.addAttribute(e.getMessage());
             return "materias";
         } catch (Exception ex) {

@@ -26,7 +26,6 @@ public class Libro implements Serializable {
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
-    private String idUsuario;
 
     public Libro() {
     }
@@ -41,7 +40,6 @@ public class Libro implements Serializable {
         this.fechaLimite = fechaLimite;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
-        this.idUsuario = idUsuario;
     }
 
     public String getId() {
@@ -116,17 +114,9 @@ public class Libro implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + idUsuario + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + '}';
     }
 
    
