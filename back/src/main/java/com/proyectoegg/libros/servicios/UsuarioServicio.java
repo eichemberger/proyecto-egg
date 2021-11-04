@@ -98,8 +98,8 @@ public class UsuarioServicio implements UserDetailsService {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }
     }
-    
-        public void agregarLibro(String idUsuario, String idLibro) throws ServiceException {
+
+    public void agregarLibro(String idUsuario, String idLibro) throws ServiceException {
 
         Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
         if (resultado.isPresent()) {
@@ -115,7 +115,7 @@ public class UsuarioServicio implements UserDetailsService {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }
     }
-    
+
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -178,10 +178,12 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            Usuario usuario = usuarioRepositorio.buscarPorNombre(nombre);
-        
+            Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+
+            System.out.println(usuario.getNombre());
+
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("USUARIO_REGISTRADO"));
 
@@ -189,7 +191,9 @@ public class UsuarioServicio implements UserDetailsService {
             HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuariosession", usuario);
 
-            return new User(usuario.getNombre(), usuario.getContrasenia(), authorities);
+            User user = new User(usuario.getEmail(), usuario.getContrasenia(), authorities);
+            System.out.println(user.getAuthorities());
+            return user;
 
         } catch (UsernameNotFoundException e) {
             throw new UsernameNotFoundException("El usuario solicitado no existe ");

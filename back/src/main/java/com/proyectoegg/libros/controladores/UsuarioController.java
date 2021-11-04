@@ -64,9 +64,7 @@ public class UsuarioController {
 
     @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
-    public String inicio(ModelMap model) {
-        List<Materia> materias = materiaServicio.listarTodas();
-        model.addAttribute("materias", materias);
+    public String inicio() {
         return "inicio.html";
     }
 
@@ -75,6 +73,11 @@ public class UsuarioController {
     public String perfil(ModelMap modelo, @PathVariable String idUsuario) {
         modelo.put("usuario", usuarioServicio.encontrarPorID(idUsuario));
         return "perfil";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        return "sobre-nosotros.html";
     }
 
 }
