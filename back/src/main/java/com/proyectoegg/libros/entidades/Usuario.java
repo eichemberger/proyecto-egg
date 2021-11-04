@@ -3,6 +3,7 @@ package com.proyectoegg.libros.entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,22 +22,26 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-//    @OneToMany
-//    @JoinColumn(name = "idUsuario")
-//    private ArrayList<Libro> libros;
+    @OneToMany
+    private List<Libro> libros;
+    @OneToMany
+    private List<Materia> materias;
+    
     @OneToOne
     private Foto foto;
     
     public Usuario() {
     }
 
-    public Usuario(String id, String nombre, String email, String contrasenia, boolean alta, Foto foto) {
+    public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
         this.alta = alta;
-        this.foto = foto; 
+        this.libros = libros;
+        this.materias = materias;
+        this.foto = foto;
     }
 
     public String getId() {
@@ -77,6 +82,22 @@ public class Usuario implements Serializable {
 
     public void setAlta(Boolean alta) {
         this.alta = alta;
+    }
+
+    public List<Libro> getLibros() {
+        return libros;
+    }
+
+    public void setLibros(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
     }
 
     public Foto getFoto() {

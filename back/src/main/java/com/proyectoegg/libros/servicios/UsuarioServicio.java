@@ -1,6 +1,8 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Foto;
+import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
@@ -32,6 +34,8 @@ public class UsuarioServicio implements UserDetailsService {
     LibroServicio libroServcio;
     @Autowired
     FotoServicio fotoServicio;
+    @Autowired
+    MateriaServicio materiaServicio;
 
     @Transactional
     public Usuario guardar(Usuario usuario, MultipartFile archivo) throws ServiceException, IOException, Exception {
@@ -78,6 +82,40 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    public void agregarMateria(String idUsuario, String idMateria) throws ServiceException {
+
+        Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
+        if (resultado.isPresent()) {
+            Usuario usuario = resultado.get();
+            try {
+                Materia materia = materiaServicio.encontrarPorID(idMateria);
+                usuario.getMaterias().add(materia);
+                usuarioRepositorio.save(usuario);
+            } catch (Exception e) {
+                throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
+            }
+        } else {
+            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+        }
+    }
+    
+        public void agregarLibro(String idUsuario, String idLibro) throws ServiceException {
+
+        Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
+        if (resultado.isPresent()) {
+            Usuario usuario = resultado.get();
+            try {
+                Libro libro = new Libro();
+                usuario.getLibros().add(libro);
+                usuarioRepositorio.save(usuario);
+            } catch (Exception e) {
+                throw new ServiceException("El libro ingresado no ha podido ser incorporado al usuario");
+            }
+        } else {
+            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+        }
+    }
+    
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -143,17 +181,17 @@ public class UsuarioServicio implements UserDetailsService {
     public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
         try {
             Usuario usuario = usuarioRepositorio.buscarPorNombre(nombre);
-            User user;
-
+        
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("USUARIOLOGUEADO"));
+            authorities.add(new SimpleGrantedAuthority("USUARIO_REGISTRADO"));
 
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuariosession", usuario);
 
-            return new User(nombre, usuario.getContrasenia(), authorities);
-        } catch (Exception e) {
+            return new User(usuario.getNombre(), usuario.getContrasenia(), authorities);
+
+        } catch (UsernameNotFoundException e) {
             throw new UsernameNotFoundException("El usuario solicitado no existe ");
         }
     }

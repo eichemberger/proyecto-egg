@@ -18,9 +18,8 @@ public class LibroServicio {
     private UsuarioServicio usuarioServicio;
 
     @Transactional
-    public Libro agregarLibro(Libro libro, String idUsuario) throws ServiceException {
-        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
-        libro.setIdUsuario(idUsuario);
+    public Libro agregarLibro(Libro libro) throws ServiceException {
+        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());
         return libroRepositorio.save(libro);
     }
 
@@ -79,7 +78,7 @@ public class LibroServicio {
         }
     }
 
-    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) throws ServiceException {
+    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
         if (titulo == null || titulo.isEmpty() || titulo.equals(" ")) {
             throw new ServiceException("Debe escribir un título");
         }
@@ -95,10 +94,6 @@ public class LibroServicio {
         }
         if (materia == null || materia.isEmpty()) {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
-        }
-
-        if (idUsuario == null || idUsuario.isEmpty()) {
-            throw new ServiceException("El usuario no puede ser nulo");
         }
     }
 

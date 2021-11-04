@@ -9,6 +9,8 @@ import com.proyectoegg.libros.servicios.UsuarioServicio;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,30 +32,24 @@ public class LibroController {
     @Autowired
     MateriaServicio materiaServicio;
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
-    public String agregarLibro(ModelMap model) {
+    public String agregarLibro(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("materias", usuario.getMaterias());
         model.addAttribute("libro", new Libro());
+
         return "agregarLibroForm";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
+            libroServicio.agregarLibro(libro);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-            System.out.println(libro.getTitulo());
-
-                     //recuperar ID usuario para mandarlo
-//           model.addAttribute("materias", materiaServicio.encontrarPorID("f55ac1e5-afd5-4864-b31e-0940326c4cf3"));
-//            libroServicio.agregarLibro(libro, "f55ac1e5-afd5-4864-b31e-0940326c4cf3");
-
-            model.addAttribute("materias", usuario.getId());
-            //materiaServicio.encontrarPorID("f55ac1e5-afd5-4864-b31e-0940326c4cf3"));
-            libroServicio.agregarLibro(libro, usuario.getId());
-            //"f55ac1e5-afd5-4864-b31e-0940326c4cf3");
-
+            model.addAttribute("materias", usuario.getMaterias());
+            usuarioServicio.agregarLibro(usuario.getId(), libro.getId());
             return "redirect:/";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -62,7 +58,7 @@ public class LibroController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
         try {
@@ -73,13 +69,13 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listaLeidos")
     public String listaLeidos() {
         return "libros-leidos";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIOLOGUEADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/listarLibros")
     public String listaLibros() {
         return "tabla-libros";

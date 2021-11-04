@@ -14,15 +14,12 @@ public class Materia implements Serializable {
 private String id; 
 private String nombre;
 
-private String idUsuario; 
-
     public Materia() {
     }
 
-    public Materia(String id, String nombre, String idUsuario) {
+    public Materia(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.idUsuario = idUsuario;
     }
 
     public String getId() {
@@ -41,17 +38,9 @@ private String idUsuario;
         this.nombre = nombre;
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     @Override
     public String toString() {
-        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", usuario=" + idUsuario + '}';
+        return "Materia{" + "id=" + id + ", nombre=" + nombre + '}';
     }
 
 }
