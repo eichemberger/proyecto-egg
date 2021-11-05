@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,7 +19,8 @@ public class Libro implements Serializable {
     private String id;
     private String titulo;
     private String autor;
-    private String materia;
+    @ManyToOne
+    private Materia materia;
     private Boolean leido;
     private Boolean obligatorio;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -26,12 +28,12 @@ public class Libro implements Serializable {
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
-    private String idUsuario;
+//    private String idUsuario;
 
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) {
+    public Libro(String id, String titulo, String autor, Materia materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -41,7 +43,6 @@ public class Libro implements Serializable {
         this.fechaLimite = fechaLimite;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
-        this.idUsuario = idUsuario;
     }
 
     public String getId() {
@@ -68,11 +69,11 @@ public class Libro implements Serializable {
         this.autor = autor;
     }
 
-    public String getMateria() {
+    public Materia getMateria() {
         return materia;
     }
 
-    public void setMateria(String materia) {
+    public void setMateria(Materia materia) {
         this.materia = materia;
     }
 
@@ -116,18 +117,12 @@ public class Libro implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + idUsuario + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + '}';
     }
+
+   
 
    
     

@@ -1,8 +1,11 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Materia;
+import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.LibroRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,30 +28,28 @@ public class LibroServicio {
 
     @Transactional
     public Libro editarLibro(Libro libro) throws ServiceException {
-//        Optional<Libro> resultado = libroRepositorio.findById(libro.getId());
-//        if (resultado.isPresent()) {
-//            Libro libroEditar = resultado.get();
-////            validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
-////            libro.setIdUsuario(idUsuario);
-//            libroEditar.setTitulo(libro.getTitulo());
-//            libroEditar.setAutor(libro.getAutor());
-//            libroEditar.setDescripcion(libro.getDescripcion());
-//            libroEditar.setFechaLimite(libro.getFechaLimite());
-//            libroEditar.setDiasAnticipacion(libro.getDiasAnticipacion());
-//            libroEditar.setMateria(libro.getMateria());
-//            libroEditar.setObligatorio(libro.getObligatorio());
-//            return libroRepositorio.save(libroEditar);
-//        } else {
-//            throw new ServiceException("El libro indicado no se encuentra en el sistema");
-//        }
-        
-                        //EDITAR CON ENTIDAD LIBRO COMO EL REGISTRO?
+        Optional<Libro> resultado = libroRepositorio.findById(libro.getId());
+       if (resultado.isPresent()) {
+            Libro libroEditar = resultado.get();
+           validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());
+            libroEditar.setTitulo(libro.getTitulo());
+            libroEditar.setAutor(libro.getAutor());
+            libroEditar.setDescripcion(libro.getDescripcion());
+            libroEditar.setFechaLimite(libro.getFechaLimite());
+            libroEditar.setDiasAnticipacion(libro.getDiasAnticipacion());
+            libroEditar.setMateria(libro.getMateria());
+            libroEditar.setObligatorio(libro.getObligatorio());
+            return libroRepositorio.save(libroEditar);
+        } else {
+            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+        }
+//        
+//                        EDITAR CON ENTIDAD LIBRO COMO EL REGISTRO?
 //        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
 //        libro.setIdUsuario(idUsuario);
 //        return libroRepositorio.save(libro);
-        return null;
     }
-
+  
     @Transactional
     public Libro cambiarLeido(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
@@ -78,7 +79,7 @@ public class LibroServicio {
         }
     }
 
-    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
+    public void validar(String titulo, Materia materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
         if (titulo == null || titulo.isEmpty() || titulo.equals(" ")) {
             throw new ServiceException("Debe escribir un título");
         }
@@ -92,7 +93,7 @@ public class LibroServicio {
         if (descripcion.length() > 250) {
             throw new ServiceException("La descripción debe tener un máximo de 250 caracteres");
         }
-        if (materia == null || materia.isEmpty()) {
+        if (materia == null) {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
     }
@@ -100,5 +101,10 @@ public class LibroServicio {
     public Libro buscarPorId(String id) {
         return libroRepositorio.getById(id);
     }
+    
+//    public ArrayList<Libro> listaLibrosLeidos(Usuario usuario){
+//        
+//        ArrayList<Libro> libros = 
+//    }
 
 }

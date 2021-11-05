@@ -32,7 +32,7 @@ public class LibroController {
     @Autowired
     MateriaServicio materiaServicio;
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -42,14 +42,17 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    //@PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
-            libroServicio.agregarLibro(libro);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            model.addAttribute("materias", usuario.getMaterias());
+            libroServicio.agregarLibro(libro);
             usuarioServicio.agregarLibro(usuario.getId(), libro.getId());
+
+            
+            model.addAttribute("materias", usuario.getMaterias());
+            
             return "redirect:/";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -57,17 +60,17 @@ public class LibroController {
             return "agregarLibroForm";
         }
     }
-
     @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/editar")
-    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
+    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
-//            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
+            libroServicio.editarLibro(libro);
         } catch (Exception e) {
             model.addAttribute(e.getMessage());
         }
         return "agregarLibroForm";
     }
+
 
     @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/listaLeidos")

@@ -3,7 +3,9 @@ package com.proyectoegg.libros.entidades;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -20,14 +22,14 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Libro> libros;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Materia> materias;
     
     @OneToOne
     private Foto foto;
-    
+
     public Usuario() {
     }
 
@@ -105,10 +107,12 @@ public class Usuario implements Serializable {
     public void setFoto(Foto foto) {
         this.foto = foto;
     }
-    
+
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", alta=" + alta + ", libros=" + libros + ", materias=" + materias + ", foto=" + foto + '}';
     }
+    
+    
     
 }

@@ -81,7 +81,7 @@ public class UsuarioServicio implements UserDetailsService {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }
     }
-
+    @Transactional
     public void agregarMateria(String idUsuario, String idMateria) throws ServiceException {
 
         Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
@@ -99,17 +99,18 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void agregarLibro(String idUsuario, String idLibro) throws ServiceException {
 
-        Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
+             Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
         if (resultado.isPresent()) {
             Usuario usuario = resultado.get();
             try {
-                Libro libro = new Libro();
+                Libro libro = libroServcio.buscarPorId(idLibro);
                 usuario.getLibros().add(libro);
                 usuarioRepositorio.save(usuario);
             } catch (Exception e) {
-                throw new ServiceException("El libro ingresado no ha podido ser incorporado al usuario");
+                throw new ServiceException("El libro indicada no ha podido ser incorporada al usuario");
             }
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
