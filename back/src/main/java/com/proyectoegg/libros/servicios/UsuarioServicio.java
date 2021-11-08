@@ -156,7 +156,7 @@ public class UsuarioServicio implements UserDetailsService {
         if (resultado.isPresent()) {
             Usuario usuario = resultado.get();
             try {
-                Libro libro = new Libro();
+                Libro libro = libroServcio.buscarPorId(idLibro);
                 usuario.getLibros().add(libro);
                 usuarioRepositorio.save(usuario);
             } catch (Exception e) {

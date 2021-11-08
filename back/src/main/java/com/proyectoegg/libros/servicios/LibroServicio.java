@@ -102,9 +102,28 @@ public class LibroServicio {
         return libroRepositorio.getById(id);
     }
     
-//    public ArrayList<Libro> listaLibrosLeidos(Usuario usuario){
-//        
-//        ArrayList<Libro> libros = 
-//    }
+    public ArrayList<Libro> listaLibrosLeidos(Usuario usuario){
+        
+        ArrayList<Libro> libros = new ArrayList<>();
+        
+        
+        for (Libro  libro : usuario.getLibros()) {
+            if(libro.getLeido()){
+                libros.add(libro);
+            }
+        }
+    return libros;}
+    
+    public ArrayList<Libro> listaLibrosNoLeidos(Usuario usuario){
+        
+        ArrayList<Libro> libros = new ArrayList<>();
+        
+        
+        for (Libro  libro : usuario.getLibros()) {
+            if(!libro.getLeido()){
+                libros.add(libro);
+            }
+        }
+    return libros;}
 
 }

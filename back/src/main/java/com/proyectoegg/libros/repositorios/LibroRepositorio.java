@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface LibroRepositorio extends JpaRepository<Libro, String> {
 
     
-        
+ 
 //      @Query("DELET ")
 //    @Query("SELECT l FROM Libro l WHERE l.idUsuario = :idUsuario")
 //    public ArrayList<Libro> listaLibros(@Param("idUsuario") String idUsuario);

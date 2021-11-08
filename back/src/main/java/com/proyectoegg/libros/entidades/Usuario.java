@@ -27,6 +27,11 @@ public class Usuario implements Serializable {
     private String contrasenia;
     private Boolean alta;
     @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name = "usuario_libros",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "libros_id"))
     private List<Libro> libros;
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -42,10 +47,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-//    public usuario(){
-//        this.materias = new ArrayList<>();
-//    }
-    
+  
     public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;

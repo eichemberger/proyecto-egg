@@ -61,60 +61,65 @@ public class LibroController {
 
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/editar/{libro.id}")
-    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session) 
-{
+    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session) {
         return "libro-editar";
     }
-    
+
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/editar{libro.id}")
-    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session, 
-ModelMap model, @ModelAttribute("libro") Libro libro){
+    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session,
+            ModelMap model, @ModelAttribute("libro") Libro libro) {
         try {
             libroServicio.editarLibro(libro);
             return "redirect:/usuario/inicio";
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
-        return "libro-editar";
-    }
-    }
-    
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @PostMapping("/eliminar{libro.id}")
-    public String eliminarLibro(ModelMap model, @ModelAttribute("libro") Libro libro){
-        try{
-            libroServicio.eliminar(libro.getId());
-        }catch (ServiceException e) {
-            model.addAttribute(e.getMessage());
+            return "libro-editar";
         }
-    return "libro-eliminar";}
-    
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @GetMapping("/leido")
-    public String cambiarLeido(){
-        return "cambiar-leido";
-    }
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @PostMapping("/leido")
-    public String cambiarLeido(ModelMap model, @ModelAttribute("libro") Libro libro){
-        try{
-            libroServicio.cambiarLeido(libro.getId());
-        }catch (ServiceException e) {
-            model.addAttribute(e.getMessage());
-        }
-        return "cambiar-leido";
-    }
-    
-    
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @GetMapping("/listaLeidos")
-    public String listaLeidos() {
-        return "libros-leidos";
     }
 
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PostMapping("/eliminar{libro.id}")
+    public String eliminarLibro(ModelMap model, @ModelAttribute("libro") Libro libro) {
+        try {
+            libroServicio.eliminar(libro.getId());
+        } catch (ServiceException e) {
+            model.addAttribute(e.getMessage());
+        }
+        return "libro-eliminar";
+    }
+
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @GetMapping("/leido")
+    public String cambiarLeido() {
+        return "cambiar-leido";
+    }
+
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PostMapping("/leido")
+    public String cambiarLeido(ModelMap model, @ModelAttribute("libro") Libro libro) {
+        try {
+            libroServicio.cambiarLeido(libro.getId());
+        } catch (ServiceException e) {
+            model.addAttribute(e.getMessage());
+        }
+        return "cambiar-leido";
+    }
+
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @GetMapping("/listaLeidos")
+    public String listaLeidos(HttpSession session, ModelMap model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("librosleidos", libroServicio.listaLibrosLeidos(usuario));
+
+        return "libros-leidos";
+    }
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/listarLibros")
-    public String listaLibros() {
+    public String listaLibros(HttpSession session, ModelMap model) {
+         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+         model.addAttribute("libros", libroServicio.listaLibrosNoLeidos(usuario));
         return "tabla-libros";
     }
 
