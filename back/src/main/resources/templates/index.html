@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8" />
@@ -27,8 +27,10 @@
 
 
       <ul>
-        <li> <a href="../front/iniciar-sesion.html" style="text-decoration:none;color:black">Iniciar sesion</a></li>
-        <li> <a href="../front/registroForm.html" style="text-decoration:none;color:black">Registrarse</a></li>
+        <!--        TODO: if session -> 'Cerrar sesion'  -->
+        <li> <a th:href="@{/login}"  style="text-decoration:none;color:black">Iniciar sesion</a></li>
+        <li> <a th:href="@{/usuario/registro}" style="text-decoration:none;color:black">Registrarse</a></li>
+        <!--        TODO: Revisar links-->
         <li> <a href="../front/index.html" style="text-decoration:none;color:black">Home</a></li></button>
         <li> <a href="../front/sobre-nosotros.html" style="text-decoration:none;color:black"> Quienes somos</a></li>
 
@@ -59,7 +61,7 @@
         </p>
         <div class="btn">
 
-          <a href="../front/sobre-nosotros.html"><button type="button" class="fill">Aprende mas</button> </a>
+          <a th:href="@{/info}" ><button type="button" class="fill">Aprende mas</button> </a>
 
 
         </div>
@@ -79,7 +81,7 @@
       <p>
         Registrate gratis ahora!
       </p>
-      <a href="../front/registroForm.html"> <button type="button" class="fill">Registrarse</button> </a>
+      <a th:href="@{/usuario/registro}" > <button type="button" class="fill">Registrarse</button> </a>
 
 
     </div>
@@ -143,7 +145,7 @@
           <div class="col-sm-4 col-md-3 item">
             <h3>Services</h3>
             <ul>
-              <li><a href="../front/iniciar-sesion.html">Enter</a></li>
+              <li><a th:href="@{/usuario/login}">Enter</a></li>
 
 
             </ul>
@@ -152,15 +154,16 @@
             <h3>About</h3>
             <ul>
 
-              <li><a href="../front/sobre-nosotros.html">Us</a></li>
+              <li><a th:href="@{/info}">Us</a></li>
             </ul>
           </div>
           <div class="col-sm-4 col-md-3 item">
             <h3>Careers</h3>
             <ul>
-              <li><a href="registroForm.html">Register</a></li>
+              <li><a th:href="@{/usuario/registro}" >Register</a></li>
               <li><a href="https://github.com/eichemberger">Employee success</a></li>
-              <li><a href="../front/sobre-nosotros.html">Benefits</a></li>
+<!--              TODO: AGREGAR TODOS-->
+              <li><a th:href="@{/info}" >Benefits</a></li>
             </ul>
           </div>
           <div class="col-lg-3 item social"><a href="https://www.facebook.com/"><i

@@ -1,12 +1,14 @@
 package com.proyectoegg.libros.entidades;
 
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
@@ -15,6 +17,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Usuario implements Serializable {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -24,18 +27,25 @@ public class Usuario implements Serializable {
     private String contrasenia;
     private Boolean alta;
     @OneToMany
-    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Libro> libros;
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name = "usuario_materias",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "materias_id"))
     private List<Materia> materias;
-    
+
     @OneToOne
     private Foto foto;
 
     public Usuario() {
     }
 
+//    public usuario(){
+//        this.materias = new ArrayList<>();
+//    }
+    
     public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;
@@ -113,9 +123,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", alta=" + alta + ", libros=" + libros + ", materias=" + materias + ", foto=" + foto + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
     }
-    
-    
-    
+
 }

@@ -6,6 +6,7 @@ import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class UsuarioController {
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, MultipartFile archivo) {
         try {
             usuarioServicio.guardar(usuario, archivo);
-            return "redirect:/";
+            return "redirect:/inicio";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
@@ -48,9 +49,11 @@ public class UsuarioController {
         return null;
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/editar")
-    public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
+    public String editarUsuario(ModelMap model, HttpSession session, @ModelAttribute("usuario") Usuario usuario) {
+        Usuario user = (Usuario) session.getAttribute("usuariosession");
+
         try {
             usuarioServicio.editar(usuario);
             return "inicio";
@@ -60,22 +63,27 @@ public class UsuarioController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
-    public String inicio() {
+    public String inicio(HttpSession session, ModelMap model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("materias", usuario.getMaterias());
+//        model.addAttribute("materias", materiaServicio.listarTodas());
         return "inicio.html";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+//    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+//    @GetMapping("/inicio")
+//    public String inicio() {
+//        return "inicio.html";
+//    }
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, @PathVariable String idUsuario) {
-        modelo.put("usuario", usuarioServicio.encontrarPorID(idUsuario));
+    public String perfil(ModelMap modelo, @ModelAttribute("usuario") Usuario usuario, HttpSession session) {
+        usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuario", usuarioServicio.encontrarPorID(usuario.getId()));
         return "perfil";
-    }
-
-    @GetMapping("/info")
-    public String info() {
-        return "sobre-nosotros.html";
     }
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,11 +23,11 @@
 
       <div th:each="materia  : ${materias}" class="container">
         <p th:text="${materia.nombre}" class="item-materia"><a href="#">x</a></p>
-        <a class="eliminar-materia" th:href="@{/materias/eliminar/}+${materia.id}">❌</a>
+        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
       </div>
 
       <div class="botones">
-        <a th:href="@{/materias/agregar}" type="button" class="fill">Agregar</a>
+        <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
       </div>
   </body>
 </html>

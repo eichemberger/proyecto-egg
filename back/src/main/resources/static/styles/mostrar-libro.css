@@ -33,26 +33,6 @@ a {
   text-align: center;
 }
 
-.cardLayout {
-  display: grid;
-  grid-template-columns: repeat(0, minmax(0, 1fr));
-  column-gap: 1.5rem;
-  row-gap: 1.5rem;
-}
-
-.card {
-  justify-content: center;
-  background-color: white;
-  padding: 10px;
-  margin: 0px 5px 0;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  transition: transform 0.2s;
-}
-
-.notas {
-  margin-bottom: 15px;
-  margin-left: 15px;
-}
 
 .descripcion-libro {
   background-color: white;
@@ -195,16 +175,6 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cardLayout {
-    width: 75vw;
-    margin: auto;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .notas {
-    margin-left: 15vw;
-  }
-
   .botones {
     margin-right: 14vw;
   }
@@ -233,55 +203,31 @@ button {
     margin-top: 30px;
   }
 
-  .notas {
-    margin-left: 20vw;
-    margin-top: 30px;
-  }
-
-  .cardLayout {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 65vw;
-    margin: auto;
-  }
 }
 
 @media (min-width: 1400px) {
   .descripcion-libro {
-    width: 35vw;
-    height: 14vw;
+    width: 45vw;
+    height: 35vw;
     margin: auto;
     column-gap: 1rem;
     row-gap: 0.5rem;
     justify-content: center;
     text-align: left;
-    padding-top: 20px;
-  }
-
-  .descripcion-element-2 {
-    grid-row-end: span 2;
+    padding-top: 10px;
   }
 
   .descripcion-element {
     font-size: 22px;
     height: 3vw;
     padding-left: 30px;
+    padding-bottom: 15px;
   }
 
   .botones {
     justify-content: center;
     margin-left: 15vw;
     margin-top: 30px;
-  }
-
-  .notas {
-    margin-left: 20vw;
-    margin-top: 30px;
-  }
-
-  .cardLayout {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    width: 65vw;
-    margin: auto;
   }
 
   .last-element {

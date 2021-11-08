@@ -1,0 +1,276 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    border: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f3f3;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+hr {
+    border: 1px solid rgb(110, 109, 109);
+    width: 30vw;
+    margin: 5px auto;
+}
+
+.profile {
+    width: 80vw;
+    border-radius: 25px;
+    margin: auto;
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.primer-item {
+    margin-right: auto;
+    margin-top: 9px;
+}
+
+.titulo {
+    padding: 15px;
+    text-align: center;
+}
+
+.wrapper-imagen {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.foto-perfil {
+    width: 200px;
+    height: 200px;
+    overflow: hiden;
+    border-radius: 50%;
+    border: 5px solid rgb(44, 47, 221);
+}
+
+.data-usuario {
+    margin-top: 15px;
+    margin-left: 30px;
+    font-size: 1.3rem;
+}
+
+h5 {
+    margin-top: 12px;
+}
+
+.nombre {
+    margin-top: 15px;
+    text-align: center;
+}
+
+/*
+BOTONES
+*/
+
+button {
+    color: white;
+    font-family: inherit;
+    font-family: 'Roboto Mono', monospace;
+    width: 80vw;
+}
+
+.botones {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 25px;
+    margin-left: auto;
+}
+
+.fill {
+    font-size: 16px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    padding: 10px 20px 10px;
+    outline: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fill-eliminar {
+    font-size: 16px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    padding: 10px 20px 10px;
+    outline: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fill-agg {
+    font-size: 16px;
+    font-weight: 200;
+    letter-spacing: 1px;
+    padding: 10px 20px 10px;
+    outline: 0;
+    border: 1px solid black;
+    cursor: pointer;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.fill::after {
+    content: '';
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    top: 7px;
+    left: 7px;
+    transition: 0.2s;
+}
+
+.fill-eliminar::after {
+    content: '';
+    background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    top: 7px;
+    left: 7px;
+    transition: 0.2s;
+}
+
+.fill-agg::after {
+    content: '';
+    background-image: linear-gradient(to top left, #be9714, #fad12d);
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    height: 100%;
+    top: 7px;
+    left: 7px;
+    transition: 0.2s;
+}
+
+.fill:hover::after {
+    top: 0px;
+    left: 0px;
+}
+
+.fill-eliminar:hover::after {
+    top: 0px;
+    left: 0px;
+}
+
+.fill-agg:hover::after {
+    top: 0px;
+    left: 0px;
+}
+
+@media (min-width: 640px) {
+    button {
+        width: auto;
+    }
+
+    .botones {
+        margin-right: auto;
+        margin-top: 25px;
+        position: absolute;
+        bottom: auto;
+    }
+}
+
+/* @media (min-width: 1024px) {
+  .descripcion-libro {
+    width: 55vw;
+    height: 20vw;
+    margin: auto;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    justify-content: center;
+
+    text-align: left;
+  }
+
+  .descripcion-element {
+    font-size: 22px;
+    height: 3vw;
+    padding-left: 30px;
+  }
+
+  .botones {
+    justify-content: center;
+    margin: auto;
+    margin-top: 30px;
+  }
+
+  .notas {
+    margin-left: 20vw;
+    margin-top: 30px;
+  }
+
+  .cardLayout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 65vw;
+    margin: auto;
+  }
+}
+
+@media (min-width: 1400px) {
+  .descripcion-libro {
+    width: 35vw;
+    height: 14vw;
+    margin: auto;
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    justify-content: center;
+    text-align: left;
+    padding-top: 20px;
+  }
+
+  .descripcion-element-2 {
+    grid-row-end: span 2;
+  }
+
+  .descripcion-element {
+    font-size: 22px;
+    height: 3vw;
+    padding-left: 30px;
+  }
+
+  .botones {
+    justify-content: center;
+    margin-left: 15vw;
+    margin-top: 30px;
+  }
+
+  .notas {
+    margin-left: 20vw;
+    margin-top: 30px;
+  }
+
+  .cardLayout {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 65vw;
+    margin: auto;
+  }
+
+  .last-element {
+    margin: auto;
+    margin-bottom: 30px;
+  }
+} */
