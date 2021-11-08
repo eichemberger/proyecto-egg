@@ -12,10 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/materia")
@@ -24,16 +24,17 @@ public class MateriaController {
     @Autowired
     MateriaServicio materiaServicio;
 
+    @Autowired
     UsuarioServicio usuarioServicio;
 
-//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarMateria(ModelMap model) {
         model.addAttribute("materia", new Materia());
         return "materias.html";
     }
 
-//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
@@ -51,13 +52,13 @@ public class MateriaController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarMateria() {
         return "materia-editar";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/editar")
     public String editarMateria(ModelMap model, @ModelAttribute("materia") Materia materia) {
         try {
@@ -69,15 +70,18 @@ public class MateriaController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
-    @GetMapping("/eliminar")
-    public String eliminarMateria(ModelMap model, @RequestParam String id) {
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @GetMapping("/eliminar/{materia.id}")
+    public String eliminarMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
         try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            usuarioServicio.eliminarMateria(id, usuario.getId());
             materiaServicio.eliminar(id);
             return "redirect:/usuario/inicio";
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "inicio";
+            System.out.println(e.getMessage());
+             return "redirect:/usuario/inicio";
         }
     }
 

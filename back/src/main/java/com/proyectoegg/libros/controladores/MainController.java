@@ -3,6 +3,8 @@ package com.proyectoegg.libros.controladores;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,15 +54,25 @@ public class MainController {
         return "index";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/info")
     public String info() {
-        return "sobre-nosotros.html";
+        try {
+            return "sobre-nosotros.html";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+   @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
-    public String inicioWeb() {
+    public String inicioWeb(ModelMap model) {
+       model.addAttribute("materias", materiaServicio.listarTodas());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USUARIO_REGISTRADO"))) {
+            System.out.println("funcionando");
+        }
         return "inicio";
     }
 

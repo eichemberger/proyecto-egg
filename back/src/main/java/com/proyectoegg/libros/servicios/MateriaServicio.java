@@ -37,10 +37,12 @@ public class MateriaServicio {
         }
     }
     
+    @Transactional
     public void eliminar(String id) throws ServiceException {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
+//            materiaRepositorio.eliminar(id, idUsuario);
             materiaRepositorio.delete(materia);
         } else {
             throw new ServiceException("La materia indicada no se encuentra en el sistema");
@@ -66,9 +68,6 @@ public class MateriaServicio {
     public void validar(String nombre) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
-        }
-        if (encontrarPorNombre(nombre) != null) {
-            throw new ServiceException("La materia ya existe");
         }
     }
 }

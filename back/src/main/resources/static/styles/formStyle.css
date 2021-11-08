@@ -104,6 +104,16 @@ button {
     left: 0px;
 }
 
+.fill:disabled::after {
+    background-image: linear-gradient(to top left, #d4d6d5, #686967);
+    cursor: default;
+    transition: 10000000s;
+}
+
+.fill:disabled{
+    cursor: default;
+}
+
 .input {
     width:40%;
     border:2px solid #39b385;
@@ -122,4 +132,9 @@ button {
 }
 .radio{
     margin-left: 20px;
+}
+
+#error-login {
+    display: none;
+    color: red;
 }
