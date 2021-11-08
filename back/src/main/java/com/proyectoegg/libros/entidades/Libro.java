@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,8 +18,7 @@ public class Libro implements Serializable {
     private String id;
     private String titulo;
     private String autor;
-    @ManyToOne
-    private Materia materia;
+    private String materia;
     private Boolean leido;
     private Boolean obligatorio;
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -28,12 +26,11 @@ public class Libro implements Serializable {
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
-//    private String idUsuario;
 
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, Materia materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion) {
+    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -69,11 +66,11 @@ public class Libro implements Serializable {
         this.autor = autor;
     }
 
-    public Materia getMateria() {
+    public String getMateria() {
         return materia;
     }
 
-    public void setMateria(Materia materia) {
+    public void setMateria(String materia) {
         this.materia = materia;
     }
 
@@ -119,10 +116,8 @@ public class Libro implements Serializable {
 
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + '}';
     }
-
-   
 
    
     

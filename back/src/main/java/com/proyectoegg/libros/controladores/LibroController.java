@@ -42,17 +42,14 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-    //@PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
-            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             libroServicio.agregarLibro(libro);
-            usuarioServicio.agregarLibro(usuario.getId(), libro.getId());
-
-            
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             model.addAttribute("materias", usuario.getMaterias());
-            
+            usuarioServicio.agregarLibro(usuario.getId(), libro.getId());
             return "redirect:/";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -60,17 +57,17 @@ public class LibroController {
             return "agregarLibroForm";
         }
     }
+
     @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/editar")
-    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
+    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
         try {
-            libroServicio.editarLibro(libro);
+//            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
         } catch (Exception e) {
             model.addAttribute(e.getMessage());
         }
         return "agregarLibroForm";
     }
-
 
     @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
     @GetMapping("/listaLeidos")
