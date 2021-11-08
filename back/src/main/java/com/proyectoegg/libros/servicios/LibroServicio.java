@@ -79,7 +79,7 @@ public class LibroServicio {
         }
     }
 
-    public void validar(String titulo, Materia materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
+    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
         if (titulo == null || titulo.isEmpty() || titulo.equals(" ")) {
             throw new ServiceException("Debe escribir un título");
         }

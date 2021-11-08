@@ -3,7 +3,6 @@ package com.proyectoegg.libros.entidades;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Usuario implements Serializable {
@@ -22,9 +23,11 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Libro> libros;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Materia> materias;
     
     @OneToOne

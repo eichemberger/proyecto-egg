@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,7 @@ public class LibroController {
     @Autowired
     MateriaServicio materiaServicio;
 
-//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -42,7 +43,7 @@ public class LibroController {
         return "agregarLibroForm";
     }
 
-//    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
@@ -58,24 +59,60 @@ public class LibroController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
-    @GetMapping("/editar")
-    public String editarlibro(@ModelAttribute("libro") Libro libro, ModelMap model, @RequestParam Usuario usuario) {
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @GetMapping("/editar/{libro.id}")
+    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session) 
+{
+        return "libro-editar";
+    }
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PostMapping("/editar{libro.id}")
+    public String editarLibro(@PathVariable("materia.id") String id, HttpSession session, 
+ModelMap model, @ModelAttribute("libro") Libro libro){
         try {
-//            libroServicio.editarLibro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getMateria(), libro.getObligatorio(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), libro.getIdUsuario());
-        } catch (Exception e) {
+            libroServicio.editarLibro(libro);
+            return "redirect:/usuario/inicio";
+        } catch (ServiceException e) {
+            model.addAttribute(e.getMessage());
+        return "libro-editar";
+    }
+    }
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PostMapping("/eliminar{libro.id}")
+    public String eliminarLibro(ModelMap model, @ModelAttribute("libro") Libro libro){
+        try{
+            libroServicio.eliminar(libro.getId());
+        }catch (ServiceException e) {
             model.addAttribute(e.getMessage());
         }
-        return "agregarLibroForm";
+    return "libro-eliminar";}
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @GetMapping("/leido")
+    public String cambiarLeido(){
+        return "cambiar-leido";
     }
-
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PostMapping("/leido")
+    public String cambiarLeido(ModelMap model, @ModelAttribute("libro") Libro libro){
+        try{
+            libroServicio.cambiarLeido(libro.getId());
+        }catch (ServiceException e) {
+            model.addAttribute(e.getMessage());
+        }
+        return "cambiar-leido";
+    }
+    
+    
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/listaLeidos")
     public String listaLeidos() {
         return "libros-leidos";
     }
 
-    @PreAuthorize("hasAnyRole('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/listarLibros")
     public String listaLibros() {
         return "tabla-libros";
