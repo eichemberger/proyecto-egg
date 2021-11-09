@@ -1,6 +1,7 @@
 package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.LibroServicio;
@@ -9,6 +10,7 @@ import com.proyectoegg.libros.servicios.UsuarioServicio;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,14 @@ public class LibroController {
     @Autowired
     MateriaServicio materiaServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/")
+    public String listaLibros(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("libros", usuario.getLibros());
+        System.out.println(usuario.getLibros());
+        return "mostrar-libros";}
+    
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
@@ -45,8 +55,9 @@ public class LibroController {
 
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
-    public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
+    public String agregarLibro(@ModelAttribute("libro") Libro libro,@ModelAttribute("materia") Materia materia, ModelMap model, HttpSession session) {
         try {
+            libro.setMateria(materia.getNombre());
             libroServicio.agregarLibro(libro);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             model.addAttribute("materias", usuario.getMaterias());
@@ -68,9 +79,10 @@ public class LibroController {
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/editar{libro.id}")
     public String editarLibro(@PathVariable("materia.id") String id, HttpSession session,
-            ModelMap model, @ModelAttribute("libro") Libro libro) {
+            ModelMap model, @ModelAttribute("libro") Libro libro, @ModelAttribute("libro") Materia materia) {
         try {
-            libroServicio.editarLibro(libro);
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            libroServicio.editarLibro(libro.getId(), materia.getId());
             return "redirect:/usuario/inicio";
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
@@ -80,8 +92,10 @@ public class LibroController {
 
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
     @PostMapping("/eliminar{libro.id}")
-    public String eliminarLibro(ModelMap model, @ModelAttribute("libro") Libro libro) {
+    public String eliminarLibro(ModelMap model, @ModelAttribute("libro") Libro libro, HttpSession session) {
         try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            usuarioServicio.eliminarLibro(libro.getId(), usuario.getId());
             libroServicio.eliminar(libro.getId());
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
@@ -107,20 +121,22 @@ public class LibroController {
     }
 
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @GetMapping("/listaLeidos")
-    public String listaLeidos(HttpSession session, ModelMap model) {
+    @GetMapping("/leidos")
+    public String listaLeidos(HttpSession session, ModelMap model, @ModelAttribute("materia") Materia materia) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("librosleidos", libroServicio.listaLibrosLeidos(usuario));
+        model.addAttribute("librosleidos", libroServicio.listaLibrosLeidos(usuario, materia.getNombre()));
 
         return "libros-leidos";
     }
     
+    
+
     @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-    @GetMapping("/listarLibros")
-    public String listaLibros(HttpSession session, ModelMap model) {
+    @GetMapping("/libros")
+    public String listaLibros(HttpSession session, ModelMap model,@ModelAttribute("materia") Materia materia) {
          Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-         model.addAttribute("libros", libroServicio.listaLibrosNoLeidos(usuario));
-        return "tabla-libros";
+         model.addAttribute("libros", libroServicio.listaLibrosNoLeidos(usuario, materia.getNombre()));
+        return "mostrar-libros";
     }
 
 }

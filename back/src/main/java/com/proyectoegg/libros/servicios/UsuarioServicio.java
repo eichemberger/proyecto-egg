@@ -5,6 +5,7 @@ import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
+import com.proyectoegg.libros.repositorios.LibroRepositorio;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
 import com.proyectoegg.libros.repositorios.UsuarioRepositorio;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class UsuarioServicio implements UserDetailsService {
     UsuarioRepositorio usuarioRepositorio;
     @Autowired
     LibroServicio libroServcio;
+    @Autowired
+    LibroRepositorio libroRepositorio;
     @Autowired
     FotoServicio fotoServicio;
     @Autowired
@@ -86,26 +89,18 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void agregarMateria(String idUsuario, String idMateria) throws ServiceException {
+   public void agregarMateria(String idUsuario, String idMateria) throws ServiceException {
         try {
             Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
             if (resultado.isPresent()) {
                 Usuario usuario = resultado.get();
                 try {
-                    Optional<Materia> res = materiarepositorio.findById(idMateria);
-                    if (res.isPresent()) {
-                        Materia materia = res.get();
-                        List<Materia> materias = usuario.getMaterias();
-                        for (Materia materia1 : materias) {
-                            if (materia1.getNombre().equals(materia.getNombre())) {
-                                throw new ServiceException("La materia ingresada ya se encuentra en el usuario");
-                            }
-                        }
-                        materias.add(materia);
-                        usuarioRepositorio.save(usuario);
-                    } else {
-                        throw new ServiceException("La materia indicada no se encuentra en la base de datos");
-                    }
+                    Materia materia = materiaServicio.encontrarPorID(idMateria);
+                    usuario.getMaterias().add(materia);
+                    usuarioRepositorio.save(usuario);
+                    System.out.println("*********************");
+                    System.out.println(usuario.getMaterias());
+                    System.out.println("*********************");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                     throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
@@ -116,6 +111,21 @@ public class UsuarioServicio implements UserDetailsService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+   
+   public void agregarMateria(Usuario usuario, Materia materia) throws ServiceException {
+                try {
+                    usuario.getMaterias().add(materia);
+                    usuarioRepositorio.save(usuario);
+                    System.out.println("*********************");
+                    System.out.println(usuario.getMaterias());
+                    System.out.println("*********************");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
+                }
+
+
     }
 
     @Transactional
@@ -167,6 +177,36 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    @Transactional
+    public void eliminarLibro(String idLibro, String idUsuario) {
+        try {
+            Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
+            if (resultado.isPresent()) {
+                Usuario usuario = resultado.get();
+                try {
+                    Optional<Libro> res = libroRepositorio.findById(idLibro);
+                    if (res.isPresent()) {
+                        Libro libro = res.get();
+                        List<Libro> libros = usuario.getLibros();
+                        for (Libro libroAux : libros) {
+                            if (libroAux.equals(libro)) {
+                                libros.remove(libroAux);
+                            }
+                        }
+                    } else {
+                        throw new ServiceException("El libro indicado no se encuentra en la base de datos");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    throw new ServiceException("El libro no fue encontrado en la base de datos");
+                }
+            } else {
+                throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {

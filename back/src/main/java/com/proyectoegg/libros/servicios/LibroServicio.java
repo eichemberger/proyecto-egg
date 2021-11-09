@@ -27,9 +27,10 @@ public class LibroServicio {
     }
 
     @Transactional
-    public Libro editarLibro(Libro libro) throws ServiceException {
-        Optional<Libro> resultado = libroRepositorio.findById(libro.getId());
+    public Libro editarLibro(String idLibro, String idMateria) throws ServiceException {
+        Optional<Libro> resultado = libroRepositorio.findById(idLibro);
        if (resultado.isPresent()) {
+           Libro libro = resultado.get();
             Libro libroEditar = resultado.get();
            validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());
             libroEditar.setTitulo(libro.getTitulo());
@@ -43,11 +44,7 @@ public class LibroServicio {
         } else {
             throw new ServiceException("El libro indicado no se encuentra en el sistema");
         }
-//        
-//                        EDITAR CON ENTIDAD LIBRO COMO EL REGISTRO?
-//        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion(), idUsuario);
-//        libro.setIdUsuario(idUsuario);
-//        return libroRepositorio.save(libro);
+
     }
   
     @Transactional
@@ -102,25 +99,25 @@ public class LibroServicio {
         return libroRepositorio.getById(id);
     }
     
-    public ArrayList<Libro> listaLibrosLeidos(Usuario usuario){
+    public ArrayList<Libro> listaLibrosLeidos(Usuario usuario, String materia){
         
         ArrayList<Libro> libros = new ArrayList<>();
         
         
         for (Libro  libro : usuario.getLibros()) {
-            if(libro.getLeido()){
+            if(libro.getLeido() && libro.getMateria().equals(materia)){
                 libros.add(libro);
             }
         }
     return libros;}
     
-    public ArrayList<Libro> listaLibrosNoLeidos(Usuario usuario){
+    public ArrayList<Libro> listaLibrosNoLeidos(Usuario usuario, String materia){
         
         ArrayList<Libro> libros = new ArrayList<>();
         
         
         for (Libro  libro : usuario.getLibros()) {
-            if(!libro.getLeido()){
+            if(!libro.getLeido() && libro.getMateria().equals(materia)){
                 libros.add(libro);
             }
         }

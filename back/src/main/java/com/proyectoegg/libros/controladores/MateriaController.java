@@ -40,7 +40,7 @@ public class MateriaController {
         try {
             materiaServicio.agregarMateria(materia);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            usuarioServicio.agregarMateria(usuario.getId(), materia.getId());
+            usuarioServicio.agregarMateria(usuario, materia);
             return "redirect:/usuario/inicio";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
