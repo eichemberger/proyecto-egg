@@ -1,6 +1,9 @@
 package com.proyectoegg.libros.controladores;
 
+import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.servicios.MateriaServicio;
+import com.proyectoegg.libros.servicios.UsuarioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,8 @@ public class MainController {
 
     @Autowired
     MateriaServicio materiaServicio;
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("")
     public String index() {
@@ -65,14 +70,11 @@ public class MainController {
         return null;
     }
 
-   @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
-    public String inicioWeb(ModelMap model) {
-       model.addAttribute("materias", materiaServicio.listarTodas());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USUARIO_REGISTRADO"))) {
-            System.out.println("funcionando");
-        }
+    public String inicioWeb(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("materias", usuarioServicio.listarMateriasActivas(usuario));
         return "inicio";
     }
 

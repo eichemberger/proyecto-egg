@@ -21,6 +21,7 @@ public class MateriaServicio {
     @Transactional
     public Materia agregarMateria(Materia materia) throws ServiceException {
         validar(materia.getNombre());
+        materia.setAlta(true);
         return materiaRepositorio.save(materia);
     }
 
@@ -31,6 +32,7 @@ public class MateriaServicio {
             Materia materia = resultado.get();
             validar(nombre);
             materia.setNombre(nombre);
+            materia.setAlta(true);
             return materiaRepositorio.save(materia);
         } else {
             throw new ServiceException("La materia no se encuentra en el sistema");
@@ -42,8 +44,8 @@ public class MateriaServicio {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
-//            materiaRepositorio.eliminar(id, idUsuario);
-            materiaRepositorio.delete(materia);
+            materia.setAlta(false);
+            materiaRepositorio.save(materia);
         } else {
             throw new ServiceException("La materia indicada no se encuentra en el sistema");
         }
@@ -61,10 +63,6 @@ public class MateriaServicio {
         return materiaRepositorio.findAll();
     }
     
-//    public List<Materia> listarPorUsuario(String idUsuario) {
-//        return materiaRepositorio.listarPorUsuario(idUsuario);
-//    }
-
     public void validar(String nombre) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
