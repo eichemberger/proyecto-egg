@@ -54,7 +54,7 @@ public class MainController {
         return "index";
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/info")
     public String info() {
         try {
@@ -65,7 +65,7 @@ public class MainController {
         return null;
     }
 
-   @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+   @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
     public String inicioWeb(ModelMap model) {
        model.addAttribute("materias", materiaServicio.listarTodas());

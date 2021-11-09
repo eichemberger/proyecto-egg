@@ -40,28 +40,23 @@
   </thead>
   <tbody>
   <tr th:each=" libro : ${libros}" scope="row">
-    <td th:text="${libro.nombre}"></td>
+    <td th:text="${libro.titulo}"></td>
     <td th:text="${libro.obligatorio}"></td>
     <!-- TODO:  dias?  -->
-    <td th:text="${libro.dias}"></td>
-    <td th:text="${libro.leido"></td>
+<!--    <td th:text="${libro.dias}"></td>-->
+    <td th:text= "${libro.leido}"></td>
+<!--    Boton para marcar libro como leido-->
     <td><a th:href="@{/libros/editar/}+${libro.id}">✅</a></td>
     <td><a th:href="@{/libros/eliminar/}+${libro.id}">❌</a></td>
   </tr>
 
-  <!-- <tr class="container fila">
-    <td>Java Spring</td>
-    <td>Si</td>
-    <td>15</td>
-    <td><a href="#">✅</a></td>
-    <td><a href="#">❌</a></td>
-  </tr> -->
   </tbody>
 </table>
 
 <div class="botones">
+<!--  Volver a Materias (inicio)-->
   <a type="button" class="fill-agg" th:href="@{/materia}"?>Volver &#8629;</a>
-  <a type="button" class="fill" th:href="@{/libro/agregar}">Agregar</a>
+  <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
 </div>
 </body>
 </html>

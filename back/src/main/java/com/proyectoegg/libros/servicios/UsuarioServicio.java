@@ -272,7 +272,7 @@ public class UsuarioServicio implements UserDetailsService {
         try {
             Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority("USUARIO_REGISTRADO"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_USUARIO_REGISTRADO"));
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuariosession", usuario);

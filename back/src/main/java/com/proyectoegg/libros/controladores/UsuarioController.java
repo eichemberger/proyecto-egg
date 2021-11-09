@@ -49,7 +49,7 @@ public class UsuarioController {
         return null;
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarUsuario(ModelMap model, HttpSession session, @ModelAttribute("usuario") Usuario usuario) {
         Usuario user = (Usuario) session.getAttribute("usuariosession");
@@ -63,7 +63,7 @@ public class UsuarioController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/inicio")
     public String inicio(HttpSession session, ModelMap model) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -78,7 +78,7 @@ public class UsuarioController {
 //        return "inicio.html";
 //    }
     
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, @ModelAttribute("usuario") Usuario usuario, HttpSession session) {
         usuario = (Usuario) session.getAttribute("usuariosession");

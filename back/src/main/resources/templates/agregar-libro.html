@@ -32,9 +32,15 @@
                         <label for="autor">Autor:</label> <br />
                         <input class="input " type="text" name="autor" th:field="*{autor}" id="autor" required="true" placeholder="Escriba aquí el autor"/>
                     </div>
-                    <div>
+                    <div th:object="${materias}">
                         <label for="materia">Materia:</label> <br />
-                        <input class="input" type="text" name="materia" th:field="*{materia}" id="materia" required="true" placeholder="Escriba aquí la materia"/>
+                        <select name="materia" id="materia">
+                            <option th:each="materia : ${materias}"
+                                    th:value="${materia.nombre}"
+                                    th:text="${materia.nombre}"
+                                    th:selected="false"
+                            ></option>
+                        </select>
                     </div>
                     <div>
                         <label for="descripcion">Descripción:</label> <br />
