@@ -355,7 +355,6 @@ public class UsuarioServicio implements UserDetailsService {
     public ArrayList<Materia> listarMateriasActivas(Usuario usuario) {
         List<Materia> materias = usuario.getMaterias();
         ArrayList<Materia> materiasActivas = new ArrayList<>();
-
         for (Materia m : materias) {
             if (m.getAlta()) {
                 materiasActivas.add(m);
@@ -364,7 +363,6 @@ public class UsuarioServicio implements UserDetailsService {
         return materiasActivas;
     }
 
-    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {

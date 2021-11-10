@@ -4,7 +4,6 @@ import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MateriaServicio {
-
-    @Autowired
-    private UsuarioServicio usuarioServicio;
 
     @Autowired
     private MateriaRepositorio materiaRepositorio;
@@ -67,14 +63,6 @@ public class MateriaServicio {
 
     public Materia encontrarPorNombre(String nombre) {
         return materiaRepositorio.buscarPorNombre(nombre);
-    }
-
-    public List<Materia> listarTodas() {
-        return materiaRepositorio.findAll();
-    }
-
-    public List<Materia> listarActivas() {
-        return materiaRepositorio.buscarActivas();
     }
 
     public void validar(String nombre) throws ServiceException, ServiceException {
