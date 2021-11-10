@@ -197,6 +197,22 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
+    public void agregarLibro(Usuario usuario, Libro libro) throws ServiceException {
+
+        try {
+            System.out.println("*********************");
+            System.out.println(usuario.getMaterias());
+            System.out.println("*********************");
+            usuario.getLibros().add(libro);
+            
+            usuarioRepositorio.save(usuario);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new ServiceException("El libro indicado no ha podido ser incorporada al usuario");
+        }
+    }
+
+    @Transactional
     public void eliminarLibro(String idLibro, String idUsuario) {
         try {
             Optional<Usuario> resultado = usuarioRepositorio.findById(idUsuario);
@@ -227,7 +243,36 @@ public class UsuarioServicio implements UserDetailsService {
             System.out.println(e.getMessage());
         }
     }
-
+    @Transactional
+    public void eliminarLibro(Libro libro, Usuario usuario) throws ServiceException{
+        try{
+                        for (Libro libroAux : usuario.getLibros()) {
+                            if (libroAux.equals(libro)) {
+                                usuario.getLibros().remove(libroAux);
+                            }
+                        }
+                    } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    throw new ServiceException("El libro no fue encontrado en la base de datos");
+                }
+    }
+    @Transactional
+    public void darDeBajaLibro(Usuario usuario, Libro libro) throws ServiceException{
+      try{
+        for (Libro libroAux : usuario.getLibros()) {
+            if(libroAux.getTitulo().equals(libro.getTitulo())){
+                usuario.getLibros().remove(libroAux);
+                libro.setAlta(false);
+                usuario.getLibros().add(libro);
+        }
+        } 
+        usuarioRepositorio.save(usuario);}
+      catch(Exception e){
+          throw new ServiceException("No se pudo eliminar el libro");
+      }
+    }
+    
+    
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -236,6 +281,21 @@ public class UsuarioServicio implements UserDetailsService {
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }
+    }
+    
+    public void cambiarLeido(Usuario usuario, Libro libro) throws ServiceException{
+        try{
+        for (Libro libroAux : usuario.getLibros()) {
+            if(libroAux.getTitulo().equals(libro.getTitulo())){
+                usuario.getLibros().remove(libroAux);
+                libro.setLeido(true);
+                usuario.getLibros().add(libro);
+        }
+        } 
+        usuarioRepositorio.save(usuario);}
+      catch(Exception e){
+          throw new ServiceException("No se pudo eliminar el libro");
+      }
     }
 
     private void validar(String nombre, String email, String contrasenia) throws ServiceException {

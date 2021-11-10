@@ -20,7 +20,7 @@
     </nav>
 
       <h1 class="titulo-tabla">Materias</h1>
-
+    
       <div th:each="materia  : ${materias}" class="container">
         <p th:text="${materia.nombre}" class="item-materia"><a href="#">x</a></p>
         <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
