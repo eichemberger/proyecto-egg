@@ -137,12 +137,12 @@ public class LibroController {
 //    }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/leidos")
-    public String listaLeidos(HttpSession session, ModelMap model, @ModelAttribute("materia") Materia materia) {
+    @GetMapping("/leidos/{materia}")
+    public String listaLeidos(HttpSession session, ModelMap model,@PathVariable("materia") String materia) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("librosleidos", libroServicio.listaLibrosLeidos(usuario, materia.getNombre()));
+        model.addAttribute("libros", libroServicio.listaLibrosLeidos(usuario, materia));
 
-        return "libros-leidos";
+        return "mostrar-libros";
     }
     
     

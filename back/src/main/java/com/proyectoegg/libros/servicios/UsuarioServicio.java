@@ -180,11 +180,7 @@ public class UsuarioServicio implements UserDetailsService {
     public void agregarLibro(Usuario usuario, Libro libro) throws ServiceException {
 
         try {
-            System.out.println("*********************");
-            System.out.println(usuario.getMaterias());
-            System.out.println("*********************");
             usuario.getLibros().add(libro);
-            
             usuarioRepositorio.save(usuario);
         } catch (Exception e) {
             System.out.println(e.getMessage());

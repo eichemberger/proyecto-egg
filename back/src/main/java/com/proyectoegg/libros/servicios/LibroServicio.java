@@ -138,7 +138,7 @@ public class LibroServicio {
         
         
         for (Libro  libro : usuario.getLibros()) {
-            if(libro.getLeido() && libro.getMateria().equals(materia)){
+            if(libro.getLeido() && libro.getMateria().equals(materia) && libro.getAlta()){
                 libros.add(libro);
             }
         }
