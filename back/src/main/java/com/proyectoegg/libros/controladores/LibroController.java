@@ -57,10 +57,11 @@ public class LibroController {
     @PostMapping("/agregar")
     public String agregarLibro(@ModelAttribute("libro") Libro libro, ModelMap model, HttpSession session) {
         try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             libro.setLeido(false);
             libro.setAlta(true);
+            libro.setUsuario(usuario);
             libroServicio.agregarLibro(libro);
-            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             model.addAttribute("materias", usuario.getMaterias());
             usuarioServicio.agregarLibro(usuario, libro);
             return "redirect:/";

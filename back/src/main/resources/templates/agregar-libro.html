@@ -33,7 +33,8 @@
                         <input class="input " type="text" name="autor" th:field="*{autor}" id="autor" required="true" placeholder="Escriba aquí el autor"/>
                     </div>
                     <div th:object="${materias}">
-                        <label for="materia">Materia:</label> <br />
+                        <label for="materia">Materia:</label>
+                        <br />
                         <select name="materia" id="materia">
                             <option th:each="materia : ${materias}"
                                     th:value="${materia.nombre}"

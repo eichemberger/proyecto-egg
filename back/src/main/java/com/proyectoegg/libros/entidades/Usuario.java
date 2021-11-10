@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
@@ -26,28 +28,19 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @ManyToMany (cascade = CascadeType.ALL)
+//    @ManyToMany (cascade = CascadeType.ALL)
+//    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "usuario_libros",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "libros_id"))
     private List<Libro> libros;
-    @ManyToMany (cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "usuario_materias",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "materias_id"))
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Materia> materias;
-
     @OneToOne
     private Foto foto;
 
     public Usuario() {
     }
 
-  
     public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;
@@ -55,7 +48,7 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
         this.alta = alta;
         this.libros = libros;
-        this.materias = new ArrayList<>();
+        this.materias = materias;
         this.foto = foto;
     }
 
@@ -125,7 +118,9 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", alta=" + alta + ", libros=" + libros + ", materias=" + materias + ", foto=" + foto + '}';
     }
+
+  
 
 }

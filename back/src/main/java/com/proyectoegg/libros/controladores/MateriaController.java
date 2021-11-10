@@ -38,6 +38,7 @@ public class MateriaController {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             materia.setAlta(true);
+            materia.setUsuario(usuario);
             materiaServicio.agregarMateria(materia);
             usuarioServicio.agregarMateria(usuario, materia);
             return "redirect:/inicio";
