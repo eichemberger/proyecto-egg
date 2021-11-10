@@ -1,5 +1,6 @@
 package com.proyectoegg.libros.servicios;
 
+import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
@@ -69,5 +70,23 @@ public class MateriaServicio {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
         }
+    }
+
+    public boolean materiaConLibros(Materia materia, Usuario usuario) {
+        for (Libro aux : usuario.getLibros()) {
+            if (aux.getMateria().equalsIgnoreCase(materia.getNombre())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean materiaConLibrosSinLeer(Materia materia, Usuario usuario) {
+        for (Libro aux : usuario.getLibros()) {
+            if (aux.getMateria().equalsIgnoreCase(materia.getNombre()) && aux.getLeido() == false) {
+                return true;
+            }
+        }
+        return false;
     }
 }

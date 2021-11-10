@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
@@ -26,28 +25,18 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @ManyToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "usuario_libros",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "libros_id"))
     private List<Libro> libros;
-    @ManyToMany (cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     @LazyCollection(LazyCollectionOption.FALSE)
-    @JoinTable(
-            name = "usuario_materias",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "materias_id"))
     private List<Materia> materias;
-
     @OneToOne
     private Foto foto;
 
     public Usuario() {
     }
 
-  
     public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;

@@ -160,6 +160,17 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
+    public void eliminarMateria(Usuario usuario, Materia materia) throws ServiceException {
+        try {
+            usuario.getMaterias().remove(materia);
+            usuarioRepositorio.save(usuario);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new ServiceException("La materia indicada no ha podido ser eliminada del usuario");
+        }
+    }
+
+    @Transactional
     public void darDeBajaMateria(Usuario usuario, Materia materia) throws ServiceException {
         try {
             for (Materia aux : usuario.getMaterias()) {
@@ -359,6 +370,24 @@ public class UsuarioServicio implements UserDetailsService {
         return materiasActivas;
     }
 
+    public boolean materiaYaExistente(Materia materia, Usuario usuario) {
+        for (Materia aux : usuario.getMaterias()) {
+            if (aux.getNombre().equalsIgnoreCase(materia.getNombre())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+        public boolean materiaYaExistenteYActiva(Materia materia, Usuario usuario) {
+        for (Materia aux : usuario.getMaterias()) {
+            if (aux.getNombre().equalsIgnoreCase(materia.getNombre()) && aux.getAlta()==true) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {

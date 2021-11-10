@@ -37,9 +37,16 @@ public class MateriaController {
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            materia.setAlta(true);
-            materiaServicio.agregarMateria(materia);
-            usuarioServicio.agregarMateria(usuario, materia);
+            if (usuarioServicio.materiaYaExistenteYActiva(materia, usuario)) {
+                System.out.println("Error La materia que intenta agregar ya existe en el usuario");
+                model.addAttribute("error", "La materia que intenta agregar ya existe en el usuario");
+                return "materias";
+            } else {
+                materia.setAlta(true);
+                materia.setUsuario(usuario);
+                materiaServicio.agregarMateria(materia);
+                usuarioServicio.agregarMateria(usuario, materia);
+            }
             return "redirect:/inicio";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -75,17 +82,22 @@ public class MateriaController {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             Materia materia = materiaServicio.encontrarPorID(id);
-//            usuarioServicio.eliminarMateria(usuario, materia);
-//            usuarioServicio.eliminarMateria(usuario.getId(), materia.getId());
-            usuarioServicio.darDeBajaMateria(usuario, materia);
-            materiaServicio.darDeBaja(materia);
-//            materiaServicio.eliminar(id);
-            return "redirect:/inicio";
+            if (materiaServicio.materiaConLibrosSinLeer(materia, usuario)) {
+                System.out.println("No se puede eliminar una materia con libros sin leer.");
+                model.addAttribute("error", "No se puede eliminar una materia con libros sin leer");
+                return "redirect:/inicio";
+            } else {
+//                 usuarioServicio.eliminarMateria(usuario, materia);
+//                usuarioServicio.eliminarMateria(usuario.getId(), materia.getId());
+//                materiaServicio.eliminar(id);
+                usuarioServicio.darDeBajaMateria(usuario, materia);
+                materiaServicio.darDeBaja(materia);
+                return "redirect:/inicio";
+            }
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
             return "redirect:/inicio";
         }
     }
-
 }
