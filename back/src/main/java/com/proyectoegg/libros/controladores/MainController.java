@@ -74,7 +74,7 @@ public class MainController {
     @GetMapping("/inicio")
     public String inicioWeb(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", materiaServicio.listarActivas());
+        model.addAttribute("materias", usuarioServicio.listarMateriasActivas(usuario));
         return "inicio";
     }
 

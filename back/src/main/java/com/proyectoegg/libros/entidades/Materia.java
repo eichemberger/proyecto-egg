@@ -4,7 +4,6 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -15,17 +14,14 @@ public class Materia implements Serializable {
 private String id; 
 private String nombre;
 private Boolean alta;
-@ManyToOne
-private Usuario usuario; 
 
     public Materia() {
     }
 
-    public Materia(String id, String nombre, Boolean alta, Usuario usuario) {
+    public Materia(String id, String nombre, Boolean alta) {
         this.id = id;
         this.nombre = nombre;
         this.alta = alta;
-        this.usuario = usuario;
     }
 
     public String getId() {
@@ -52,11 +48,8 @@ private Usuario usuario;
         this.alta = alta;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    @Override
+    public String toString() {
+        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + '}';
     }
 }

@@ -38,6 +38,7 @@ public class MateriaController {
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            materia.setAlta(true);
             materiaServicio.agregarMateria(materia, usuario);
             usuarioServicio.agregarMateria(usuario, materia);
             return "redirect:/inicio";
@@ -78,6 +79,8 @@ public class MateriaController {
             System.out.println("materia en controlador: "+ materia);
 //            usuarioServicio.eliminarMateria(usuario, materia);
 //            usuarioServicio.eliminarMateria(usuario.getId(), materia.getId());
+            usuarioServicio.darDeBajaMateria(usuario, materia);
+            materiaServicio.darDeBaja(materia);
             materiaServicio.eliminar(id);
             return "redirect:/inicio";
         } catch (Exception e) {

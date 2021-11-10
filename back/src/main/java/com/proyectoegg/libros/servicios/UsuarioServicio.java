@@ -161,25 +161,13 @@ public class UsuarioServicio implements UserDetailsService {
 
     //ELIMINAR MATERIA CON ENTIDADES DIRECTAMENTE
     @Transactional
-    public void eliminarMateria(Usuario usuario, Materia materia) throws ServiceException {
+    public void darDeBajaMateria(Usuario usuario, Materia materia) throws ServiceException {
         try {
-            System.out.println("Materia en servicio usuario" + materia);
-            System.out.println("LISTA: " + usuario.getMaterias());
-
-            List<Materia> materias = usuario.getMaterias();
-
-            for (int i = 0; i < materias.size(); i++) {
-                if (materias.get(i).equals(materia)) {
-                    System.out.println("Se ha encontrado la materia" + materia);
-                    materias.remove(materia);
-                }
-            }
-
-            for (Materia materia1 : materias) {
-                if (materia1.equals(materia)) {
-                    System.out.println("Se ha encontrado la materia" + materia1);
-                    materias.remove(materia1);
-                    materias.remove(materia);
+            for (Materia aux : usuario.getMaterias()) {
+                if (aux.getNombre().equals(materia.getNombre())) {
+                    usuario.getMaterias().remove(aux);
+                    materia.setAlta(false);
+                    usuario.getMaterias().add(materia);
                 }
             }
             usuarioRepositorio.save(usuario);
@@ -308,17 +296,15 @@ public class UsuarioServicio implements UserDetailsService {
         List<Materia> materias = usuario.getMaterias();
         ArrayList<Materia> materiasActivas = new ArrayList<>();
 
-        System.out.println("MATERIAS:" + materias);
-        
         for (Materia m : materias) {
-            if (m.getAlta() == true) {
+            if (m.getAlta()) {
                 materiasActivas.add(m);
             }
         }
-        System.out.println("Materias activas: "+ materiasActivas);
         return materiasActivas;
     }
 
+    
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {

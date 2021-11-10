@@ -23,7 +23,6 @@ public class MateriaServicio {
     public Materia agregarMateria(Materia materia, Usuario usuario) throws ServiceException {
         validar(materia.getNombre());
         materia.setAlta(true);
-        materia.setUsuario(usuario);
         return materiaRepositorio.save(materia);
     }
 
@@ -40,40 +39,44 @@ public class MateriaServicio {
             throw new ServiceException("La materia no se encuentra en el sistema");
         }
     }
-    
+
+    @Transactional
+    public void darDeBaja(Materia materia) throws ServiceException {
+        try {
+            materia.setAlta(false);
+            materiaRepositorio.save(materia);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Transactional
     public void eliminar(String id) throws ServiceException {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
         if (resultado.isPresent()) {
             Materia materia = resultado.get();
-            materia.setAlta(false);
-            materiaRepositorio.save(materia);
+            materiaRepositorio.delete(materia);
         } else {
             throw new ServiceException("La materia indicada no se encuentra en el sistema");
         }
     }
-    
+
     public Materia encontrarPorID(String id) {
         return materiaRepositorio.getById(id);
     }
-    
+
     public Materia encontrarPorNombre(String nombre) {
         return materiaRepositorio.buscarPorNombre(nombre);
     }
-    
-    public List<Materia> listarTodas(){
+
+    public List<Materia> listarTodas() {
         return materiaRepositorio.findAll();
     }
-    
-    public List<Materia> listarActivas(){
+
+    public List<Materia> listarActivas() {
         return materiaRepositorio.buscarActivas();
     }
-    
-    public List<Materia> listarActivasUsuario(Usuario usuario){
-//        return materiaRepositorio.buscarPorUsuario(usuario.getId());
-    return null;
-    }
-    
+
     public void validar(String nombre) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
