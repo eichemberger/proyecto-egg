@@ -15,6 +15,14 @@ public interface MateriaRepositorio extends JpaRepository<Materia, String> {
     @Query("SELECT m FROM Materia m WHERE m.nombre = :nombre")
     public Materia buscarPorNombre(@Param("nombre") String nombre);
 
+    @Query("SELECT m FROM Materia m WHERE m.alta = 1")
+    public List<Materia> buscarActivas();
+   
+    
+//    @Query("SELECT m FROM Materia m WHERE m.usuario_id =:usuario_id")
+//    public List<Materia> buscarPorUsuario(String usuario_id);
+    
+    
 //    @Query(value="Select m from Materia m where m.id_usuario = :idUsuario")
 //    List<Materia> buscarPorUsuario(@Param("id_usuario") String idUsuario);
     

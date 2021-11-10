@@ -1,6 +1,7 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Materia;
+import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
 import java.util.List;
@@ -19,9 +20,10 @@ public class MateriaServicio {
     private MateriaRepositorio materiaRepositorio;
 
     @Transactional
-    public Materia agregarMateria(Materia materia) throws ServiceException {
+    public Materia agregarMateria(Materia materia, Usuario usuario) throws ServiceException {
         validar(materia.getNombre());
         materia.setAlta(true);
+        materia.setUsuario(usuario);
         return materiaRepositorio.save(materia);
     }
 
@@ -61,6 +63,15 @@ public class MateriaServicio {
     
     public List<Materia> listarTodas(){
         return materiaRepositorio.findAll();
+    }
+    
+    public List<Materia> listarActivas(){
+        return materiaRepositorio.buscarActivas();
+    }
+    
+    public List<Materia> listarActivasUsuario(Usuario usuario){
+//        return materiaRepositorio.buscarPorUsuario(usuario.getId());
+    return null;
     }
     
     public void validar(String nombre) throws ServiceException, ServiceException {

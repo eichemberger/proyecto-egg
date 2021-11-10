@@ -37,8 +37,8 @@ public class MateriaController {
     @PostMapping("/agregar")
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
-            materiaServicio.agregarMateria(materia);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            materiaServicio.agregarMateria(materia, usuario);
             usuarioServicio.agregarMateria(usuario, materia);
             return "redirect:/inicio";
         } catch (ServiceException e) {
