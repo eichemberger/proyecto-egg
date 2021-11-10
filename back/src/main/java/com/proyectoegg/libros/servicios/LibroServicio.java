@@ -47,24 +47,36 @@ public class LibroServicio {
 
     }
   
-    @Transactional
-    public Libro cambiarLeido(String id) throws ServiceException {
-        Optional<Libro> resultado = libroRepositorio.findById(id);
+//    @Transactional
+//    public Libro cambiarLeido(String id) throws ServiceException {
+//        Optional<Libro> resultado = libroRepositorio.findById(id);
+//
+//        if (resultado.isPresent()) {
+//            Libro libro = resultado.get();
+//            if (libro.getLeido()) {
+//                libro.setLeido(Boolean.FALSE);
+//            } else {
+//                libro.setLeido(Boolean.TRUE);
+//            }
+//
+//            return libroRepositorio.save(libro);
+//        } else {
+//            throw new ServiceException("El libro indicado no se encuentra en el sistema");
+//        }
+//    }
 
-        if (resultado.isPresent()) {
-            Libro libro = resultado.get();
-            if (libro.getLeido()) {
-                libro.setLeido(Boolean.FALSE);
-            } else {
-                libro.setLeido(Boolean.TRUE);
-            }
-
-            return libroRepositorio.save(libro);
-        } else {
-            throw new ServiceException("El libro indicado no se encuentra en el sistema");
-        }
-    }
-
+//    @Transactional
+//    public Libro cambiarLeido(Libro libro) throws ServiceException{
+//        try{
+//            if (libro.getLeido()) {
+//                libro.setLeido(Boolean.FALSE);
+//            } else {
+//                libro.setLeido(Boolean.TRUE);}
+//            }catch(Exception e){
+//                    throw new ServiceException("No pudo cambiarse el estado del libro");
+//                    }
+//        return libroRepositorio.save(libro);}
+    
     @Transactional
     public void eliminar(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
@@ -106,16 +118,16 @@ public class LibroServicio {
         }
     }
 
-    @Transactional
-    public void darDeBaja(Libro libro){
-        try{
-            libro.setAlta(false);
-            libroRepositorio.save(libro);
-        } catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-        
-    }
+//    @Transactional
+//    public void darDeBaja(Libro libro){
+//        try{
+//            libro.setAlta(false);
+//            libroRepositorio.save(libro);
+//        } catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//        
+//    }
     public Libro buscarPorId(String id) {
         return libroRepositorio.getById(id);
     }

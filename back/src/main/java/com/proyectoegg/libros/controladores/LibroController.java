@@ -71,11 +71,11 @@ public class LibroController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/editar/{libro.id}")
-    public String editarLibro(@PathVariable("libro.id") String id, HttpSession session) {
-        return "agregar-libro";
-    }
+//    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+//    @GetMapping("/editar/{libro.id}")
+//    public String editarLibro(@PathVariable("libro.id") String id, HttpSession session) {
+//        return "agregar-libro";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/editar/{libro.id}")
@@ -100,7 +100,7 @@ public class LibroController {
 //            usuarioServicio.eliminarLibro(libro, usuario);
 //            libroServicio.eliminar(libro);
         usuarioServicio.darDeBajaLibro(usuario, libro);
-        libroServicio.darDeBaja(libro);
+//        libroServicio.darDeBaja(libro);
             return "redirect:/";
         } catch (Exception e) {
 
@@ -112,21 +112,29 @@ public class LibroController {
 
     
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/leido/{libro.id}")
-    public String cambiarLeido() {
-        return "cambiar-leido";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @PostMapping("/leido{libro.id}")
-    public String cambiarLeido(ModelMap model, @ModelAttribute("libro") Libro libro) {
+    @GetMapping("/editar/{libro.id}")
+    public String cambiarLeido(ModelMap model,  @PathVariable("libro.id") String id, HttpSession session) {
         try {
-            libroServicio.cambiarLeido(libro.getId());
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            Libro libro = libroServicio.buscarPorId(id);
+            usuarioServicio.cambiarLeido(usuario, libro);
+            System.out.println(libro.getLeido());
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
         }
-        return "cambiar-leido";
+        return "redirect:/inicio";
     }
+
+//    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+//    @PostMapping("/leido{libro.id}")
+//    public String cambiarLeido(ModelMap model, @ModelAttribute("libro") Libro libro) {
+//        try {
+//            libroServicio.cambiarLeido(libro.getId());
+//        } catch (ServiceException e) {
+//            model.addAttribute(e.getMessage());
+//        }
+//        return "cambiar-leido";
+//    }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/leidos")
