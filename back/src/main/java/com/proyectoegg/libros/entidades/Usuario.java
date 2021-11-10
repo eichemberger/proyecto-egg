@@ -3,13 +3,13 @@ package com.proyectoegg.libros.entidades;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
@@ -26,14 +26,14 @@ public class Usuario implements Serializable {
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @ManyToMany
+    @ManyToMany (cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "usuario_libros",
             joinColumns = @JoinColumn(name = "usuario_id"),
             inverseJoinColumns = @JoinColumn(name = "libros_id"))
     private List<Libro> libros;
-    @ManyToMany
+    @ManyToMany (cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(
             name = "usuario_materias",

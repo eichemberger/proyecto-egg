@@ -16,7 +16,7 @@ public class MateriaServicio {
     private MateriaRepositorio materiaRepositorio;
 
     @Transactional
-    public Materia agregarMateria(Materia materia, Usuario usuario) throws ServiceException {
+    public Materia agregarMateria(Materia materia) throws ServiceException {
         validar(materia.getNombre());
         materia.setAlta(true);
         return materiaRepositorio.save(materia);

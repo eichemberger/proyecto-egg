@@ -44,7 +44,7 @@ public class LibroController {
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", usuario.getMaterias());
+        model.addAttribute("materias", usuarioServicio.listarMateriasActivas(usuario));
         model.addAttribute("libro", new Libro());
         return "agregar-libro";
     }
