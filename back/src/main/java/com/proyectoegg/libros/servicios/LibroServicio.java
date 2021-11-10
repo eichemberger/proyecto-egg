@@ -1,7 +1,6 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Libro;
-import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.LibroRepositorio;
@@ -17,9 +16,7 @@ public class LibroServicio {
 
     @Autowired
     private LibroRepositorio libroRepositorio;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
-
+    
     @Transactional
     public Libro agregarLibro(Libro libro) throws ServiceException {
         validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());

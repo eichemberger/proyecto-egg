@@ -22,8 +22,8 @@
       <h1 class="titulo-tabla">Materias</h1>
     
       <div th:each="materia  : ${materias}" class="container">
-        <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
-        <a class="eliminar-materia" th:href="@{/materias/eliminar/}+${materia.id}">❌</a>
+        <p th:text="${materia.nombre}" class="item-materia"><a href="#">x</a></p>
+        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
       </div>
 
       <div class="botones">

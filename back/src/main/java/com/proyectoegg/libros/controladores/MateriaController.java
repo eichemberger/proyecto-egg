@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/materia")
@@ -23,28 +22,28 @@ public class MateriaController {
 
     @Autowired
     MateriaServicio materiaServicio;
-
     @Autowired
     UsuarioServicio usuarioServicio;
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarMateria(ModelMap model) {
         model.addAttribute("materia", new Materia());
         return "materias.html";
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
-            materiaServicio.agregarMateria(materia);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            materia.setAlta(true);
+            materiaServicio.agregarMateria(materia);
             usuarioServicio.agregarMateria(usuario, materia);
-            return "redirect:/usuario/inicio";
+            return "redirect:/inicio";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
-            model.addAttribute(e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "materias";
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -52,13 +51,13 @@ public class MateriaController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarMateria() {
         return "materia-editar";
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/editar")
     public String editarMateria(ModelMap model, @ModelAttribute("materia") Materia materia) {
         try {
@@ -70,18 +69,22 @@ public class MateriaController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/{materia.id}")
     public String eliminarMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            usuarioServicio.eliminarMateria(id, usuario.getId());
-            materiaServicio.eliminar(id);
-            return "redirect:/usuario/inicio";
+            Materia materia = materiaServicio.encontrarPorID(id);
+//            usuarioServicio.eliminarMateria(usuario, materia);
+//            usuarioServicio.eliminarMateria(usuario.getId(), materia.getId());
+            usuarioServicio.darDeBajaMateria(usuario, materia);
+            materiaServicio.darDeBaja(materia);
+//            materiaServicio.eliminar(id);
+            return "redirect:/inicio";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-             return "redirect:/usuario/inicio";
+            return "redirect:/inicio";
         }
     }
 

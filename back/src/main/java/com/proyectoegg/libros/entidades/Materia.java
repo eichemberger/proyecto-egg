@@ -13,13 +13,15 @@ public class Materia implements Serializable {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
 private String id; 
 private String nombre;
+private Boolean alta;
 
     public Materia() {
     }
 
-    public Materia(String id, String nombre) {
+    public Materia(String id, String nombre, Boolean alta) {
         this.id = id;
         this.nombre = nombre;
+        this.alta = alta;
     }
 
     public String getId() {
@@ -38,9 +40,16 @@ private String nombre;
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "Materia{" + "id=" + id + ", nombre=" + nombre + '}';
+    public Boolean getAlta() {
+        return alta;
     }
 
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
+    @Override
+    public String toString() {
+        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + '}';
+    }
 }
