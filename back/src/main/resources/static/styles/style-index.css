@@ -11,7 +11,7 @@
 
   width: 80%;
   margin: auto;
-
+ 
   
   
  
@@ -53,6 +53,7 @@ ul li a::before{
 ul li a:hover:before{
 
   width: 100%;
+ 
  
 }
 .navbar-icons img{
@@ -219,18 +220,7 @@ button {
   text-align:right;
 }
 
-@media (max-width:767px) {
-  .footer-clean .item {
-    text-align:center;
-    padding-bottom:20px;
-  }
-}
 
-@media (max-width: 768px) {
-  .footer-clean .item.social {
-    text-align:center;
-  }
-}
 
 .footer-clean .item.social > a {
   font-size:24px;
@@ -251,17 +241,6 @@ button {
   opacity:0.9;
 }
 
-@media (max-width:991px) {
-  .footer-clean .item.social > a {
-    margin-top:40px;
-  }
-}
-
-@media (max-width:767px) {
-  .footer-clean .item.social > a {
-    margin-top:10px;
-  }
-}
 
 .footer-clean .copyright {
   margin-top:14px;
@@ -332,4 +311,149 @@ ul.slider li:target{
   text-align: right;
   float: right;
  
+}
+
+
+
+
+.nav{
+  line-height: 30px;
+}
+
+.menu1 a{
+  line-height: 30px;
+ clear: left;
+}
+
+
+label { 
+
+  font-size: 26px;
+  line-height: 30px;
+  color: #39b385;
+
+ visibility: hidden;
+ width: 26px;
+
+
+
+
+}
+
+#toggle{
+  display: none;
+}
+
+
+@media(max-width:480px){
+
+ 
+
+
+
+label{
+  visibility: visible;
+  cursor: pointer;
+
+}
+
+
+
+ .menu1{
+
+  text-align: center;
+  width: 100%;
+ display: none;
+
+ 
+  background-size: cover;
+
+ height: 100vh;
+ 
+
+}
+
+.menu1 li{
+  display: block;
+
+
+  border-bottom: 1px solid #9be15d;
+  border-color:  #9be15d;
+  margin: 0;
+  margin-top: 40%;
+  margin-right: 20%;
+
+}
+
+#toggle:checked + .menu1   {
+
+display: block;
+}
+
+
+
+.navbar img{
+  display: none;
+
+}
+.right-column img{
+  display: none;
+}
+
+.parrafo img{
+ display: none;
+}
+
+.contenedor2{
+  display: none;
+}
+
+.footer-clean h3 {
+display: none;
+}
+.footer-clean ul a {
+
+display: none;
+}
+.footer-clean{
+  background: none;
+}
+.footer-clean .item.social{
+  text-align: center;
+ 
+
+}
+.footer-clean .copyright{
+text-align: center;
+margin-left: 10% ;
+
+
+}
+
+.footer-clean .item.social > a {
+  margin-left: 10%;
+text-align: center;
+
+
+}
+
+
+.left-column {
+  text-align: center;
+ font-size: 14px;
+}
+
+.contenedor1{
+  text-align: center;
+  
+
+}
+
+.parrafo{
+  display: none;
+  
+}
+
+
+
 }

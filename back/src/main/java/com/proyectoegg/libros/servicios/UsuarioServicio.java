@@ -159,19 +159,15 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    //ELIMINAR MATERIA CON ENTIDADES DIRECTAMENTE
     @Transactional
     public void darDeBajaMateria(Usuario usuario, Materia materia) throws ServiceException {
         try {
             for (Materia aux : usuario.getMaterias()) {
                 if (aux.getNombre().equals(materia.getNombre())) {
-                    usuario.getMaterias().remove(aux);
-                    materia.setAlta(false);
-                    usuario.getMaterias().add(materia);
+                    aux.setAlta(false);
                 }
             }
             usuarioRepositorio.save(usuario);
-            System.out.println("\n \n LISTA DESPUES DE ELIMINAR:" + usuario.getMaterias());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new ServiceException("La materia indicada no ha podido ser eliminada del usuario");
@@ -353,9 +349,8 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public ArrayList<Materia> listarMateriasActivas(Usuario usuario) {
-        List<Materia> materias = usuario.getMaterias();
         ArrayList<Materia> materiasActivas = new ArrayList<>();
-        for (Materia m : materias) {
+        for (Materia m : usuario.getMaterias()) {
             if (m.getAlta()) {
                 materiasActivas.add(m);
             }

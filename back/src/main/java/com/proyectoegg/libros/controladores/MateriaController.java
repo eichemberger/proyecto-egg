@@ -75,12 +75,11 @@ public class MateriaController {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             Materia materia = materiaServicio.encontrarPorID(id);
-            System.out.println("materia en controlador: "+ materia);
 //            usuarioServicio.eliminarMateria(usuario, materia);
 //            usuarioServicio.eliminarMateria(usuario.getId(), materia.getId());
             usuarioServicio.darDeBajaMateria(usuario, materia);
             materiaServicio.darDeBaja(materia);
-            materiaServicio.eliminar(id);
+//            materiaServicio.eliminar(id);
             return "redirect:/inicio";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

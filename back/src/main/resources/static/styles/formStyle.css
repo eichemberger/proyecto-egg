@@ -104,16 +104,6 @@ button {
     left: 0px;
 }
 
-.fill:disabled::after {
-    background-image: linear-gradient(to top left, #d4d6d5, #686967);
-    cursor: default;
-    transition: 10000000s;
-}
-
-.fill:disabled{
-    cursor: default;
-}
-
 .input {
     width:40%;
     border:2px solid #39b385;
@@ -130,11 +120,35 @@ button {
     border-color:#39b385;
     box-shadow:0 0 8px 0 #9be15d;
 }
+
 .radio{
     margin-left: 20px;
 }
 
-#error-login {
-    display: none;
-    color: red;
+input[type=file]{ 
+    color:transparent;
+}
+
+.upload-box {
+    font-size: 16px;
+    width: 42.3%;
+    outline: none;
+}
+
+.noBorder {
+    border: none;
+    margin-top: 0;
+}
+
+::-webkit-file-upload-button {
+    color: rgba(0, 0, 0, 0.7);
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    padding: 10px;
+    border: none;
+    outline:none;
+    width: 100%;
+}
+
+::-webkit-file-upload-button:hover {
+    box-shadow:0 0 8px 0 #9be15d;
 }
