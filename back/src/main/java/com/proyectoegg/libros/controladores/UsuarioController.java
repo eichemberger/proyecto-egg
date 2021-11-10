@@ -31,7 +31,7 @@ public class UsuarioController {
     @GetMapping("/registro")
     public String registrarUsuario(ModelMap model) {
         model.addAttribute("usuario", new Usuario());
-        return "registroForm";
+        return "registro";
     }
 
     @PostMapping("/registro")

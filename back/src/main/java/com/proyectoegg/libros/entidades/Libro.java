@@ -26,6 +26,7 @@ public class Libro implements Serializable {
     private Date fechaLimite;
     private Integer diasAnticipacion;
     private String descripcion;
+    private Boolean alta;
 
     public Libro() {
     }
@@ -40,6 +41,19 @@ public class Libro implements Serializable {
         this.fechaLimite = fechaLimite;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
+    }
+
+    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Boolean alta) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.materia = materia;
+        this.leido = leido;
+        this.obligatorio = obligatorio;
+        this.fechaLimite = fechaLimite;
+        this.diasAnticipacion = diasAnticipacion;
+        this.descripcion = descripcion;
+        this.alta = alta;
     }
 
     public String getId() {
@@ -114,10 +128,19 @@ public class Libro implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
     @Override
     public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + '}';
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", alta=" + alta + '}';
     }
+
 
    
     

@@ -27,7 +27,7 @@ public class LibroServicio {
     }
 
     @Transactional
-    public Libro editarLibro(String idLibro, String idMateria) throws ServiceException {
+    public Libro editarLibro(String idLibro) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(idLibro);
        if (resultado.isPresent()) {
            Libro libro = resultado.get();
@@ -94,7 +94,28 @@ public class LibroServicio {
             throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
     }
+    
+    @Transactional
+    public void eliminar(Libro libro){
+        try{
+            libroRepositorio.delete(libro);
+        }
+        catch(Exception e)
+        {System.out.println("No se pudo eliminar el libro");
+            System.out.println(e.getMessage());
+        }
+    }
 
+    @Transactional
+    public void darDeBaja(Libro libro){
+        try{
+            libro.setAlta(false);
+            libroRepositorio.save(libro);
+        } catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        
+    }
     public Libro buscarPorId(String id) {
         return libroRepositorio.getById(id);
     }
@@ -117,10 +138,12 @@ public class LibroServicio {
         
         
         for (Libro  libro : usuario.getLibros()) {
-            if(!libro.getLeido() && libro.getMateria().equals(materia)){
+            if(!libro.getLeido() && libro.getMateria().equals(materia) && libro.getAlta()){
                 libros.add(libro);
+                System.out.println(libro.getAlta());
             }
         }
+        
     return libros;}
 
 }
