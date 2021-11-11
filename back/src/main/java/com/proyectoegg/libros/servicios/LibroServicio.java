@@ -98,7 +98,7 @@ public class LibroServicio {
         return libroRepositorio.getLibrosLeidos(usuario);
     }
 
-    // VERIFICACIONES
+   // VERIFICACIONES
 
     public Libro verificarLibroId(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
