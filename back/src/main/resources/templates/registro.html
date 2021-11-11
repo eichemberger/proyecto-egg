@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../styles/formStyle.css"> 
+    <!-- <link rel="stylesheet" href="../styles/formStyle.css"> --> 
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet"/>
+
+    <title>Registro Usuario</title>
+</head>
+<body>
+    <nav>
+        <p class="primer-item">📚 Nombre app</p>
+        <p class="nav-item"><a href="#">Mi Perfil</a></p>
+        <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+    </nav>
+    <section class="sectionUsuario">
+        <h1 class="titulo">Registro de usuario:</h1>
+        <form th:action="@{/usuario/registro}" method="POST" th:object="${usuario}" enctype="multipart/form-data" autocomplete="off">
+            <fieldset>   
+                <legend class="formHeader"><span class="spanFormHeader">Nuevo usuario</span></legend>
+                <div class="container">
+                    <div>
+                        <label for="nombre">Nombre:</label> <br />
+                        <input class="input" type="text" name="nombre" th:field="*{nombre}" id="nombre" required="true" placeholder="Escriba aquí su nombre"/>
+                    </div>
+                    <div>
+                        <label for="email">Email:</label> <br />
+                        <input class="input" type="email" name="email" th:field="*{email}" id="email" required="true" placeholder="Escriba aquí su email"/>
+                    </div>
+                    <div>
+                        <label for="contrasenia">Contraseña:</label> <br />
+                        <input class="input" type="password" name="contrasenia" th:field="*{contrasenia}" id="contrasenia" required="true" placeholder="Escriba aquí su contraseña"/>
+                    </div>
+                  <div>
+                        <label for="confirmar-contrasenia">Confirme su contraseña:</label> <br />
+                        <input class="input" type="password" name="confirmar-contrasenia" id="confirmar-contrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
+                    </div>
+                    <div>
+                        <label for="archivo">Foto:</label> <br />
+                        <input class="input" type="file" name="archivo" id="archivo" th:value="*{foto}"/>
+                    </div>
+                    <span id="error-login">Las contraseñas no coinciden</span>
+                    <div>
+                        <button type="submit" class="fill" id="boton">Enviar</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+    <script src="../scripts/validacion.js"></script>
+</body>
+</html>

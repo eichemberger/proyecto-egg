@@ -1,24 +1,51 @@
 package com.proyectoegg.libros.entidades;
 
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-public class Usuario {
+@Entity
+public class Usuario implements Serializable {
+
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     private String nombre;
     private String email;
     private String contrasenia;
+    private Boolean alta;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Libro> libros;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Materia> materias;
+    @OneToOne
+    private Foto foto;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String nombre, String email, String contrasenia, List<Libro> libros) {
+    public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.contrasenia = contrasenia;
+        this.alta = alta;
         this.libros = libros;
+        this.materias = new ArrayList<>();
+        this.foto = foto;
     }
 
     public String getId() {
@@ -53,6 +80,14 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
     public List<Libro> getLibros() {
         return libros;
     }
@@ -61,10 +96,25 @@ public class Usuario {
         this.libros = libros;
     }
 
+    public List<Materia> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<Materia> materias) {
+        this.materias = materias;
+    }
+
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", libros=" + libros + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
     }
-    
-    
+
 }
