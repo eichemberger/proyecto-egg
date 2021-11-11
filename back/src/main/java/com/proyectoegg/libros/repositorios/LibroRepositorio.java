@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LibroRepositorio extends JpaRepository<Libro, String> {
 
-   @Query(value="SELECT l FROM Libro l WHERE l.usuario = :usuario")
+    @Query(value = "SELECT l FROM Libro l WHERE l.usuario = :usuario")
     ArrayList<Libro> buscarPorUsuarioId(@Param("usuario") Usuario usuario);
 
-    @Query(value="SELECT l FROM Libro l WHERE l.materia = :materia AND l.usuario = :usuario AND l.leido = false AND l.alta = true")
-    ArrayList<Libro> libroPorMateriaSinLeer(@Param("usuario") Usuario usuario, @Param("materia")String materia);
+    @Query(value = "SELECT l FROM Libro l WHERE l.materia = :materia AND l.usuario = :usuario AND l.leido = false AND l.alta = true")
+    ArrayList<Libro> libroPorMateriaSinLeer(@Param("usuario") Usuario usuario, @Param("materia") String materia);
 
     @Query("SELECT l FROM Libro l WHERE l.leido = true AND l.usuario = :usuario AND l.alta = true")
     ArrayList<Libro> getLibrosLeidos(@Param("usuario") Usuario usuario);
@@ -28,4 +28,7 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
     @Query(value = "DELETE FROM Libro l WHERE l.id= :id")
     void eliminarPorId(@Param("id") String id);
 
+    @Modifying
+    @Query("DELETE FROM Libro l WHERE l.materia =:materia AND l.leido=1")
+    void eliminarPorMateria(@Param("materia") String materia);
 }

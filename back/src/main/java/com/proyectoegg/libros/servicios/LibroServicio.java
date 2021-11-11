@@ -98,6 +98,11 @@ public class LibroServicio {
         return libroRepositorio.getLibrosLeidos(usuario);
     }
 
+    @Transactional
+    public void borrarLibrosPorMateria(String materia){
+        libroRepositorio.eliminarPorMateria(materia);
+    }
+    
    // VERIFICACIONES
 
     public Libro verificarLibroId(String id) throws ServiceException {
