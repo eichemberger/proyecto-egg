@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
-        <link
-            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-            rel="stylesheet"
-            />
-    </head>
-    <body>
-        <nav>
-            <p class="nombre-app primer-item">📚 Nombre app</p>
-            <img class="perfil-nav-foto" src="../assets/tom.jpg" alt="foto perfil" />
-            <p class="nav-item"><a href="#">Mi Perfil</a></p>
-            <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
-        </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav>
+      <p class="nombre-app primer-item">📚 Nombre app</p>
+      <img class="perfil-nav-foto" src="../assets/tom.jpg" alt="foto perfil" />
+      <p class="nav-item"><a href="#">Mi Perfil</a></p>
+      <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+    </nav>
 
-        <h1 class="titulo-tabla">Materias</h1>
-        <div th:replace="fragments/errorSuccess :: errorSuccess"></div>
-        <div th:each="materia  : ${materias}" class="container">
-            <p th:text="${materia.nombre}" class="item-materia"><a href="#">x</a></p>
-            <a class="eliminar-materia" th:href="@{/materias/eliminar/}+${materia.id}">❌</a>
-        </div>
+      <h1 class="titulo-tabla">Materias</h1>
 
-        <div class="botones">
-            <a th:href="@{/materias/agregar}" type="button" class="fill">Agregar</a>
-        </div>
-    </body>
+      <div th:each="materia  : ${materias}" class="container">
+        <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
+        <a class="eliminar-materia" th:href="@{/materias/eliminar/}+${materia.id}">❌</a>
+      </div>
+
+      <div class="botones">
+        <a th:href="@{/materias/agregar}" type="button" class="fill">Agregar</a>
+      </div>
+  </body>
 </html>

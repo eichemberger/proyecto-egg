@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,6 +67,13 @@ public class UsuarioController {
     public String perfil(ModelMap modelo, @ModelAttribute("usuario") Usuario usuario, HttpSession session) {
         usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuarioServicio.encontrarPorID(usuario.getId()));
+        return "perfil";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/perfil/{id}")
+    public String perfil(ModelMap modelo, @PathVariable String id) {
+        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
         return "perfil";
     }
 
