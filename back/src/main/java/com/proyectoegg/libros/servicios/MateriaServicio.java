@@ -5,6 +5,7 @@ import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.MateriaRepositorio;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,12 @@ public class MateriaServicio {
     }
 
     @Transactional
-    public Materia editar(String id, String nombre) throws ServiceException {
-        Optional<Materia> resultado = materiaRepositorio.findById(id);
+    public Materia editar(Materia materia) throws ServiceException {
+        Optional<Materia> resultado = materiaRepositorio.findById(materia.getId());
         if (resultado.isPresent()) {
-            Materia materia = resultado.get();
-            validar(nombre);
-            materia.setNombre(nombre);
+            Materia mat = resultado.get();
+            validar(materia.getNombre());
+            materia.setNombre(materia.getNombre());
             materia.setAlta(true);
             return materiaRepositorio.save(materia);
         } else {
@@ -58,6 +59,19 @@ public class MateriaServicio {
         }
     }
 
+    @Transactional
+    public void eliminarBD(Usuario usuario, Materia materia){
+        materiaRepositorio.eliminar(materia.getId(), usuario);
+    }
+    
+    public List<Materia> listarPorUsuario(Usuario usuario){
+        return materiaRepositorio.buscarPorUsuario(usuario);
+    }
+
+    public List<Materia> listarActivasPorUsuario(Usuario usuario){
+        return materiaRepositorio.buscarActivasPorUsuario(usuario);
+    }
+    
     public Materia encontrarPorID(String id) {
         return materiaRepositorio.getById(id);
     }

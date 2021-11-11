@@ -44,7 +44,7 @@ public class LibroController {
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", usuarioServicio.listarMateriasActivas(usuario));
+        model.addAttribute("materias", materiaServicio.listarActivasPorUsuario(usuario));
         model.addAttribute("libro", new Libro());
         return "agregar-libro";
     }
@@ -59,7 +59,7 @@ public class LibroController {
             libro.setUsuario(usuario);
             libroServicio.agregarLibro(libro);
             usuarioServicio.agregarLibro(usuario, libro);
-            model.addAttribute("materias", usuarioServicio.listarMateriasActivas(usuario));
+            model.addAttribute("materias", materiaServicio.listarActivasPorUsuario(usuario));
             return "redirect:/inicio";
         } catch (ServiceException e) {
             System.out.println(e.getMessage());

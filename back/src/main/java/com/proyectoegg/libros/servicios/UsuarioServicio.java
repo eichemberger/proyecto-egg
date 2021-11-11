@@ -113,10 +113,10 @@ public class UsuarioServicio implements UserDetailsService {
 
     //CARGANDO ENTIDADES DIRECTAMENTE
     @Transactional
-    public void agregarMateria(Usuario usuario, Materia materia) throws ServiceException {
+    public Usuario agregarMateria(Usuario usuario, Materia materia) throws ServiceException {
         try {
-            usuario.getMaterias().add(materia);
-            usuarioRepositorio.save(usuario);
+            usuario.setMaterias(materiaServicio.listarActivasPorUsuario(usuario));
+            return usuarioRepositorio.save(usuario);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new ServiceException("La materia indicada no ha podido ser incorporada al usuario");
@@ -171,17 +171,21 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void darDeBajaMateria(Usuario usuario, Materia materia) throws ServiceException {
+    public void darDeBajaMateria(Usuario usuario) throws ServiceException {
         try {
-            for (Materia aux : usuario.getMaterias()) {
-                if (aux.getNombre().equals(materia.getNombre())) {
-                    aux.setAlta(false);
-                }
-            }
+            usuario.setMaterias(materiaServicio.listarPorUsuario(usuario));
             usuarioRepositorio.save(usuario);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new ServiceException("La materia indicada no ha podido ser eliminada del usuario");
+        }
+    }
+
+    public void guardarMateriasUsuario(Usuario usuario) {
+        try {
+            usuario.setMaterias(materiaServicio.listarPorUsuario(usuario));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -360,16 +364,6 @@ public class UsuarioServicio implements UserDetailsService {
         return usuario.getMaterias();
     }
 
-    public ArrayList<Materia> listarMateriasActivas(Usuario usuario) {
-        ArrayList<Materia> materiasActivas = new ArrayList<>();
-        for (Materia m : usuario.getMaterias()) {
-            if (m.getAlta()) {
-                materiasActivas.add(m);
-            }
-        }
-        return materiasActivas;
-    }
-
     public boolean materiaYaExistente(Materia materia, Usuario usuario) {
         for (Materia aux : usuario.getMaterias()) {
             if (aux.getNombre().equalsIgnoreCase(materia.getNombre())) {
@@ -379,15 +373,15 @@ public class UsuarioServicio implements UserDetailsService {
         return false;
     }
 
-        public boolean materiaYaExistenteYActiva(Materia materia, Usuario usuario) {
+    public boolean materiaYaExistenteYActiva(Materia materia, Usuario usuario) {
         for (Materia aux : usuario.getMaterias()) {
-            if (aux.getNombre().equalsIgnoreCase(materia.getNombre()) && aux.getAlta()==true) {
+            if (aux.getNombre().equalsIgnoreCase(materia.getNombre()) && aux.getAlta() == true) {
                 return true;
             }
         }
         return false;
     }
-    
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
