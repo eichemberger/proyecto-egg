@@ -1,6 +1,5 @@
 package com.proyectoegg.libros.controladores;
 
-import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.servicios.MateriaServicio;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,18 +29,18 @@ public class UsuarioController {
     @GetMapping("/registro")
     public String registrarUsuario(ModelMap model) {
         model.addAttribute("usuario", new Usuario());
-        return "registroForm";
+        return "registro";
     }
 
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, MultipartFile archivo) {
         try {
             usuarioServicio.guardar(usuario, archivo);
-            return "redirect:/inicio";
+            return "redirect:/";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-            return "registroForm";
+            return "registro";
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -62,21 +60,6 @@ public class UsuarioController {
             return "editar-usuario";
         }
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/inicio")
-    public String inicio(HttpSession session, ModelMap model) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", usuario.getMaterias());
-//        model.addAttribute("materias", materiaServicio.listarTodas());
-        return "inicio.html";
-    }
-
-//    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
-//    @GetMapping("/inicio")
-//    public String inicio() {
-//        return "inicio.html";
-//    }
     
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/perfil")

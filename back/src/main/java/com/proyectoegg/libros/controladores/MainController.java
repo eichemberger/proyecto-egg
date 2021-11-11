@@ -1,10 +1,11 @@
 package com.proyectoegg.libros.controladores;
 
+import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.servicios.MateriaServicio;
+import com.proyectoegg.libros.servicios.UsuarioServicio;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ public class MainController {
 
     @Autowired
     MateriaServicio materiaServicio;
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("")
     public String index() {
@@ -32,29 +35,27 @@ public class MainController {
         if (email != null) {
             model.addAttribute("email", email);
         }
-
         if (nombre != null) {
             model.addAttribute("nombre", nombre);
         }
-
         if (logout != null) {
             model.addAttribute("logout", "Ha salido correctamente del sitio");
         }
-
         return "iniciar-sesion";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/logincheck")
     public String logincheck() {
         return "index";
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/logout")
     public String logout() {
         return "index";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/info")
     public String info() {
         try {
@@ -64,16 +65,4 @@ public class MainController {
         }
         return null;
     }
-
-   @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/inicio")
-    public String inicioWeb(ModelMap model) {
-       model.addAttribute("materias", materiaServicio.listarTodas());
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USUARIO_REGISTRADO"))) {
-            System.out.println("funcionando");
-        }
-        return "inicio";
-    }
-
 }

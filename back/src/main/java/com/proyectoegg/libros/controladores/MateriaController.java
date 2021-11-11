@@ -18,33 +18,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/materia")
+@RequestMapping("/materias")
 public class MateriaController {
 
     @Autowired
     MateriaServicio materiaServicio;
-
     @Autowired
     UsuarioServicio usuarioServicio;
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("")
+    public String mostrarMaterias(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("materias",  materiaServicio.listarActivasPorUsuario(usuario));
+        return "inicio";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarMateria(ModelMap model) {
         model.addAttribute("materia", new Materia());
-        return "materias.html";
+        return "materias";
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarMateria(ModelMap model, @ModelAttribute("materia") Materia materia, HttpSession session) {
         try {
-            materiaServicio.agregarMateria(materia);
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            usuarioServicio.agregarMateria(usuario, materia);
-            return "redirect:/usuario/inicio";
+            if (usuarioServicio.materiaYaExistenteYActiva(materia, usuario)) {
+                System.out.println("Error La materia que intenta agregar ya existe en el usuario");
+                model.addAttribute("error", "La materia que intenta agregar ya se encuentra en el usuario");
+                return "materias";
+            } else {
+                materia.setAlta(true);
+                materia.setUsuario(usuario);
+                materiaServicio.agregarMateria(materia);
+                usuarioServicio.agregarMateria(usuario, materia);
+                return "redirect:/materias";
+            }
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
-            model.addAttribute(e.getMessage());
+            model.addAttribute("error", e.getMessage());
             return "materias";
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -52,37 +68,83 @@ public class MateriaController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar")
-    public String editarMateria() {
+    public String editarMateria(ModelMap model, @RequestParam("materia.id") String idMateria) {
+        model.addAttribute("materia", materiaServicio.encontrarPorID(idMateria)); 
         return "materia-editar";
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/editar")
     public String editarMateria(ModelMap model, @ModelAttribute("materia") Materia materia) {
         try {
-            materiaServicio.editar(materia.getId(), materia.getNombre());
-            return "redirect:/usuario/inicio";
+            materiaServicio.editar(materia);
+            return "redirect:/materias";
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
             return "materia-editar";
         }
     }
 
-    @PreAuthorize("hasAuthority('USUARIO_REGISTRADO')")
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/{materia.id}")
-    public String eliminarMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
+    public String darDeBajaMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            usuarioServicio.eliminarMateria(id, usuario.getId());
-            materiaServicio.eliminar(id);
-            return "redirect:/usuario/inicio";
+            Materia materia = materiaServicio.encontrarPorID(id);
+            if (materiaServicio.materiaConLibrosSinLeer(materia, usuario)) {
+                System.out.println("No se puede eliminar una materia con libros sin leer.");
+                model.addAttribute("error", "No se puede eliminar una materia con libros sin leer");
+                return "redirect:/materias";
+            } else {
+                materiaServicio.darDeBaja(materia);
+                usuarioServicio.guardarMateriasUsuario(usuario);
+                return "redirect:/materias";
+            }
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-             return "redirect:/usuario/inicio";
+            return "redirect:/materias";
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/validarEliminar/{materia.id}")
+    public String validarMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            Materia materia = materiaServicio.encontrarPorID(id);
+            if (materiaServicio.materiaConLibrosSinLeer(materia, usuario)) {
+                System.out.println("Esta intentando eliminar una materia que tiene libros asociados sin leer.");
+                model.addAttribute("alerta", "Esta intentando eliminar una materia que tiene libros asociados sin leer");
+//                return "redirect:/inicio";
+
+                //COMO ATRAPAR LA CONFIRMACION? 
+                return "/eliminarDefinitivamente/{materia.id}";
+            } else {
+                return "redirect:/materias";
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/materias";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/eliminarDefinitivamente/{materia.id}")
+    public String eliminarMateria(ModelMap model, @PathVariable("materia.id") String id, HttpSession session) {
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+            Materia materia = materiaServicio.encontrarPorID(id);
+            materiaServicio.eliminarBD(usuario, materia);
+            usuarioServicio.guardarMateriasUsuario(usuario);
+            return "redirect:/materias";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/materias";
+        }
+    }
 }

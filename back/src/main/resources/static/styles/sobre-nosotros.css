@@ -46,3 +46,22 @@ body {
     text-align: center;
 }
 
+
+
+@media(max-width:480px){
+
+
+    .titulo{
+
+        font-size: 14px;
+       
+      
+    }
+
+
+    .video1{
+        display:none;
+    }
+
+
+}
