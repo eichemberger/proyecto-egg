@@ -19,6 +19,7 @@ import java.util.List;
 @Repository
 public interface LibroRepositorio extends JpaRepository<Libro, String> {
 
+    // *
     @Query(value="SELECT l FROM Libro l WHERE l.usuario = :usuario")
     ArrayList<Libro> buscarPorUsuarioId(@Param("usuario") Usuario usuario);
 
