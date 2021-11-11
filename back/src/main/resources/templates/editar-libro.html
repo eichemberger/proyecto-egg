@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../styles/formStyle.css">
+    <!-- <link rel="stylesheet" href="../styles/formStyle.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet"/>
+
+    <title>Agregar Libro</title>
+</head>
+<body>
+<nav>
+    <!--        TODO: Agregar Links-->
+    <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
+    <p class="nav-item"><a href="#">Mi Perfil</a></p>
+    <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+</nav>
+<section th:object="${libro}">
+    <h1 class="titulo">Agregar Libro:</h1>
+    <form th:action="@{/libros/editar/}+${libro.id}" method="POST"  autocomplete="off">
+        <fieldset>
+            <legend class="formHeader">Nuevo libro</legend>
+            <div class="container">
+                <div>
+                    <label for="titulo">Título:</label> <br />
+                    <input class="input" type="text" name="titulo" th:field="*{titulo}" id="titulo" required="true" placeholder="Escriba aquí el título"/>
+                </div>
+                <div>
+                    <label for="autor">Autor:</label> <br />
+                    <input class="input " type="text" name="autor" th:field="*{autor}" id="autor" required="true" placeholder="Escriba aquí el autor"/>
+                </div>
+
+                <div>
+                    <label for="descripcion">Descripción:</label> <br />
+                    <textarea class="input" name="descripcion" th:field="*{descripcion}" id="descripcion" cols="20" rows="2" placeholder="Escriba aquí la descripción"></textarea>
+                </div>
+                <div>
+                    <label for="fechaLimite">Fecha de Alarma:</label> <br />
+                    <input class="input" type="date" name="fechaLimite" th:field="*{fechaLimite}" id="fechaLimite" required="true"/>
+                </div>
+                <div>
+                    <label for="diasAnticipacion">Anticipación de alarma:</label> <br />
+                    <select class="input" type="number" name="diasAnticipacion" th:field="*{diasAnticipacion}" id="diasAnticipacion" required="true" >
+                        <option value="2" selected="true">2 días</option>
+                        <option value="5">5 días</option>
+                        <option value="7">7 días</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="obligatorio">¿Lectura obligatoria?</label> <br />
+                    <select class="input" type="text" name="obligatorio" th:field="*{obligatorio}" id="obligatorio" required="true" >
+                        <option value="true">Si</option>
+                        <option value="false" selected="true">No</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="fill">Enviar</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</section>
+</body>
+</html>

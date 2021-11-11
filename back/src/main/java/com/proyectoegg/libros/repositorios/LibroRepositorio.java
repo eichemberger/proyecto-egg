@@ -1,25 +1,18 @@
 package com.proyectoegg.libros.repositorios;
 
 import com.proyectoegg.libros.entidades.Libro;
-//import java.util.ArrayList;
-import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
+import java.util.ArrayList;
 import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public interface LibroRepositorio extends JpaRepository<Libro, String> {
 
-    @Query(value="SELECT l FROM Libro l WHERE l.usuario = :usuario")
+   @Query(value="SELECT l FROM Libro l WHERE l.usuario = :usuario")
     ArrayList<Libro> buscarPorUsuarioId(@Param("usuario") Usuario usuario);
 
     @Query(value="SELECT l FROM Libro l WHERE l.materia = :materia AND l.usuario = :usuario AND l.leido = false AND l.alta = true")

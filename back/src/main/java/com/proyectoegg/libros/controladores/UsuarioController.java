@@ -82,5 +82,12 @@ public class UsuarioController {
         modelo.put("usuario", usuarioServicio.buscarPorId(usuario.getId()));
         return "perfil";
     }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/perfil/{id}")
+    public String perfil(ModelMap modelo, @PathVariable String id) {
+        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
+        return "perfil";
+    }
 
 }

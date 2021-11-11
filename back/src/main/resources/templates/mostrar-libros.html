@@ -1,62 +1,61 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Libros</title>
-        <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-        <link href="../styles/tabla-style.css" rel="stylesheet" type="text/css" />
-        <link
-            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-            rel="stylesheet"
-            />
-    </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libros</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link href="../styles/tabla-style.css" rel="stylesheet" type="text/css" />
+  <link
+          href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+          rel="stylesheet"
+  />
+</head>
 
-    <body>
-        <nav>
-            <p class="nombre-app primer-item">📚 Nombre app</p>
-            <img class="perfil-nav-foto" src="assets/tom.jpg" alt="foto perfil" />
-            <p class="nav-item"><a href="#">Mi Perfil</a></p>
-            <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
-        </nav>
+<body>
+<nav>
+  <p class="nombre-app primer-item">📚 Nombre app</p>
+  <img class="perfil-nav-foto" src="assets/tom.jpg" alt="foto perfil" />
+  <p class="nav-item"><a href="#">Mi Perfil</a></p>
+  <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+</nav>
 
-        <h1 class="titulo-tabla">{MATERIA}</h1>
+<h1 class="titulo-tabla" th:text="${materia}"></h1>
 
-        <div class="ordenar-materia">
-            <span><a href="#">↓ ORDENAR</a></span>
-        </div>
-        <p th:if="${libros.isEmpty}">No hay libros.</p>
+<div class="ordenar-materia">
+  <span><a href="#">↓ ORDENAR</a></span>
+</div>
+<p th:if="${libros.isEmpty}">No hay libros.</p>
 
-        <table>
-            <thead class="theader">
-                <tr class="container">
-                    <th>Titulo</th>
-                    <th>Obligatorio</th>
-                    <th>Días restantes</th>
-                    <th>Leído</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each=" libro : ${libros}" scope="row">
-                    <td th:text="${libro.titulo}"></td>
-                    <td th:text="${libro.obligatorio}"></td>
-                    <!-- TODO:  dias?  -->
-                    <!--    <td th:text="${libro.dias}"></td>-->
-                    <td th:text= "${libro.leido}"></td>
-                    <!--    Boton para marcar libro como leido-->
-                    <td><a th:href="@{/libros/editar/}+${libro.id}">✅</a></td>
-                    <td><a th:href="@{/libros/eliminar/}+${libro.id}">❌</a></td>
-                </tr>
+<table>
+  <thead class="theader">
+  <tr class="container">
+    <th>Titulo</th>
+    <th>Obligatorio</th>
+    <th>Días restantes</th>
+    <th>Leído</th>
+    <th>Eliminar</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each=" libro : ${libros}" scope="row">
+    <td th:text="${libro.titulo}"></td>
+    <td th:text="${libro.obligatorio}"></td>
+    <!-- TODO:  dias?  -->
+<!--    <td th:text="${libro.dias}"></td>-->
+    <td th:text= "${libro.leido}"></td>
+    <td><a th:href="@{/libros/}+${libro.materia}+'/leido/'+${libro.id}">✅</a></td>
+    <td><a th:href="@{/libros/eliminar/}+${libro.id}">❌</a></td>
+  </tr>
 
-            </tbody>
-        </table>
+  </tbody>
+</table>
 
-        <div class="botones">
-            <!--  Volver a Materias (inicio)-->
-            <a type="button" class="fill-agg" th:href="@{/materia}"?>Volver &#8629;</a>
-            <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
-        </div>
-    </body>
+<div class="botones">
+<!--  Volver a Materias (inicio)-->
+  <a type="button" class="fill-agg" th:href="@{/materia}"?>Volver &#8629;</a>
+  <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
+</div>
+</body>
 </html>

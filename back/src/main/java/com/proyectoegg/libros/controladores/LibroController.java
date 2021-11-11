@@ -1,3 +1,4 @@
+
 package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.entidades.Libro;
@@ -73,7 +74,7 @@ public class LibroController {
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", usuario.getMaterias());
+        model.addAttribute("materias", materiaServicio.listarActivasPorUsuario(usuario));
         model.addAttribute("libro", new Libro());
 
         return "agregar-libro";
@@ -102,7 +103,7 @@ public class LibroController {
         if(getLibrosUsuario(session).contains(libro)){
             model.addAttribute("libro", libro);
         } else {
-            model.addAttribute("error", "El libro solicitado no existe");
+             model.addAttribute("error", "El libro solicitado no existe");
             return "inicio";
         }
         return "editar-libro";
@@ -119,7 +120,7 @@ public class LibroController {
                 model.addAttribute("error", e.getMessage());
             }
         }
-        return "redirect:/materia";
+        return "redirect:/materias";
     }
 
 // ====================== ELIMINAR LIBRO =============================
@@ -163,5 +164,4 @@ public class LibroController {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         return libroServicio.buscarPorUsuarioId(usuario);
     }
-
 }
