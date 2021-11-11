@@ -65,13 +65,4 @@ public class MainController {
         }
         return null;
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/inicio")
-    public String inicioWeb(ModelMap model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("materias", materiaServicio.listarActivasPorUsuario(usuario));
-        return "inicio";
-    }
-
 }

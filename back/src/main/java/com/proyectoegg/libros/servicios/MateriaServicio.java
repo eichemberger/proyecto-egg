@@ -60,30 +60,32 @@ public class MateriaServicio {
     }
 
     @Transactional
-    public void eliminarBD(Usuario usuario, Materia materia){
+    public void eliminarBD(Usuario usuario, Materia materia) {
         materiaRepositorio.eliminar(materia.getId(), usuario);
-    }
-    
-    public List<Materia> listarPorUsuario(Usuario usuario){
-        return materiaRepositorio.buscarPorUsuario(usuario);
-    }
-
-    public List<Materia> listarActivasPorUsuario(Usuario usuario){
-        return materiaRepositorio.buscarActivasPorUsuario(usuario);
-    }
-    
-    public Materia encontrarPorID(String id) {
-        return materiaRepositorio.getById(id);
-    }
-
-    public Materia encontrarPorNombre(String nombre) {
-        return materiaRepositorio.buscarPorNombre(nombre);
     }
 
     public void validar(String nombre) throws ServiceException, ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("Debe ingresar el nombre de una materia");
         }
+    }
+
+    
+    //BUSQUEDAS
+    public List<Materia> listarPorUsuario(Usuario usuario) {
+        return materiaRepositorio.buscarPorUsuario(usuario);
+    }
+
+    public List<Materia> listarActivasPorUsuario(Usuario usuario) {
+        return materiaRepositorio.buscarActivasPorUsuario(usuario);
+    }
+
+    public Materia encontrarPorID(String id) {
+        return materiaRepositorio.getById(id);
+    }
+
+    public Materia encontrarPorNombre(String nombre) {
+        return materiaRepositorio.buscarPorNombre(nombre);
     }
 
     public boolean materiaConLibros(Materia materia, Usuario usuario) {

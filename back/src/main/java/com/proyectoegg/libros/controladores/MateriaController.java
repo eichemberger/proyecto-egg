@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/materia")
+@RequestMapping("/materias")
 public class MateriaController {
 
     @Autowired
@@ -27,10 +27,18 @@ public class MateriaController {
     UsuarioServicio usuarioServicio;
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("")
+    public String mostrarMaterias(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("materias",  materiaServicio.listarActivasPorUsuario(usuario));
+        return "inicio";
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarMateria(ModelMap model) {
         model.addAttribute("materia", new Materia());
-        return "materias.html";
+        return "materias";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
@@ -40,14 +48,14 @@ public class MateriaController {
             Usuario usuario = (Usuario) session.getAttribute("usuariosession");
             if (usuarioServicio.materiaYaExistenteYActiva(materia, usuario)) {
                 System.out.println("Error La materia que intenta agregar ya existe en el usuario");
-                model.addAttribute("error", "La materia que intenta agregar ya existe en el usuario");
+                model.addAttribute("error", "La materia que intenta agregar ya se encuentra en el usuario");
                 return "materias";
             } else {
                 materia.setAlta(true);
                 materia.setUsuario(usuario);
                 materiaServicio.agregarMateria(materia);
                 usuarioServicio.agregarMateria(usuario, materia);
-                return "redirect:/inicio";
+                return "redirect:/materias";
             }
         } catch (ServiceException e) {
             System.out.println(e.getMessage());
@@ -71,7 +79,7 @@ public class MateriaController {
     public String editarMateria(ModelMap model, @ModelAttribute("materia") Materia materia) {
         try {
             materiaServicio.editar(materia);
-            return "redirect:/usuario/inicio";
+            return "redirect:/materias";
         } catch (ServiceException e) {
             model.addAttribute(e.getMessage());
             return "materia-editar";
@@ -87,16 +95,16 @@ public class MateriaController {
             if (materiaServicio.materiaConLibrosSinLeer(materia, usuario)) {
                 System.out.println("No se puede eliminar una materia con libros sin leer.");
                 model.addAttribute("error", "No se puede eliminar una materia con libros sin leer");
-                return "redirect:/inicio";
+                return "redirect:/materias";
             } else {
                 materiaServicio.darDeBaja(materia);
-                usuarioServicio.darDeBajaMateria(usuario);
-                return "redirect:/inicio";
+                usuarioServicio.guardarMateriasUsuario(usuario);
+                return "redirect:/materias";
             }
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-            return "redirect:/inicio";
+            return "redirect:/materias";
         }
     }
 
@@ -114,12 +122,12 @@ public class MateriaController {
                 //COMO ATRAPAR LA CONFIRMACION? 
                 return "/eliminarDefinitivamente/{materia.id}";
             } else {
-                return "redirect:/inicio";
+                return "redirect:/materias";
             }
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-            return "redirect:/inicio";
+            return "redirect:/materias";
         }
     }
 
@@ -131,11 +139,11 @@ public class MateriaController {
             Materia materia = materiaServicio.encontrarPorID(id);
             materiaServicio.eliminarBD(usuario, materia);
             usuarioServicio.guardarMateriasUsuario(usuario);
-            return "redirect:/inicio";
+            return "redirect:/materias";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
-            return "redirect:/inicio";
+            return "redirect:/materias";
         }
     }
 }
