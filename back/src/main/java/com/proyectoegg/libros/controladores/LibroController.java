@@ -33,7 +33,7 @@ public class LibroController {
         this.materiaServicio = materiaServicio;
     }
 
-    // MUESTRA TODOS LOS LIBROS *
+    // MUESTRA TODOS LOS LIBROS
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping(value={"/", ""})
     public String listaLibros() {

@@ -30,7 +30,7 @@ public class LibroServicio {
         return libroRepositorio.getById(id);
     }
 
-    // AGREGAR LIBRO
+    // AGREGAR
 
     @Transactional
     public Libro agregarLibro(Libro libro) throws ServiceException {
