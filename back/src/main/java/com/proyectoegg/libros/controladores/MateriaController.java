@@ -30,6 +30,7 @@ public class MateriaController {
     @GetMapping("")
     public String mostrarMaterias(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("usuario", usuario);
         model.addAttribute("materias",  materiaServicio.listarActivasPorUsuario(usuario));
         return "inicio";
     }

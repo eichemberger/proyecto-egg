@@ -36,7 +36,7 @@ public class UsuarioController {
     public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, MultipartFile archivo) {
         try {
             usuarioServicio.guardar(usuario, archivo);
-            return "redirect:/inicio";
+            return "redirect:/";
         } catch (ServiceException | IOException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
