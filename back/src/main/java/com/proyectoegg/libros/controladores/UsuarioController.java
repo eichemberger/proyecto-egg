@@ -49,29 +49,29 @@ public class UsuarioController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/editar")
-    public String editarUsuario(ModelMap model, HttpSession session) throws ServiceException {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        if (usuarioServicio.verificarUsuarioId(usuario.getId()) != null) {
+    @GetMapping("/editar/{id}")
+    public String editarUsuario(@PathVariable("id") String id, ModelMap model, HttpSession session) throws ServiceException, IOException {
+         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        if(usuarioServicio.listarTodos().contains(usuario)){
             model.addAttribute("usuario", usuario);
-            return "registro";
         } else {
-            model.addAttribute("error", "El usuario no existe");
-            return "registro";
+             model.addAttribute("error", "El usuario solicitado no existe");
+            return "inicio";
         }
+        return "editar-usuario";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @PostMapping("/editar")
-    public String editarUsuario(ModelMap model, HttpSession session, @ModelAttribute("usuario") Usuario usuario) throws ServiceException, IOException {
-    
-        if (usuarioServicio.verificarUsuarioId(usuario.getId()) != null) {
-            usuarioServicio.editar(usuario);
-            return "inicio";
-        } else {
-            model.addAttribute("error", "El usuario no existe");
-            return "inicio";
-        }
+    @PostMapping("/editar/{id}")
+    public String editarUsuario(@PathVariable("id") String id, ModelMap model, HttpSession session, @ModelAttribute("usuario") Usuario usuario) throws ServiceException, IOException {
+        try {
+                usuarioServicio.editar(usuario, id);
+                
+            } catch (ServiceException e){
+                model.addAttribute("error", e.getMessage());
+               
+            }
+        return "redirect:/materias";
 
     }
 
@@ -86,7 +86,7 @@ public class UsuarioController {
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/perfil/{id}")
     public String perfil(ModelMap modelo, @PathVariable String id) {
-        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
+        modelo.put("usuario", usuarioServicio.buscarPorId(id));
         return "perfil";
     }
 

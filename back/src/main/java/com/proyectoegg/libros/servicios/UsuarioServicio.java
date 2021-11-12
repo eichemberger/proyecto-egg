@@ -60,9 +60,9 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario editar(Usuario usuario) throws ServiceException, IOException {
-            Usuario usuarioEditar = verificarUsuarioId(usuario.getId());
-//            validar(usuario.getNombre(), usuario.getEmail(), usuario.getContrasenia());
+    public Usuario editar(Usuario usuario, String id) throws ServiceException, IOException {
+            Usuario usuarioEditar = verificarUsuarioId(id);
+            validarEdicion(usuario.getNombre(), usuario.getEmail(),usuarioEditar.getEmail(), usuario.getContrasenia());
             usuarioEditar.setNombre(usuario.getNombre());
             usuarioEditar.setEmail(usuario.getEmail());
             usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
@@ -171,6 +171,46 @@ public class UsuarioServicio implements UserDetailsService {
 //        }
     }
 
+    private void validarEdicion(String nombre, String email, String emailViejo, String contrasenia) throws ServiceException {
+        if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
+            throw new ServiceException("El nombre del usuario no puede estar vacío");
+        }
+
+//        if (usuarioRepositorio.buscarPorNombre(nombre) != null) {
+//            throw new ServiceException("Ya existe un usuario registrado con ese nombre");
+//        }
+        if (email.isEmpty() || email == null || nombre.equals(" ")) {
+            throw new ServiceException("El email no puede estar vacío");
+        }
+
+        if (!(email.contains("@")) || nombre.contains("  ")) {
+            throw new ServiceException("Por favor, verifique que su email esta escrito correctamente");
+        }
+
+        if (usuarioRepositorio.buscarPorEmail(email) != null && !email.equals(emailViejo)) {
+            throw new ServiceException("El email ingresado ya se encuentra registrado");
+        }
+
+        if (contrasenia.isEmpty() || contrasenia == null || contrasenia.contains(" ")) {
+            throw new ServiceException("La contraseña no puede estar vacía");
+        }
+
+        if (contrasenia.length() < 8 || contrasenia.length() > 20) {
+            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
+        }
+
+//        if (contrasenia2.isEmpty() || contrasenia2 == null || contrasenia2.contains(" ")) {
+//            throw new ServiceException("La contraseña no puede estar vacía");
+//        }
+//
+//        if (contrasenia2.length() < 8 || contrasenia2.length() > 20) {
+//            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
+//        }
+//
+//        if (!contrasenia.equals(contrasenia2)) {
+//            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
+//        }
+    }
     //BUSQUEDAS
     
     public Usuario buscarPorId(String id) {
