@@ -83,15 +83,10 @@ public class UsuarioServicio implements UserDetailsService {
 //            }
             return usuarioRepositorio.save(usuarioEditar);}
 
-
-    public void eliminar(String id) throws ServiceException {
-        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
-        if (resultado.isPresent()) {
-            Usuario usuario = resultado.get();
-            usuario.setAlta(Boolean.FALSE);
-        } else {
-            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
-        }
+    @Transactional
+    public void eliminarDefinitivo(String id) throws ServiceException {
+        verificarUsuarioId(id);
+        usuarioRepositorio.eliminarPorId(id);
     }
 
     @Transactional

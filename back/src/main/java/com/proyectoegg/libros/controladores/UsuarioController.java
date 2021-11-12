@@ -1,7 +1,10 @@
 package com.proyectoegg.libros.controladores;
 
+import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
+import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
@@ -26,6 +29,9 @@ public class UsuarioController {
 
     @Autowired
     MateriaServicio materiaServicio;
+    
+    @Autowired 
+    LibroServicio libroServicio;
 
     @GetMapping("/registro")
     public String registrarUsuario(ModelMap model) {
@@ -73,6 +79,43 @@ public class UsuarioController {
             }
         return "redirect:/materias";
 
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/eliminar/definitivo/{id}")
+    public String eliminarDefinitivo(@PathVariable String id, ModelMap model, HttpSession session) throws ServiceException{
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        
+        //Validación muy primitiva para tener que estar loggeado en la cuenta que vas a borrar
+        System.out.println("id usuario sesion: "+usuario.getId());
+        System.out.println("id que recibe: "+id);
+        if(usuario.getId().equals(id)){
+        try {
+            for (Libro libro : usuario.getLibros()) {
+                libroServicio.eliminarDefinitivo(libro.getId());
+            }
+            
+        } catch (ServiceException e){
+            model.addAttribute("error", e.getMessage());
+        }
+        try {
+            for (Materia materia : usuario.getMaterias()) {
+                //Ver después el método de borrar materia
+                materiaServicio.eliminar(materia.getId());
+            }
+            
+        } catch (ServiceException e){
+            model.addAttribute("error", e.getMessage());
+        }
+        try {
+            usuarioServicio.eliminarDefinitivo(id);
+            } catch (ServiceException e){
+            model.addAttribute("error", e.getMessage());
+        }
+        return "redirect:/";
+    } else{
+            throw new ServiceException("No se pudo eliminar el usuario");
+    }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
