@@ -44,7 +44,7 @@ public class Usuario implements Serializable {
         this.contrasenia = contrasenia;
         this.alta = alta;
         this.libros = libros;
-        this.materias = new ArrayList<>();
+        this.materias = materias;
         this.foto = foto;
     }
 
@@ -114,7 +114,9 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", alta=" + alta + ", libros=" + libros + ", materias=" + materias + ", foto=" + foto + '}';
     }
+
+  
 
 }
