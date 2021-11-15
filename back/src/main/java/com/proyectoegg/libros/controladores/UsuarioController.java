@@ -1,42 +1,42 @@
 package com.proyectoegg.libros.controladores;
 
-import com.proyectoegg.libros.entidades.Libro;
-import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
-import com.proyectoegg.libros.servicios.LibroServicio;
+import com.proyectoegg.libros.servicios.EmailService;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
-import javax.servlet.http.HttpSession;
+
+import com.proyectoegg.libros.validacion.UsuarioValidador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-    @Autowired
     UsuarioServicio usuarioServicio;
-
-    @Autowired
     MateriaServicio materiaServicio;
+    UsuarioValidador usuarioValidador;
 
     @Autowired
-    LibroServicio libroServicio;
+    public UsuarioController(UsuarioServicio usuarioServicio, MateriaServicio materiaServicio, UsuarioValidador usuarioValidador) {
+        this.usuarioServicio = usuarioServicio;
+        this.materiaServicio = materiaServicio;
+        this.usuarioValidador = usuarioValidador;
+    }
 
-    @ModelAttribute("usuario")
-    public Usuario getUsuario(HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        return usuario;
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.addValidators(usuarioValidador);
     }
 
     @GetMapping("/registro")
@@ -46,28 +46,33 @@ public class UsuarioController {
     }
 
     @PostMapping("/registro")
-    public String registrarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, MultipartFile archivo) {
+    public String registrarUsuario(ModelMap model, @Valid Usuario usuario, BindingResult result, MultipartFile archivo) {
+
+        if(result.hasErrors()){
+            return "registro";
+        }
+
         try {
             usuarioServicio.guardar(usuario, archivo);
-            return "redirect:/";
-        } catch (ServiceException | IOException e) {
-            model.addAttribute("error", e.getMessage());
-            System.out.println(e.getMessage());
+        } catch (ServiceException e){
+            model.addAttribute("error", e);
             return "registro";
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
-        return null;
+
+        return "redirect:/login";
+
     }
 
-    @GetMapping("/editar/{id}")
-    public String editarUsuario(@PathVariable("id") String id, ModelMap model, HttpSession session) throws ServiceException, IOException {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        if (usuarioServicio.listarTodos().contains(usuario)) {
-            model.addAttribute("error", "El usuario solicitado no existe");
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/editar")
+    public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario) {
+        try {
+            usuarioServicio.editar(usuario);
             return "inicio";
+        } catch (ServiceException | IOException e) {
+            model.addAttribute("error", e.getMessage());
+            return "editar-usuario";
         }
-        return "editar-usuario";
     }
 
     @PostMapping("/editar/{id}")
@@ -82,20 +87,12 @@ public class UsuarioController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
+    @GetMapping("/perfil/{id}")
+    public String perfil(ModelMap modelo, @PathVariable String id) {
+        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
         return "perfil";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-//    @GetMapping("/perfil/{id}")
-//    public String perfil(ModelMap modelo, @PathVariable String id, HttpSession session) {
-////        modelo.put("usuario", usuarioServicio.buscarPorId(id));
-//
-//       Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-//        modelo.put("usuario", usuario);
-//        return "perfil";
-//    }
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/definitivo/{id}")
     public String eliminarDefinitivo(@PathVariable String id, ModelMap model, HttpSession session) throws ServiceException {
@@ -132,5 +129,6 @@ public class UsuarioController {
             throw new ServiceException("No se pudo eliminar el usuario");
         }
     }
+
 
 }

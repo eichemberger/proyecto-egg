@@ -1,6 +1,7 @@
 package com.proyectoegg.libros.servicios;
 
 import com.proyectoegg.libros.entidades.Libro;
+import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
 import com.proyectoegg.libros.repositorios.LibroRepositorio;
@@ -20,52 +21,51 @@ public class LibroServicio {
     public LibroServicio(LibroRepositorio libroRepositorio) {
         this.libroRepositorio = libroRepositorio;
     }
-    // BUSQUEDA
 
-    public List<Libro> buscarPorUsuarioId(Usuario usuario) {
-        return libroRepositorio.buscarPorUsuarioId(usuario);
+    // BUSCAR LIBRO(S)
+
+    public List<Libro> getLibrosUsuario(Usuario usuario) {
+        return libroRepositorio.findByUsuario(usuario);
     }
 
-    public Libro buscarPorId(String id) {
-        return libroRepositorio.getById(id);
+    public Libro getLibro(String id) throws ServiceException {
+        Optional<Libro> libro = libroRepositorio.findById(id);
+        if(libro.isPresent()){
+            return libro.get();
+        } else {
+            throw new ServiceException("El libro no existe");
+        }
+
     }
 
     // AGREGAR
 
     @Transactional
-    public Libro agregarLibro(Libro libro) throws ServiceException {
+    public void agregarLibro(Libro libro) {
         libro.setAlta(true);
         libro.setLeido(false);
-        validar(libro.getTitulo(), libro.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());
-        return libroRepositorio.save(libro);
+        libroRepositorio.save(libro);
     }
 
     // EDITAR / ELIMINAR UN LIBRO
 
     @Transactional
-    public Libro editarLibro(Libro libro, String id) throws ServiceException {
+    public void editarLibro(Libro libro, String id) throws ServiceException {
         Libro libroEditar = verificarLibroId(id);
-        validar(libro.getTitulo().trim(), libroEditar.getMateria(), libro.getFechaLimite(), libro.getDiasAnticipacion(), libro.getDescripcion());
+
         libroEditar.setTitulo(libro.getTitulo());
         libroEditar.setAutor(libro.getAutor());
+        libroEditar.setAlta(true);
         libroEditar.setDescripcion(libro.getDescripcion());
         libroEditar.setFechaLimite(libro.getFechaLimite());
         libroEditar.setDiasAnticipacion(libro.getDiasAnticipacion());
         libroEditar.setObligatorio(libro.getObligatorio());
         libroRepositorio.save(libroEditar);
-        libroRepositorio.flush();
-        return libroEditar;
     }
 
-    @Transactional
-    public void cambiarAlta(String id) throws ServiceException {
-        Libro libro = verificarLibroId(id);
-        libro.setAlta(!libro.getAlta());
-        libroRepositorio.save(libro);
-    }
 
     @Transactional
-    public void eliminarDefinitivo(String id) throws ServiceException{
+    public void eliminarDefinitivo(String id) throws ServiceException {
         verificarLibroId(id);
         libroRepositorio.eliminarPorId(id);
     }
@@ -76,34 +76,53 @@ public class LibroServicio {
         libroRepositorio.delete(libro);
     }
 
+    // DAR DE BAJA
+
+    // Dar de baja todos los libros de una materia, asociada a un usuario
+    public void darBajaLibrosPorMateriaYUsuario(Usuario usuario, Materia materia){
+        for (Libro libro : getLibrosByMateriaSinLeer(usuario, materia)) {
+            if(libro.getAlta()){
+                cambiarAlta(libro);
+            }
+        }
+    }
+
     @Transactional
-    public void cambiarLeido(String id) throws ServiceException{
-        Libro libro = verificarLibroId(id);
-        libro.setLeido(true);
-        System.out.println(libro.getLeido());
+    public void cambiarAlta(Libro libro){
+        libro.setAlta(!libro.getAlta());
+        libroRepositorio.save(libro);
+    }
+
+    @Transactional
+    public void cambiarLeido(Libro libro){
+        libro.setLeido(!libro.getLeido());
         libroRepositorio.save(libro);
     }
 
     // FILTROS
 
-    public List<Libro> getLibrosMateriaNoLeidos(Usuario usuario, String materia) {
-        return libroRepositorio.libroPorMateriaSinLeer(usuario, materia);
+    public List<Libro> getAllLibrosAlta(Usuario usuario){
+        return libroRepositorio.findByUsuarioAndAltaTrue(usuario);
     }
 
-    public List<Libro> getLibrosEliminados(Usuario usuario) {
-        return libroRepositorio.getLibrosEliminados(usuario);
+    public List<Libro> getLibrosByMateria(Usuario usuario, Materia materia){
+        return libroRepositorio.findByUsuarioAndMateria(usuario, materia);
     }
 
-    public List<Libro> getLibrosLeidos(Usuario usuario) {
-        return libroRepositorio.getLibrosLeidos(usuario);
+    // Por materia (leido = false, alta = true)
+    public List<Libro> getLibrosByMateriaSinLeer(Usuario usuario, Materia materia){
+        return libroRepositorio.findByUsuarioAndMateriaAndLeidoFalseAndAltaTrue(usuario, materia);
     }
 
-    @Transactional
-    public void borrarLibrosPorMateria(String materia){
-        libroRepositorio.eliminarPorMateria(materia);
+    public List<Libro> getLibrosLeidos(Usuario usuario){
+        return libroRepositorio.findByUsuarioAndLeidoTrueAndAltaTrue(usuario);
     }
-    
-   // VERIFICACIONES
+
+    public List<Libro> getLibrosEliminados(Usuario usuario){
+        return libroRepositorio.findByUsuarioAndAltaFalse(usuario);
+    }
+
+    // VERIFICACIONES
 
     public Libro verificarLibroId(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
@@ -111,25 +130,6 @@ public class LibroServicio {
             return resultado.get();
         } else {
             throw new ServiceException("El libro indicado no se encuentra en el sistema");
-        }
-    }
-
-    public void validar(String titulo, String materia, Date fechaLimite, Integer diasAnticipacion, String descripcion) throws ServiceException {
-        if (titulo == null || titulo.trim().isEmpty()) {
-            throw new ServiceException("Debe escribir un título");
-        }
-        if ((fechaLimite.before(new Date())) || (fechaLimite.equals(new Date()))) {
-            throw new ServiceException("Debe seleccionar una fecha posterior a la actual");
-        }
-        //Esto después vemos bien
-        if (diasAnticipacion < 1) {
-            throw new ServiceException("La cantidad de días debe ser mayor uno");
-        }
-        if (descripcion.length() > 250) {
-            throw new ServiceException("La descripción debe tener un máximo de 250 caracteres");
-        }
-        if (materia == null || materia.trim().isEmpty()) {
-            throw new ServiceException("Debe ingresar el nombre de la materia a agregar");
         }
     }
 

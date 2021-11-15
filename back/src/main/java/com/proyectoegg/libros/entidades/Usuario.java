@@ -1,40 +1,43 @@
 package com.proyectoegg.libros.entidades;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Usuario implements Serializable {
-
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    @NotBlank
     private String nombre;
+    @NotEmpty
+    @Email(message = "Correo con formato equivocado")
     private String email;
     private String contrasenia;
     private Boolean alta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
+
+
     @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
     private List<Libro> libros;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuario")
-    @LazyCollection(LazyCollectionOption.FALSE)
+    //
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     private List<Materia> materias;
+
     @OneToOne
     private Foto foto;
 
     public Usuario() {
+        this.materias = new ArrayList<>();
     }
 
     public Usuario(String id, String nombre, String email, String contrasenia, Boolean alta, List<Libro> libros, List<Materia> materias, Foto foto) {
@@ -113,6 +116,11 @@ public class Usuario implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -121,16 +129,9 @@ public class Usuario implements Serializable {
 
         return id.equals(usuario.id);
     }
-@Override
+
+    @Override
     public int hashCode() {
         return id.hashCode();
     }
-
-    @Override
-    public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", email=" + email + ", contrasenia=" + contrasenia + ", alta=" + alta + ", libros=" + libros + ", materias=" + materias + ", foto=" + foto + '}';
-    }
-
-  
-
 }

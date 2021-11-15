@@ -1,12 +1,14 @@
 package com.proyectoegg.libros.entidades;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 public class Materia implements Serializable {
@@ -14,21 +16,31 @@ public class Materia implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    @NotBlank
     private String nombre;
-    private Boolean alta;
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    private Boolean alta;
+
     public Materia() {
     }
 
-    public Materia(String id, String nombre, Boolean alta, Usuario usuario) {
+    public Materia(String id, String nombre) {
         this.id = id;
         this.nombre = nombre;
-        this.alta = alta;
-        this.usuario = usuario;
     }
+
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
+
 
     public String getId() {
         return id;
@@ -46,14 +58,6 @@ public class Materia implements Serializable {
         this.nombre = nombre;
     }
 
-    public Boolean getAlta() {
-        return alta;
-    }
-
-    public void setAlta(Boolean alta) {
-        this.alta = alta;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -64,6 +68,24 @@ public class Materia implements Serializable {
 
     @Override
     public String toString() {
-        return "Materia{" + "id=" + id + ", nombre=" + nombre + ", alta=" + alta + ", usuario=" + usuario + '}';
-    }    
+        return "Materia{" + "id=" + id + ", nombre=" + nombre + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Materia materia = (Materia) o;
+
+        if (!nombre.equals(materia.nombre)) return false;
+        return usuario.equals(materia.usuario);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nombre.hashCode();
+        result = 31 * result + usuario.hashCode();
+        return result;
+    }
 }
