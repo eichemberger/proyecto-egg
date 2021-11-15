@@ -2,12 +2,9 @@ package com.proyectoegg.libros.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -18,17 +15,30 @@ public class Libro implements Serializable {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    @NotBlank
     private String titulo;
+    @NotBlank
     private String autor;
-    private String materia;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @DateTimeFormat(iso=ISO.DATE)
+    @NotNull
+    private Date fechaLimite;
+    @NotNull
+    @Min(1)
+    @Max(365)
+    private Integer diasAnticipacion;
+    @Size(max = 250)
+    private String descripcion;
+
+    private Boolean alta;
     private Boolean leido;
     private Boolean obligatorio;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(iso = ISO.DATE)
-    private Date fechaLimite;
-    private Integer diasAnticipacion;
-    private String descripcion;
-    private Boolean alta;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "materia_id")
+    private Materia materia;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
@@ -36,7 +46,7 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, String materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, Boolean alta, Usuario usuario) {
+    public Libro(String id, String titulo, String autor, Materia materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -46,8 +56,22 @@ public class Libro implements Serializable {
         this.fechaLimite = fechaLimite;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
-        this.alta = alta;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
     }
 
     public String getId() {
@@ -74,11 +98,11 @@ public class Libro implements Serializable {
         this.autor = autor;
     }
 
-    public String getMateria() {
+    public Materia getMateria() {
         return materia;
     }
 
-    public void setMateria(String materia) {
+    public void setMateria(Materia materia) {
         this.materia = materia;
     }
 
@@ -122,25 +146,23 @@ public class Libro implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Boolean getAlta() {
-        return alta;
-    }
-
-    public void setAlta(Boolean alta) {
-        this.alta = alta;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    @Override
+    public String toString() {
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + '}';
     }
 
     @Override
-    public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", alta=" + alta + ", usuario=" + usuario + '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Libro libro = (Libro) o;
+
+        return id.equals(libro.id);
     }
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

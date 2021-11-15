@@ -20,3 +20,13 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+    //    @Autowired
+//    private SimpleMailMessage preConfiguredMessage;
+
+//    public void sendPreConfiguredMail(String message) {
+//        SimpleMailMessage mailMessage = new SimpleMailMessage(preConfiguredMessage);
+//        mailMessage.setText(message);
+//        mailSender.send(mailMessage);
+//    }
+}
