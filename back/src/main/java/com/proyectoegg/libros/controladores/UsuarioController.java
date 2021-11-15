@@ -70,15 +70,17 @@ public class UsuarioController {
         return "redirect:/login";
 
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar/{id}")
     public String editarUsuario(@PathVariable("id") String id, ModelMap model, HttpSession session) throws ServiceException, IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         if (usuarioServicio.listarTodos().contains(usuario)) {
-            model.addAttribute("error", "El usuario solicitado no existe");
-            return "inicio";
+            model.addAttribute("usuario", usuario);
+            return "editar-usuario";
+        }else{
+            throw new ServiceException ("No se encontró el usuario");
         }
-        return "editar-usuario";
     }
 
 

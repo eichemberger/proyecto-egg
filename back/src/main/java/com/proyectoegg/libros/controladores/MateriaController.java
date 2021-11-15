@@ -17,7 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/materia")
+@RequestMapping("/materias")
 public class MateriaController {
 
     MateriaServicio materiaServicio;
