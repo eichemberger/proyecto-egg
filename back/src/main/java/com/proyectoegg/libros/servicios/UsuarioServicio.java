@@ -134,4 +134,64 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    @Transactional
+    public void eliminar(String id) throws ServiceException {
+        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            Usuario usuario = resultado.get();
+            usuario.setAlta(Boolean.FALSE);
+        } else {
+            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+        }
+    }
+
+    @Transactional
+    public void eliminarDefinitivo(String id) throws ServiceException {
+        verificarUsuarioId(id);
+        usuarioRepositorio.eliminarPorId(id);
+    }
+
+    // TODO: Arreglar
+    private void validarEdicion(String nombre, String email, String emailViejo, String contrasenia) throws ServiceException {
+        if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
+            throw new ServiceException("El nombre del usuario no puede estar vacío");
+        }
+
+//        if (usuarioRepositorio.buscarPorNombre(nombre) != null) {
+//            throw new ServiceException("Ya existe un usuario registrado con ese nombre");
+//        }
+        if (email.isEmpty() || email == null || nombre.equals(" ")) {
+            throw new ServiceException("El email no puede estar vacío");
+        }
+
+        if (!(email.contains("@")) || nombre.contains("  ")) {
+            throw new ServiceException("Por favor, verifique que su email esta escrito correctamente");
+        }
+
+        if (usuarioRepositorio.buscarPorEmail(email) != null && !email.equals(emailViejo)) {
+            throw new ServiceException("El email ingresado ya se encuentra registrado");
+        }
+
+        if (contrasenia.isEmpty() || contrasenia == null || contrasenia.contains(" ")) {
+            throw new ServiceException("La contraseña no puede estar vacía");
+        }
+
+        if (contrasenia.length() < 8 || contrasenia.length() > 20) {
+            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
+        }
+
+//        if (contrasenia2.isEmpty() || contrasenia2 == null || contrasenia2.contains(" ")) {
+//            throw new ServiceException("La contraseña no puede estar vacía");
+//        }
+//
+//        if (contrasenia2.length() < 8 || contrasenia2.length() > 20) {
+//            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
+//        }
+//
+//        if (!contrasenia.equals(contrasenia2)) {
+//            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
+//        }
+    }
+
+
 }
