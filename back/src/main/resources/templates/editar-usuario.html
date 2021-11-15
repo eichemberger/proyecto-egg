@@ -20,7 +20,7 @@
     
     <section class="sectionUsuario">
         <h1 class="titulo">Editar usuario:</h1>
-        <form th:action="@{/usuario/editar/}+${usuario.id}" method="POST" th:object="${usuario}" enctype="multipart/form-data" autocomplete="off">
+        <form th:action="@{/usuario/editar/}" method="POST" th:object="${usuario}" enctype="multipart/form-data" autocomplete="off">
             <fieldset>   
                 <legend class="formHeader"><span class="spanFormHeader">Nuevo usuario</span></legend>
                 <div class="container">

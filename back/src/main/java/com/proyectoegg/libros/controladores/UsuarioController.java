@@ -72,8 +72,8 @@ public class UsuarioController {
     }
     
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/editar/{id}")
-    public String editarUsuario(@PathVariable("id") String id, ModelMap model, HttpSession session) throws ServiceException, IOException {
+    @GetMapping("/editar")
+    public String editarUsuario(ModelMap model, HttpSession session) throws ServiceException, IOException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         if (usuarioServicio.listarTodos().contains(usuario)) {
             model.addAttribute("usuario", usuario);
@@ -85,11 +85,12 @@ public class UsuarioController {
 
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @PostMapping("/editar/{id}")
-    public String editarUsuario(@PathVariable("id") String id, ModelMap model, @ModelAttribute("usuario") Usuario usuario) throws IOException {
-
+    @PostMapping("/editar")
+    public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, HttpSession session) throws IOException {
+        Usuario usuarioId = (Usuario) session.getAttribute("usuariosession");
+        System.out.println("Id: "+usuarioId.getId());
         try {
-            usuarioServicio.editar(usuario, id);
+            usuarioServicio.editar(usuario, usuarioId.getId());
             return "redirect:/materias";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
@@ -105,14 +106,9 @@ public class UsuarioController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/eliminar/definitivo/{id}")
-    public String eliminarDefinitivo(@PathVariable String id, ModelMap model, HttpSession session) throws ServiceException {
+    @GetMapping("/eliminar/definitivo")
+    public String eliminarDefinitivo(ModelMap model, HttpSession session) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
-        //Validación muy primitiva para tener que estar loggeado en la cuenta que vas a borrar
-        System.out.println("id usuario sesion: " + usuario.getId());
-        System.out.println("id que recibe: " + id);
-        if (usuario.getId().equals(id)) {
             try {
                 for (Libro libro : usuario.getLibros()) {
                     libroServicio.eliminarDefinitivo(libro.getId());
@@ -131,14 +127,12 @@ public class UsuarioController {
                 model.addAttribute("error", e.getMessage());
             }
             try {
-                usuarioServicio.eliminarDefinitivo(id);
+                usuarioServicio.eliminarDefinitivo(usuario.getId());
             } catch (ServiceException e) {
                 model.addAttribute("error", e.getMessage());
             }
             return "redirect:/";
-        } else {
-            throw new ServiceException("No se pudo eliminar el usuario");
-        }
+
     }
 
 

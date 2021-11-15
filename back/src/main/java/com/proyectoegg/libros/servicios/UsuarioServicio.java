@@ -74,10 +74,11 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional
    public Usuario editar(Usuario usuario, String id) throws ServiceException, IOException {
-        Optional<Usuario> resultado = usuarioRepositorio.findById(usuario.getId());
+        System.out.println("Id en serivicio: "+id);
+        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
             Usuario usuarioEditar = resultado.get();
-        
+            System.out.println("Id usuarioEditar: "+usuarioEditar.getId());
             validarEdicion(usuario.getNombre(), usuario.getEmail(),usuarioEditar.getEmail(), usuario.getContrasenia());
             usuarioEditar.setNombre(usuario.getNombre());
             usuarioEditar.setEmail(usuario.getEmail());
