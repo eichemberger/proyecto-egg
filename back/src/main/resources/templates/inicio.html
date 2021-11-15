@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
@@ -19,10 +13,9 @@
   </head>
   <body>
     <nav>
-      <p class="nombre-app primer-item">📚 Nombre app</p>
-      <img class="perfil-nav-foto" src="../assets/tom.jpg" alt="foto perfil" />
-      <p class="nav-item"><a href="#">Mi Perfil</a></p>
-      <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+        <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
+        <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+        <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
     </nav>
 
       <h1 class="titulo-tabla">Materias</h1>

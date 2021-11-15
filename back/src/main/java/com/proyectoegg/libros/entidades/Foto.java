@@ -63,6 +63,20 @@ public class Foto implements Serializable {
         this.contenido = contenido;
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Usuario usuario = (Usuario) o;
+//
+//        return id.equals(usuario.id);
+//    }
+//@Override
+//    public int hashCode() {
+//        return id.hashCode();
+//    }
+    
     @Override
     public String toString() {
         return "Foto{" + "id=" + id + ", nombre=" + nombre + ", mime=" + mime + ", contenido=" + contenido + '}';

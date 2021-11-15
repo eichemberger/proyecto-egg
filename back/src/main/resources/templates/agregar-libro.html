@@ -13,11 +13,11 @@
 </head>
 <body>
     <nav>
-<!--        TODO: Agregar Links-->
         <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-        <p class="nav-item"><a href="#">Mi Perfil</a></p>
-        <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+        <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+        <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
     </nav>
+    
     <section>
         <h1 class="titulo">Agregar Libro:</h1>
         <form th:action="@{/libros/agregar}" method="POST" th:object="${libro}" autocomplete="off">
