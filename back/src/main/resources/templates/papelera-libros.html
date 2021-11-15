@@ -15,10 +15,9 @@
 
 <body>
 <nav>
-    <p class="nombre-app primer-item">📚 Nombre app</p>
-    <img class="perfil-nav-foto" src="assets/tom.jpg" alt="foto perfil" />
-    <p class="nav-item"><a href="#">Mi Perfil</a></p>
-    <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
+        <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
+        <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+        <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
 </nav>
 
 <h1 class="titulo-tabla">PAPELERA LIBROS</h1>

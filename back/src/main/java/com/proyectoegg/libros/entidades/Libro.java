@@ -157,4 +157,17 @@ public class Libro implements Serializable {
         return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", alta=" + alta + ", usuario=" + usuario + '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Libro libro = (Libro) o;
+        return id.equals(libro.id);
+    }
+    
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+    
 }

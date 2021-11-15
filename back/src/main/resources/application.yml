@@ -16,3 +16,10 @@ spring:
     servlet: 
         multipart.max-file-size = 5MB
         multipart.max-request-size=10MB
+    mail: 
+      host=smtp.gmail.com
+      port=587
+      username=proyectoegg159@gmail.com
+      password=enviarmail123
+      properties.mail.smtp.auth=true
+      properties.mail.smtp.starttls.enable=true

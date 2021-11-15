@@ -14,12 +14,11 @@
 </head>
 
 <body>
-<nav>
-  <p class="nombre-app primer-item">📚 Nombre app</p>
-  <img class="perfil-nav-foto" src="assets/tom.jpg" alt="foto perfil" />
-  <p class="nav-item"><a href="#">Mi Perfil</a></p>
-  <p class="nav-item"><a href="#">Cerrar Sesión</a></p>
-</nav>
+    <nav>
+        <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
+        <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+        <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
+    </nav>
 
 <h1 class="titulo-tabla" th:text="${materia}"></h1>
 
@@ -52,10 +51,10 @@
   </tbody>
 </table>
 
-<div class="botones">
-<!--  Volver a Materias (inicio)-->
-  <a type="button" class="fill-agg" th:href="@{/materia}"?>Volver &#8629;</a>
-  <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
-</div>
-</body>
+        <div class="botones">
+            <!--  Volver a Materias (inicio)-->
+            <a type="button" class="fill-agg" th:href="@{/materias}"?>Volver &#8629;</a>
+            <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
+        </div>
+    </body>
 </html>
