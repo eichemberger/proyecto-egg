@@ -73,34 +73,21 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario editar(Usuario usuario) throws ServiceException, IOException {
+   public Usuario editar(Usuario usuario, String id) throws ServiceException, IOException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(usuario.getId());
         if (resultado.isPresent()) {
             Usuario usuarioEditar = resultado.get();
+        
+            validarEdicion(usuario.getNombre(), usuario.getEmail(),usuarioEditar.getEmail(), usuario.getContrasenia());
             usuarioEditar.setNombre(usuario.getNombre());
             usuarioEditar.setEmail(usuario.getEmail());
             usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
-
-//            try {
-//fotoServicio.editar(idFoto, archivo);
-//} catch (Exception e) {
-//        }
-//            if (archivo != null) {
-//                Foto foto = new Foto();
-//                foto.setMime(archivo.getContentType());
-//                foto.setContenido(archivo.getBytes());
-//                foto.setNombre(archivo.getName());
-//                usuario.setFoto(foto);
-//            }
-//            if (usuario.getFoto() != null) {
-//                usuario.setFoto(usuario.getFoto());
-//            }
             return usuarioRepositorio.save(usuarioEditar);
-        } else {
+        }else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
-        }
-    }
-
+   }
+   }      
+            
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -113,6 +100,9 @@ public class UsuarioServicio implements UserDetailsService {
 
     public Usuario encontrarPorID(String id) {
         return usuarioRepositorio.getById(id);
+    }
+    public List<Usuario> listarTodos(){
+        return usuarioRepositorio.findAll();
     }
 
     @Override
@@ -134,20 +124,10 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    @Transactional
-    public void eliminar(String id) throws ServiceException {
-        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
-        if (resultado.isPresent()) {
-            Usuario usuario = resultado.get();
-            usuario.setAlta(Boolean.FALSE);
-        } else {
-            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
-        }
-    }
+
 
     @Transactional
     public void eliminarDefinitivo(String id) throws ServiceException {
-        verificarUsuarioId(id);
         usuarioRepositorio.eliminarPorId(id);
     }
 
@@ -168,7 +148,7 @@ public class UsuarioServicio implements UserDetailsService {
             throw new ServiceException("Por favor, verifique que su email esta escrito correctamente");
         }
 
-        if (usuarioRepositorio.buscarPorEmail(email) != null && !email.equals(emailViejo)) {
+        if (usuarioRepositorio.findByEmail(email) != null && !email.equals(emailViejo)) {
             throw new ServiceException("El email ingresado ya se encuentra registrado");
         }
 
