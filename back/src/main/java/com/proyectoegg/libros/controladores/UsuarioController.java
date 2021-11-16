@@ -9,8 +9,9 @@ import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
-
 import com.proyectoegg.libros.validacion.UsuarioValidador;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @Controller
 @RequestMapping("/usuario")
@@ -54,21 +59,21 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @Valid Usuario usuario, BindingResult result, MultipartFile archivo) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "registro";
         }
-       
 
         try {
             usuarioServicio.guardar(usuario, archivo);
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e);
             return "registro";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
 
         return "redirect:/login";
-
     }
 
     @GetMapping("/editar/{id}")
@@ -96,13 +101,14 @@ public class UsuarioController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/perfil/{id}")
-    public String perfil(ModelMap modelo, @PathVariable String id) {
-        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
+    @GetMapping("/perfil")
+    public String perfil(ModelMap modelo, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuario", usuario);
         return "perfil";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+       @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/definitivo/{id}")
     public String eliminarDefinitivo(@PathVariable String id, ModelMap model, HttpSession session) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
@@ -138,6 +144,5 @@ public class UsuarioController {
             throw new ServiceException("No se pudo eliminar el usuario");
         }
     }
-
 
 }

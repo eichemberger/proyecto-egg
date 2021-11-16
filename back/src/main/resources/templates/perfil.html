@@ -4,35 +4,35 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../styles/nuevo-perfil.css">
+
   <title>Perfil</title>
   <link
           href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
           rel="stylesheet"
   />
-  <link href="../styles/perfil.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-    <nav>
-        <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-        <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-        <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-    </nav>
-
+<nav>
+  <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
+  <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
+</nav>
+ 
 <div class="profile">
   <div class="foto-div">
     <div class="wrapper-imagen">
-<!--      <img th:if="${usuario.foto != null}" src="${'/foto/usuario/' + usuario.id}" alt="foto de perfil" class="foto-perfil">
-      <img th:if="${usuario.foto == null}" src="../assets/tom.jpg" alt="foto de perfil" class="foto-perfil">
-      -->
-      <img src="../assets/tom.jpg" alt="foto de perfil" class="foto-perfil" />
-      
+            <img th:if="${usuario.foto != null}" th:src="${'/foto/usuario/' + usuario.id}" alt="foto de perfil" class="foto-perfil">            
+            <img th:if="${usuario.foto == null}" src="../assets/tom.jpg" alt=" default foto de perfil" class="foto-perfil">
     </div>
   </div>
+  <div class="nombre1">
 
-  <h1 class="nombre" th:text="${usuario.nombre}">Tom Hanks</h1>
+    <h1 class="nombre" th:text="${usuario.nombre}">Tom Hanks</h1>
+  </div>
 
   <div class="data-usuario">
-    <h6>Info:</h6>
+
     <hr />
     <p th:text="${usuario.email}" >Mail: tom@mail.com</p>
     <p>Libros leidos: 78</p>

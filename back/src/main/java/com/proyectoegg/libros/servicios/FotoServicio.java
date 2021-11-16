@@ -18,24 +18,24 @@ public class FotoServicio {
 
     @Transactional
     public Foto guardar(MultipartFile archivo) throws IOException, ServiceException {
-        try {
-            if (archivo != null) {
+        if (archivo != null) {
+            try {
                 Foto foto = new Foto();
                 foto.setMime(archivo.getContentType());
-                foto.setNombre(archivo.getName());
+                foto.setNombre(archivo.getOriginalFilename());
                 foto.setContenido(archivo.getBytes());
                 return fotoRepositorio.save(foto);
-            } else {
-                throw new ServiceException("El archivo ingresado no pudo ser procesado.");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+                throw new IOException(ex.getMessage());
             }
-        } catch (IOException ex) {
-            throw new IOException(ex.getMessage());
         }
+        return null;
     }
 
     @Transactional
     public Foto editar(String idFoto, MultipartFile archivo) throws ServiceException, Exception {
-        if (archivo != null) {
+        if (archivo != null && !archivo.isEmpty()) {
             try {
                 Foto foto = new Foto();
                 if (idFoto != null) {
@@ -43,8 +43,6 @@ public class FotoServicio {
                     if (respuesta.isPresent()) {
                         foto = respuesta.get();
                     }
-                } else {
-                    throw new ServiceException("La foto no pudo ser procesada.");
                 }
                 foto.setMime(archivo.getContentType());
                 foto.setNombre(archivo.getName());
@@ -54,7 +52,7 @@ public class FotoServicio {
                 throw new IOException(e.getMessage());
             }
         } else {
-            throw new ServiceException("El archivo ingresado no pudo ser procesado.");
+            return null;
         }
     }
 }

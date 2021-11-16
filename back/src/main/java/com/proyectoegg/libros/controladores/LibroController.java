@@ -204,10 +204,12 @@ public class LibroController {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
             libroServicio.cambiarLeido(libro);
+            return "redirect:/libros/" + materia;
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
+        System.out.println(e.getMessage());
+            return "index";
         }
-        return "redirect:/libros/" + materia;
 
     }
 

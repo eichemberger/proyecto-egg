@@ -10,14 +10,16 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background: linear-gradient(to top left, #39b385, #9be15d);
+    /* align-items: center; */
+    background: linear-gradient(to top left, #39b385, #9be15d) fixed;
 }
 
 .singup-wrap {
    width: 500px;
+   height: 550px;
    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
    background-color: #fff;
+   margin-top: -5px;
 }
 
 .singup-top{
@@ -30,7 +32,8 @@ body {
 .singup-top::before{
     content: "";
     position: absolute;
-    height: 50px;
+    /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
+    height:55px;
     bottom: -20px;
     left: 0;
     right: 0;
@@ -50,14 +53,16 @@ h2{
 }
 
 .input-wrap{
+    /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
     display: flex;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
 }
 
 .input-wrap p {
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
-    margin-top: 22px;
+    margin-top: 10px;
+    
     font-size: 15px;
     color: #4e585f;
 }
@@ -69,7 +74,7 @@ span{
 }
 
 input {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     padding: 4px 0;
     width: 100%;
@@ -85,9 +90,10 @@ input:focus {
 }
 
 input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     margin-right: 16px;
+    margin-top: -20px;
 }
 
 input[type="checkbox"]:focus {
@@ -99,13 +105,15 @@ input[type="checkbox"]:focus {
 button {
     cursor: pointer;
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
-    padding: 12px 50px;
+    padding: 10px 55px;
     border-radius: 30px;
     font-weight: 600;
     border: none;
     color: #fff;
     background-color: #39b385;
+    margin-top: 33px;
     margin-right: 16px;
+    margin-bottom: 10px;
     transition: 500ms ease all;
 }
 
@@ -154,4 +162,33 @@ i:hover {
 
 a {
     text-decoration: none;
+}
+
+#fix {
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+#fixLogInMargin {
+    margin-top: 18px;
+    margin-left: 20px;
+}
+
+.box {
+    width:100%;
+    padding:4px;
+    border:2px solid rgba(20, 143, 119, 0.6);
+    border-radius:4px;
+    transition:.3s;
+    outline:none;
+}
+
+.box:focus{
+    border-color:rgb(20, 143, 119);
+}
+
+.f {
+    display: flex;
+    flex-direction: row wrap;
+    justify-content: space-between;
 }
