@@ -8,7 +8,6 @@ import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -74,7 +73,7 @@ public class MateriaController {
         return "redirect:/materia";
     }
 
-    // ====================== EDITAR LIBRO =============================
+    // ====================== EDITAR MATERIA =============================
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar/{id}")
@@ -106,7 +105,7 @@ public class MateriaController {
         }
     }
 
-    // ====================== ELIMINAR LIBRO =============================
+    // ====================== ELIMINAR MATERIA =============================
 
     /*      Si no hay libros asociados a la materia -> Eliminar materia DB
         Si hay libros asociados a la materia, dar de baja la materia

@@ -49,20 +49,19 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public Usuario guardar(Usuario usuario, MultipartFile archivo) throws ServiceException {
+    public Usuario guardar(Usuario usuario, MultipartFile archivo) throws ServiceException, Exception {
 
         usuario.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
         usuario.setAlta(true);
 
-//        if (!archivo.isEmpty()) {
-//            try {
-//                Foto foto = fotoServicio.guardar(archivo);
-//                usuario.setFoto(foto);
-//            } catch (Exception e) {
-//                throw new Exception(e.getMessage());
-//            }
-//        }
-
+        if (!archivo.isEmpty()) {
+            try {
+                Foto foto = fotoServicio.guardar(archivo);
+                usuario.setFoto(foto);
+            } catch (ServiceException | IOException e) {
+                throw new Exception(e.getMessage());
+            }
+        }
         return usuarioRepositorio.save(usuario);
     }
 
