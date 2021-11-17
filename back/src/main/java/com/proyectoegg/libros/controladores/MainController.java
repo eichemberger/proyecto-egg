@@ -3,15 +3,21 @@ package com.proyectoegg.libros.controladores;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
-import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
+
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAnyRole;
 
 @Controller
 @RequestMapping("/")
@@ -19,11 +25,13 @@ public class MainController {
 
     @Autowired
     MateriaServicio materiaServicio;
+
     @Autowired
     UsuarioServicio usuarioServicio;
 
     @GetMapping("")
-    public String index() {
+    public String index(HttpSession session, Model model) {
+        model.addAttribute("usuario", (Usuario) session.getAttribute("usuariosession"));
         return "index";
     }
 
@@ -35,22 +43,22 @@ public class MainController {
         if (email != null) {
             model.addAttribute("email", email);
         }
+
         if (nombre != null) {
             model.addAttribute("nombre", nombre);
         }
+
         if (logout != null) {
             model.addAttribute("logout", "Ha salido correctamente del sitio");
         }
-        return "iniciar-sesion";
+        return "login";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @PostMapping("/logincheck")
-    public String logincheck() {
-        return "index";
-    }
-    
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+//    @PostMapping("/logincheck")
+//    public String logincheck() {
+//        return "inicio";
+//    }
+
     @GetMapping("/logout")
     public String logout() {
         return "index";
@@ -58,11 +66,15 @@ public class MainController {
 
     @GetMapping("/info")
     public String info() {
-        try {
-            return "sobre-nosotros.html";
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+        return "sobre-nosotros.html";
     }
+
+//    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+//    @GetMapping("/inicio")
+//    public String inicioWeb(ModelMap model, HttpSession session) {
+//        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+//        model.addAttribute("materias", usuarioServicio.getAllMaterias(usuario));
+//        return "inicio";
+//    }
+
 }
