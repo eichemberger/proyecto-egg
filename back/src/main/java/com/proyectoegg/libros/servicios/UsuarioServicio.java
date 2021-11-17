@@ -35,6 +35,7 @@ public class UsuarioServicio implements UserDetailsService {
     LibroServicio libroServcio;
     FotoServicio fotoServicio;
     MateriaServicio materiaServicio;
+    private static BCryptPasswordEncoder passwordEcorder = new BCryptPasswordEncoder();
 
     @Autowired
     public UsuarioServicio(UsuarioRepositorio usuarioRepositorio, LibroServicio libroServcio, FotoServicio fotoServicio, MateriaServicio materiaServicio) {
@@ -44,14 +45,14 @@ public class UsuarioServicio implements UserDetailsService {
         this.materiaServicio = materiaServicio;
     }
 
-    public Usuario getByEmail(String email){
+    public Usuario getByEmail(String email) {
         return usuarioRepositorio.findByEmail(email);
     }
 
     @Transactional
     public Usuario guardar(Usuario usuario, MultipartFile archivo) throws ServiceException, Exception {
 
-        usuario.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
+        usuario.setContrasenia(passwordEcorder.encode(usuario.getContrasenia()));
         usuario.setAlta(true);
 
         if (!archivo.isEmpty()) {
@@ -65,29 +66,50 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.save(usuario);
     }
 
-
     @Transactional
     public List<Materia> getAllMaterias(Usuario usuario) {
         return usuario.getMaterias();
     }
 
     @Transactional
-   public Usuario editar(Usuario usuario, String id) throws ServiceException, IOException {
-        System.out.println("Id en serivicio: "+id);
+    public Usuario editar(Usuario usuario, String id, MultipartFile archivo) throws ServiceException, IOException, Exception {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
             Usuario usuarioEditar = resultado.get();
-            System.out.println("Id usuarioEditar: "+usuarioEditar.getId());
-            validarEdicion(usuario.getNombre(), usuario.getEmail(),usuarioEditar.getEmail(), usuario.getContrasenia());
+            validarEdicion(usuario.getNombre(), usuario.getEmail(), usuarioEditar.getEmail());
             usuarioEditar.setNombre(usuario.getNombre());
             usuarioEditar.setEmail(usuario.getEmail());
-            usuarioEditar.setContrasenia(new BCryptPasswordEncoder().encode(usuario.getContrasenia()));
+
+            String idFoto = null;
+            if (usuario.getFoto() != null) {
+                idFoto = usuario.getFoto().getId();
+            }
+            Foto foto = fotoServicio.editar(idFoto, archivo);
+            usuarioEditar.setFoto(foto);
+            System.out.println(usuarioEditar.toString());
             return usuarioRepositorio.save(usuarioEditar);
-        }else {
+        } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
-   }
-   }      
-            
+        }
+    }
+
+    public Boolean verificarContrasenia(Usuario usuario, String contrasenia) {
+        return passwordEcorder.matches(contrasenia, usuario.getContrasenia());
+
+    }
+
+    @Transactional
+    public Usuario cambiarContrasenia(String id, String contrasenia) throws ServiceException {
+        Optional<Usuario> resultado = usuarioRepositorio.findById(id);
+        if (resultado.isPresent()) {
+            Usuario usuarioEditar = resultado.get();
+            usuarioEditar.setContrasenia(passwordEcorder.encode(contrasenia));
+            return usuarioRepositorio.save(usuarioEditar);
+        } else {
+            throw new ServiceException("El usuario indicado no se encuentra en el sistema");
+        }
+    }
+
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -101,7 +123,8 @@ public class UsuarioServicio implements UserDetailsService {
     public Usuario encontrarPorID(String id) {
         return usuarioRepositorio.getById(id);
     }
-    public List<Usuario> listarTodos(){
+
+    public List<Usuario> listarTodos() {
         return usuarioRepositorio.findAll();
     }
 
@@ -124,15 +147,13 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-
-
     @Transactional
     public void eliminarDefinitivo(String id) throws ServiceException {
         usuarioRepositorio.eliminarPorId(id);
     }
 
     // TODO: Arreglar
-    private void validarEdicion(String nombre, String email, String emailViejo, String contrasenia) throws ServiceException {
+    private void validarEdicion(String nombre, String email, String emailViejo) throws ServiceException {
         if (nombre.isEmpty() || nombre == null || nombre.equals(" ") || nombre.contains("  ")) {
             throw new ServiceException("El nombre del usuario no puede estar vacío");
         }
@@ -152,13 +173,6 @@ public class UsuarioServicio implements UserDetailsService {
             throw new ServiceException("El email ingresado ya se encuentra registrado");
         }
 
-        if (contrasenia.isEmpty() || contrasenia == null || contrasenia.contains(" ")) {
-            throw new ServiceException("La contraseña no puede estar vacía");
-        }
-
-        if (contrasenia.length() < 8 || contrasenia.length() > 20) {
-            throw new ServiceException("La contraseña debe tener entre 8 y 20 caracteres.");
-        }
 
 //        if (contrasenia2.isEmpty() || contrasenia2 == null || contrasenia2.contains(" ")) {
 //            throw new ServiceException("La contraseña no puede estar vacía");
@@ -172,6 +186,5 @@ public class UsuarioServicio implements UserDetailsService {
 //            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
 //        }
     }
-
 
 }

@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
-        <link
-            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-            rel="stylesheet"
-            />
-    </head>
-    <body>
-        <nav>
-            <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-            <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-            <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-        </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
 
-        <h1 class="titulo-tabla">Materias</h1>
+  <nav th:replace="layout/layout :: nav"></nav>
 
-        <div th:each="materia  : ${materias}" class="container">
-            <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
-            <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
-        </div>
+  <h1 class="titulo-tabla">Materias</h1>
 
-        <div class="botones">
-            <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
-        </div>
-    </body>
+      <div th:each="materia  : ${materias}" class="container">
+        <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
+        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
+      </div>
+
+      <div class="botones">
+        <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
+      </div>
+  </body>
 </html>

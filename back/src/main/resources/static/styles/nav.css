@@ -1,0 +1,15 @@
+nav {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    background-image: linear-gradient(to top left, #39b385, #9be15d);
+}
+
+.nav-item {
+    padding: 10px;
+}
+
+.primer-item {
+    margin-right: auto;
+    margin-top: 9px;
+}

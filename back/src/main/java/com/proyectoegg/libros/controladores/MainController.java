@@ -1,6 +1,7 @@
 package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.entidades.Usuario;
+import com.proyectoegg.libros.servicios.EmailService;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 
 import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAnyRole;
+import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/")
@@ -29,16 +31,21 @@ public class MainController {
     @Autowired
     UsuarioServicio usuarioServicio;
 
+    @Autowired
+    private EmailService emailService;
+
     @ModelAttribute("usuario")
-    public Usuario getUsuario(HttpSession session){
+    public Usuario getUsuario(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         return usuario;
     }
-    
+
     @GetMapping("")
-    public String index() {
+    public String index(HttpSession session, Model model) {
+        model.addAttribute("usuario", (Usuario) session.getAttribute("usuariosession"));
         return "index";
     }
+
 
     @GetMapping("/login")
     public String login(ModelMap model, @RequestParam(required = false) String error, @RequestParam(required = false) String email, @RequestParam(required = false) String logout, @RequestParam(required = false) String nombre) {
@@ -63,7 +70,6 @@ public class MainController {
 //    public String logincheck() {
 //        return "inicio";
 //    }
-
     @GetMapping("/logout")
     public String logout() {
         return "index";
@@ -81,5 +87,11 @@ public class MainController {
 //        model.addAttribute("materias", usuarioServicio.getAllMaterias(usuario));
 //        return "inicio";
 //    }
-
+    
+    @PostMapping("/enviarmail")
+    public String enviarMail(@RequestParam String destinatario, @RequestParam String asunto, @RequestParam String contenido) {
+        emailService.enviar(destinatario, contenido, contenido);
+        return "index";
+    }
+    
 }

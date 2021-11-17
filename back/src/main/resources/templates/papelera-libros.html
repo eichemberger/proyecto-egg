@@ -7,6 +7,8 @@
     <title>Libros</title>
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
     <link href="../styles/tabla-style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../styles/nav.css">
+
     <link
             href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
             rel="stylesheet"
@@ -14,11 +16,8 @@
 </head>
 
 <body>
-<nav>
-  <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-  <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-  <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-</nav>
+
+<nav th:replace="layout/layout :: nav"></nav>
 
 <h1 class="titulo-tabla">PAPELERA LIBROS</h1>
 
@@ -41,7 +40,7 @@
     <tr th:each=" libro : ${libros}" scope="row">
         <td th:text="${libro.titulo}"></td>
         <td th:text="${libro.obligatorio}"></td>
-        <td th:text="${libro.materia}"></td>
+        <td th:text="${libro.materia.nombre}"></td>
         <!-- TODO:  dias?  -->
         <!--    <td th:text="${libro.dias}"></td>-->
         <td th:text= "${libro.leido}"></td>

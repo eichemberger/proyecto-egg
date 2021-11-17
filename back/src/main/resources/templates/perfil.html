@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../styles/nuevo-perfil.css">
+  <link rel="stylesheet" href="../styles/nav.css">
 
   <title>Perfil</title>
   <link
@@ -14,16 +15,15 @@
 
 </head>
 <body>
-<nav>
-  <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-  <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-</nav>
- 
+
+<nav th:replace="layout/layout :: nav"></nav>
+
 <div class="profile">
   <div class="foto-div">
     <div class="wrapper-imagen">
-            <img th:if="${usuario.foto != null}" th:src="${'/foto/usuario/' + usuario.id}" alt="foto de perfil" class="foto-perfil">            
-            <img th:if="${usuario.foto == null}" src="../assets/tom.jpg" alt=" default foto de perfil" class="foto-perfil">
+            <img th:if="${usuario.foto != null}" th:src="${'/foto/usuario/' + usuario.id}" alt="foto de perfil" class="foto-perfil">
+            <img th:if="${usuario.foto == null}" src="../assets/tom.jpg" alt="foto de perfil" class="foto-perfil">
+
     </div>
   </div>
   <div class="nombre1">
@@ -39,7 +39,7 @@
   </div>
 
   <div class="botones">
-    <a th:href="@{/usuario/editar/}+${usuario.id}" type="button" class="fill">Editar</a>
+    <a th:href="@{/usuario/editar}" type="button" class="fill">Editar</a>
   </div>
 </div>
 </body>

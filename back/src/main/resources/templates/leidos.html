@@ -14,11 +14,7 @@
 </head>
 
 <body>
-<nav>
-  <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-  <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-  <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-</nav>
+<nav th:replace="layout/layout :: nav"></nav>
 
 <h1 class="titulo">LIBROS LEIDOS</h1>
 

@@ -13,10 +13,10 @@
 <header class="sticky-shrinknav-header">
   <h1 class="sticky-shrinknav-header-title">Bo<span style="color: rgba(0, 0, 0, 0.8);">oks</span></h1>
   <ul class="menu align-center sticky-shrinknav-menu">
-    <li><a th:href="@{/login}">Login</a></li>
-    <li><a th:href="@{/usuario/registro}">Registro</a></li>
-    <!-- <li><a href="#">Gallery</a></li>
-    <li><a href="#">Contact</a></li> -->
+    <li th:if="${usuario == null}"><a th:href="@{/login}">Login</a></li>
+    <li th:if="${usuario == null}"><a th:href="@{/usuario/registro}">Registro</a></li>
+    <li th:if="${usuario != null}"><a th:href="@{/usuario/perfil}">Mi perfil</a></li>
+    <li th:if="${usuario != null}"><a th:href="@{/login?logout}">Cerrar sesión</a></li>
   </ul>
 </header>
 
@@ -32,7 +32,7 @@
       </p>
       <!-- BOTON JOANA <a href="#"><button type="button">Aprende más</button></a> -->
       <!-- use a tag for links to other locations -->
-      <a class="button button-rounded-hover">Aprende más</a>
+      <a class="button button-rounded-hover" th:href="@{/info}">Aprende más</a>
     </div>
     <div class="rightContainer">
       <img src="https://resources.careersandenterprise.co.uk/sites/default/files/2020-07/Group%20612.svg" alt="">
@@ -44,7 +44,7 @@
       <img src="https://cdni.iconscout.com/illustration/premium/thumb/confident-office-worker-woman-sitting-on-top-of-work-desk-checking-text-messages-on-phone-2880266-2395947.png" alt="">
     </div>
     <div class="IIrightContainer">
-      <a href="#">Registrate gratis ahora!</a>
+      <a th:href="@{/usuario/registro}">Registrate gratis ahora!</a>
     </div>
   </div>
 </div>
@@ -68,7 +68,7 @@
           <p>
             Somos un grupo de estudiantes de programación y ...
           </p>
-          <a href="">Leer más</a>
+          <a th:href="@{/info}">Leer más</a>
         </div>
       </div>
     </div>
@@ -82,9 +82,9 @@
             mailing-container
           "
     >
-      <h4 class="mailing-list">Queres estudiar de una forma más eficiente? Suscribite ahora para recibir información:</h4>
-      <input type="text" placeholder="Email" />
-      <a class="button expanded subscribe-button" href="#">Suscribirme</a>
+<!--      <h4 class="mailing-list">Queres estudiar de una forma más eficiente? Suscribite ahora para recibir información:</h4>-->
+<!--      <input type="text" placeholder="Email" />-->
+<!--      <a class="button expanded subscribe-button" href="#">Suscribirme</a>-->
     </div>
   </div>
   <div class="row tag-search">

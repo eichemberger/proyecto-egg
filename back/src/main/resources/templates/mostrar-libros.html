@@ -14,11 +14,9 @@
 </head>
 
 <body>
-<nav>
-  <p class="primer-item"><a th:href="@{/}">📚 Nombre app</a></p>
-  <p class="nav-item"><a th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-  <p class="nav-item"><a th:href="@{/logout}">Cerrar Sesión</a></p>
-</nav>
+
+<nav th:replace="layout/layout :: nav"></nav>
+
 
 <h1 class="titulo-tabla" th:text="${materia}"></h1>
 
@@ -44,7 +42,7 @@
     <!-- TODO:  dias?  -->
 <!--    <td th:text="${libro.dias}"></td>-->
     <td th:text= "${libro.leido}"></td>
-    <td><a th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}">✅</a></td>
+    <td><a th:href="@{/libros/}+${libro.materia}+'/leido/'+${libro.id}">✅</a></td>
     <td><a th:href="@{/libros/eliminar/}+${libro.id}">❌</a></td>
   </tr>
 

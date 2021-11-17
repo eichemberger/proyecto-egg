@@ -9,44 +9,16 @@ body {
     font-weight: 400;
     height: 100vh;
     display: flex;
-    flex-direction: column;
-
+    justify-content: center;
     align-items: center;
     background: linear-gradient(to top left, #39b385, #9be15d) fixed;
 }
 
-nav {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-
-
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-
-}
-.nav-item {
-    padding: 0px;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.primer-item {
-    margin-right: auto;
-    margin-top: 2px;
-
-}
-
 .singup-wrap {
     width: 500px;
-    height: 550px;
+    height: 400px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     background-color: #fff;
-    margin-top: 0px;
 }
 
 .singup-top{
@@ -75,7 +47,7 @@ h2{
     font-size: 26px;
     font-weight: 500;
     text-align: center;
-    margin-bottom: 26px;
+    margin-bottom: 32px;
     color: #148F77;
 }
 
@@ -83,7 +55,6 @@ h2{
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
 }
 
 .input-wrap p {
@@ -101,7 +72,7 @@ span{
 }
 
 input {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     padding: 4px 0;
     width: 100%;
@@ -132,13 +103,15 @@ input[type="checkbox"]:focus {
 button {
     cursor: pointer;
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
-    padding: 12px 50px;
+    padding: 10px 55px;
     border-radius: 30px;
     font-weight: 600;
     border: none;
     color: #fff;
     background-color: #39b385;
+    margin-top: 33px;
     margin-right: 16px;
+    margin-bottom: 10px;
     transition: 500ms ease all;
 }
 
@@ -183,18 +156,4 @@ i {
 
 i:hover {
     color:#4e585f;
-}
-
-a {
-    text-decoration: none;
-}
-
-#fix {
-    margin-top: -10px;
-    margin-bottom: -10px;
-}
-
-#fixLogInMargin {
-    margin-top: 18px;
-    margin-left: 20px;
 }

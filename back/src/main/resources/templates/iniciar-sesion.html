@@ -37,11 +37,15 @@
             </div> -->
             <div class="input-wrap">
                 <input id="username" type="email" name="username" th:value="${email}" required="true"
-                       placeholder="Email">
+                       placeholder="Email"><small
+                    class="form-text text-danger"
+                    th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
             </div>
             <div class="input-wrap">
                 <input id="password" type="password" name="password" th:value="${password}" required="true"
-                       placeholder="Contraseña">
+                       placeholder="Contraseña"><small
+                    class="form-text text-danger"
+                    th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
             </div>
             <!-- <div class="input-wrap">
                 <input type="checkbox">

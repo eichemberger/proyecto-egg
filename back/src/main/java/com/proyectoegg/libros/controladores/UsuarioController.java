@@ -11,6 +11,8 @@ import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
 
 import com.proyectoegg.libros.validacion.UsuarioValidador;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,24 +55,22 @@ public class UsuarioController {
 
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @Valid Usuario usuario, BindingResult result, MultipartFile archivo) {
-
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
             return "registro";
         }
-       
 
         try {
             usuarioServicio.guardar(usuario, archivo);
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e);
             return "registro";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
-
         return "redirect:/login";
-
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar")
     public String editarUsuario(ModelMap model, HttpSession session) throws ServiceException, IOException {
@@ -78,30 +78,54 @@ public class UsuarioController {
         if (usuarioServicio.listarTodos().contains(usuario)) {
             model.addAttribute("usuario", usuario);
             return "editar-usuario";
-        }else{
-            throw new ServiceException ("No se encontró el usuario");
+        } else {
+            throw new ServiceException("No se encontró el usuario");
         }
     }
 
-
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/editar")
-    public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, HttpSession session) throws IOException {
+    public String editarUsuario(ModelMap model, @ModelAttribute("usuario") Usuario usuario, HttpSession session, MultipartFile archivo) throws IOException {
         Usuario usuarioId = (Usuario) session.getAttribute("usuariosession");
-        System.out.println("Id: "+usuarioId.getId());
+        System.out.println("Id: " + usuarioId.getId());
         try {
-            usuarioServicio.editar(usuario, usuarioId.getId());
-            return "redirect:/materias";
+            usuarioServicio.editar(usuario, usuarioId.getId(), archivo);
+            return "redirect:/materia";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
+            return "editar-usuario";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            System.out.println("HOLAAAAAA");
             return "editar-usuario";
         }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/perfil/{id}")
-    public String perfil(ModelMap modelo, @PathVariable String id) {
-        modelo.put("usuario", usuarioServicio.encontrarPorID(id));
+    @GetMapping("/cambiarContrasenia")
+    public String cambiarPassword(ModelMap model) throws ServiceException {
+        model.addAttribute("usuario", new Usuario());
+        return "cambiar-contrasenia";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @PostMapping("/cambiarContrasenia")
+    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja, @RequestParam String contraseniaNueva) throws ServiceException {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        if (usuarioServicio.verificarContrasenia(usuario, contraseniaVieja)) {
+            usuarioServicio.cambiarContrasenia(usuario.getId(), contraseniaNueva);
+            return "perfil";
+        } else {
+            throw new ServiceException("La contraseña actual no es correcta");
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/perfil")
+    public String perfil(ModelMap modelo, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        modelo.put("usuario", usuarioServicio.encontrarPorID(usuario.getId()));
         return "perfil";
     }
 
@@ -109,31 +133,30 @@ public class UsuarioController {
     @GetMapping("/eliminar/definitivo")
     public String eliminarDefinitivo(ModelMap model, HttpSession session) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-            try {
-                for (Libro libro : usuario.getLibros()) {
-                    libroServicio.eliminarDefinitivo(libro.getId());
-                }
+        try {
+            for (Libro libro : usuario.getLibros()) {
+                libroServicio.eliminarDefinitivo(libro.getId());
+            }
 
-            } catch (ServiceException e) {
-                model.addAttribute("error", e.getMessage());
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        try {
+            for (Materia materia : usuario.getMaterias()) {
+                //Ver después el método de borrar materia
+                materiaServicio.eliminar(materia.getId());
             }
-            try {
-                for (Materia materia : usuario.getMaterias()) {
-                    //Ver después el método de borrar materia
-                    materiaServicio.eliminar(materia.getId());
-                }
 
-            } catch (ServiceException e) {
-                model.addAttribute("error", e.getMessage());
-            }
-            try {
-                usuarioServicio.eliminarDefinitivo(usuario.getId());
-            } catch (ServiceException e) {
-                model.addAttribute("error", e.getMessage());
-            }
-            return "redirect:/";
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        try {
+            usuarioServicio.eliminarDefinitivo(usuario.getId());
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "redirect:/";
 
     }
-
 
 }
