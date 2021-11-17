@@ -18,18 +18,9 @@ public class LibroValidador implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Libro libro = (Libro) target;
-
-        if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))) {
-            errors.rejectValue("fechaLimite", "Future.libro.fechaLimite");
-        }
-
-    }
-
-    public void validarFecha(Object target, Errors errors) {
-        Libro libro = (Libro) target;
-
         if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))) {
             errors.rejectValue("fechaLimite", "Future.libro.fechaLimite");
         }
     }
+
 }

@@ -39,6 +39,7 @@
                     <div class="input-wrap">
                         <input type="email" name="email" th:field="*{email}" id="email" required="true" placeholder="Email" />
                     </div>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</span>
                     <div class="input-wrap">
                           <label for="contrasenia"></label> <br />
                         <input type="password" name="contrasenia" th:field="*{contrasenia}" id="contrasenia" required="true" placeholder="Contraseña" />
@@ -48,7 +49,7 @@
                         <input class="input" type="password" name="confirmar-contrasenia" id="confirmar-contrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
                     </div>
                     <span id="error-login">Las contraseñas no coinciden</span>  <br />
-                    <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}">Error!</span>                    
+                    <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}">Error</span>                    
                     <div class="input-wrap">
                         <p>Podes adjuntar tu <a><label>
                                     <input type="file" name="archivo" th:value="*{foto}" id="archivo" style="display: none" accept="image/*"/><span

@@ -198,3 +198,7 @@ a {
     margin-top: 18px;
     margin-left: 20px;
 }
+
+#error-login{
+    display: none;
+}

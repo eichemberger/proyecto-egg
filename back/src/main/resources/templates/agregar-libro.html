@@ -109,6 +109,7 @@
                             required
                             />
                     </div>
+                    <span th:if="${#fields.hasErrors('fechaLimite')}" th:errors="*{fechaLimite}">Error</span>
                     <!-- <div class="input-wrap">
                       <p>Podes adjuntar tu <a><label>
                         <input type="file" name="archivo" th:value="*{foto}" id="archivo" style="display: none" accept="image/*"/><span
