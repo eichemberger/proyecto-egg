@@ -45,7 +45,9 @@ public class LibroController {
     // MUESTRA TODOS LOS LIBROS
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping(value={"/", ""})
-    public String listaLibros() {
+    public String listaLibros(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        model.addAttribute("libros", libroServicio.getAllLibrosAlta(usuario));
         return "mostrar-libros";
     }
 
@@ -215,6 +217,22 @@ public class LibroController {
 
     }
 
+    // ====================== MOSTRAR LIBRO  =============================
+    
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/ver/{id}")
+    public String marcarLeido(@PathVariable("id") String id, ModelMap model){
+        try {
+            Libro libro = libroServicio.verificarLibroId(id);
+           model.addAttribute("libro", libro);
+             return "mostrar-libro";
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+        System.out.println(e.getMessage());
+            return "index";
+        }
+    }
+    
     @ModelAttribute("libros")
     public List<Libro> getLibrosUsuario(HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");

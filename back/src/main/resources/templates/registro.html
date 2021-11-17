@@ -24,10 +24,7 @@
         <title>Registro</title>
     </head>
     <body>
-
-
-        <nav th:replace="layout/layout :: nav"></nav>
-
+        <!--AGREGAR NAV QUE LLEVE A INDEX-->
 
         <div class="singup-wrap">
             <div class="singup-top">
@@ -43,11 +40,15 @@
                         <input type="email" name="email" th:field="*{email}" id="email" required="true" placeholder="Email" />
                     </div>
                     <div class="input-wrap">
+                          <label for="contrasenia"></label> <br />
                         <input type="password" name="contrasenia" th:field="*{contrasenia}" id="contrasenia" required="true" placeholder="Contraseña" />
                     </div>
-<!--                    <div class="input-wrap">
-                        <input type="password" name="confirmar-contrasenia" th:field="*{confirmar-contrasenia}" id="confirmar-contrasenia" required="true" placeholder="Confirmar contraseña" />
-                    </div>-->
+                    <div class="input-wrap">
+                        <label for="confirmar-contrasenia"></label> <br />
+                        <input class="input" type="password" name="confirmar-contrasenia" id="confirmar-contrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
+                    </div>
+                    <span id="error-login">Las contraseñas no coinciden</span>  <br />
+                    <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}">Error!</span>                    
                     <div class="input-wrap">
                         <p>Podes adjuntar tu <a><label>
                                     <input type="file" name="archivo" th:value="*{foto}" id="archivo" style="display: none" accept="image/*"/><span
@@ -60,7 +61,7 @@
                     </div>
                     <div id="fix">
                         <div class="input-wrap">
-                            <button type="submit">Enviar</button>
+                            <button type="submit" id="boton">Enviar</button>
                             <p id="fixLogInMargin">Ya tenes una cuenta? <a th:href="@{/login}"><span>Log In</span></a></p>
                         </div>
                     </div>

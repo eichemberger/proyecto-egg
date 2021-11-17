@@ -45,7 +45,7 @@
         <!--    <td th:text="${libro.dias}"></td>-->
         <td th:text= "${libro.leido}"></td>
         <!--    Boton para marcar libro como leido-->
-        <td><a th:href="@{/libros/editar/}+${libro.id}">✅</a></td>
+        <td><a th:href="@{/libros/reciclar/}+${libro.id}">✅</a></td>
         <td><a th:href="@{/libros/eliminar/definitivo/}+${libro.id}">❌</a></td>
     </tr>
 

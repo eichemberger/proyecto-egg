@@ -6,13 +6,16 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f3f3f3;
+  
+
+  background-color: #F4F6F7;
 }
 
 nav {
   display: flex;
   flex-direction: row;
   width: 100vw;
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
 }
 
 a {
@@ -31,15 +34,21 @@ a {
 .titulo {
   padding: 15px;
   text-align: center;
+  color: #39b385;
+
+
+
 }
 
 
 .descripcion-libro {
-  background-color: white;
+  background: linear-gradient(to top left, #39b385, #9be15d) fixed;
+
   padding: 10px;
   margin: 5px 5px 15px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
+  border-radius: 15px;
+  border: gray;
   display: grid;
   grid-template-columns: repeat(0, minmax(0, 1fr));
   column-gap: 1.5rem;
@@ -129,7 +138,7 @@ button {
 
 .fill-eliminar::after {
   content: '';
-  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
   width: 100%;
   z-index: -1;
   position: absolute;
@@ -141,7 +150,7 @@ button {
 
 .fill-agg::after {
   content: '';
-  background-image: linear-gradient(to top left, #be9714, #fad12d);
+  background-image: linear-gradient(to top left,  #39b385, #9be15d);
   width: 100%;
   z-index: -1;
   position: absolute;

@@ -121,7 +121,7 @@ public class LibroServicio {
     public List<Libro> getLibrosEliminados(Usuario usuario){
         return libroRepositorio.findByUsuarioAndAltaFalse(usuario);
     }
-
+   
     // VERIFICACIONES
 
     public Libro verificarLibroId(String id) throws ServiceException {

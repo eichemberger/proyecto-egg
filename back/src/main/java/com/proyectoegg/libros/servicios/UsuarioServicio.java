@@ -73,11 +73,6 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public List<Materia> getAllMaterias(Usuario usuario) {
-        return usuario.getMaterias();
-    }
-
-    @Transactional
     public Usuario editar(Usuario usuario, String id, MultipartFile archivo) throws ServiceException, IOException, Exception {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -192,4 +187,5 @@ public class UsuarioServicio implements UserDetailsService {
 //            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
 //        }
 
+}
 }

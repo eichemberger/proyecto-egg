@@ -37,12 +37,16 @@
   </thead>
   <tbody>
   <tr th:each=" libro : ${libros}" scope="row">
-    <td th:text="${libro.titulo}"></td>
+      <td> <a th:href="@{/libros/ver/}+${libro.id}" th:text="${libro.titulo}" ></a></td>
     <td th:text="${libro.obligatorio}"></td>
+        <!-- TODO:  si / no?  -->
+    <!--<td th:if="${libro.obligatorio} ? 'Si' : 'No'"></td>-->      
+    
     <!-- TODO:  dias?  -->
-<!--    <td th:text="${libro.dias}"></td>-->
+<!--    <td th:text="${diasRestantes}"></td>-->
+
     <td th:text= "${libro.leido}"></td>
-    <td><a th:href="@{/libros/}+${libro.materia}+'/leido/'+${libro.id}">✅</a></td>
+    <td><a th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}">✅</a></td>
     <td><a th:href="@{/libros/eliminar/}+${libro.id}">❌</a></td>
   </tr>
 
@@ -51,8 +55,8 @@
 
 <div class="botones">
 <!--  Volver a Materias (inicio)-->
-  <a type="button" class="fill-agg" th:href="@{/materia}"?>Volver &#8629;</a>
-  <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar</a>
+  <a type="button" class="fill-agg" th:href="@{/materia}">Volver &#8629;</a>
+  <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar Libro</a>
 </div>
 </body>
 </html>

@@ -4,11 +4,14 @@ import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
-import com.proyectoegg.libros.servicios.EmailService;
+import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import java.io.IOException;
 import com.proyectoegg.libros.validacion.UsuarioValidador;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -26,12 +29,14 @@ public class UsuarioController {
     UsuarioServicio usuarioServicio;
     MateriaServicio materiaServicio;
     UsuarioValidador usuarioValidador;
+    LibroServicio libroServicio;
 
     @Autowired
-    public UsuarioController(UsuarioServicio usuarioServicio, MateriaServicio materiaServicio, UsuarioValidador usuarioValidador) {
+    public UsuarioController(UsuarioServicio usuarioServicio, MateriaServicio materiaServicio, UsuarioValidador usuarioValidador, LibroServicio libroServicio) {
         this.usuarioServicio = usuarioServicio;
         this.materiaServicio = materiaServicio;
         this.usuarioValidador = usuarioValidador;
+        this.libroServicio = libroServicio;
     }
 
     @InitBinder
@@ -57,6 +62,8 @@ public class UsuarioController {
         } catch (ServiceException e){
             model.addAttribute("error", e);
             return "registro";
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
         }
 
         return "redirect:/login";
@@ -82,7 +89,7 @@ public class UsuarioController {
         System.out.println("Id: " + usuarioId.getId());
         try {
             usuarioServicio.editar(usuario, usuarioId.getId(), archivo);
-            return "redirect:/materia";
+            return "redirect:/usuario/perfil";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());
@@ -96,28 +103,35 @@ public class UsuarioController {
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/cambiarContrasenia")
-    public String cambiarPassword(ModelMap model) throws ServiceException {
-        model.addAttribute("usuario", new Usuario());
+    public String cambiarPassword() throws ServiceException {
         return "cambiar-contrasenia";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/cambiarContrasenia")
-    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja, @RequestParam String contraseniaNueva) throws ServiceException {
+    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja,@RequestParam String contraseniaNueva ) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        System.out.println(contraseniaNueva);
+        System.out.println(contraseniaVieja);
         if (usuarioServicio.verificarContrasenia(usuario, contraseniaVieja)) {
             usuarioServicio.cambiarContrasenia(usuario.getId(), contraseniaNueva);
-            return "perfil";
+            return "redirect:/usuario/perfil";
         } else {
-            throw new ServiceException("La contraseña actual no es correcta");
+            System.out.println("ERROR");
+            model.addAttribute("error", "La contraseña actual no es correcta");
+           return "cambiar-contrasenia";
         }
     }
-
+    
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuarioServicio.encontrarPorID(usuario.getId()));
+        
+        List<Libro> leidos = libroServicio.getLibrosLeidos(usuario);
+        modelo.put("cantidadLeidos", leidos.size());
+        
         return "perfil";
     }
 
@@ -148,25 +162,7 @@ public class UsuarioController {
             model.addAttribute("error", e.getMessage());
         }
         return "redirect:/";
-
-    @GetMapping("/password")
-    public String cambiarPassword(ModelMap model) throws ServiceException {
-        model.addAttribute("usuario", new Usuario());
-        return "cambiar-contrasenia";
     }
-    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @PostMapping("/password")
-    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja,@RequestParam String contraseniaNueva ) throws ServiceException {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        System.out.println(contraseniaNueva);
-        System.out.println(contraseniaVieja);
-        if (usuarioServicio.verificarContrasenia(usuario, contraseniaVieja)) {
-            usuarioServicio.cambiarContrasenia(usuario.getId(), contraseniaNueva);
-            return "perfil";
-        } else {
-            throw new ServiceException("La contraseña actual no es correcta");
-        }
-    }
-
+    
 
 }

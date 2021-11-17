@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Libro</title>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link th:href="@{/styles/mostrar-libro.css}" rel="stylesheet" type="text/css" />
+  <link
+          href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
+          rel="stylesheet"
+  />
+</head>
+<body>
+<nav th:replace="layout/layout :: nav"></nav>
+
+<h1 class="titulo">LIBRO</h1>
+
+<div class="descripcion-libro">
+  <div class="descripcion-element">
+    <h6>Nombre:</h6>
+    <p th:text="${libro.titulo}">Java 2</p>
+  </div>
+
+  <div class="descripcion-element">
+    <h6>Autor:</h6>
+    <p th:text="${libro.autor}">Javier Ceballos</p>
+  </div>
+  <div class="descripcion-element">
+    <h6>Materia:</h6>
+    <p th:text="${libro.materia.nombre}">Programación</p>
+  </div>
+  <div class="descripcion-element">
+    <h6>Obligatorio:</h6>
+    <p th:if="${libro.obligatorio} ? 'Si' : 'No'">Sí</p>
+    
+  </div>
+  <div class="descripcion-element">
+    <h6>Fecha de examen:</h6>
+    <p  th:text="${libro.fechaLimite}">23/11/21</p>
+  </div>
+    
+
+    <!--TODO: CALCULAR FECHA DE ALARMA-->
+  <div class="descripcion-element">
+    <h6>Alarma:</h6>
+    <p></p>
+  </div>
+    
+</div>
+
+<!--BOTONES NO FUNCIONAN--> 
+<!--<div class="botones">
+  <button class="fill-agg" th:href="@{/libros/editar/}+${libro.id}">Editar</button>
+  <button class="fill-eliminar" th:href="@{/libros/eliminar/}+${libro.id}">Eliminar</button>
+</div>-->
+  
+    <a type="button" class="fill-agg" th:href="@{/libros/editar/}+${libro.id}">Editar </a>
+    <a type="button" class="fill-agg" th:href="@{/libros/eliminar/}+${libro.id}">Eliminar </a>
+ 
+    
+</body>
+</html>
