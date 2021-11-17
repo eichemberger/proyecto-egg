@@ -45,7 +45,7 @@ public class UsuarioServicio implements UserDetailsService {
         this.materiaServicio = materiaServicio;
     }
 
-    public Usuario getByEmail(String email) {
+    public Usuario getByEmail(String email){
         return usuarioRepositorio.findByEmail(email);
     }
 
@@ -66,6 +66,12 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.save(usuario);
     }
 
+
+    @Transactional
+    public List<Materia> getAllMaterias(Usuario usuario) {
+        return usuario.getMaterias();
+    }
+
     @Transactional
     public List<Materia> getAllMaterias(Usuario usuario) {
         return usuario.getMaterias();
@@ -76,7 +82,7 @@ public class UsuarioServicio implements UserDetailsService {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
             Usuario usuarioEditar = resultado.get();
-            validarEdicion(usuario.getNombre(), usuario.getEmail(), usuarioEditar.getEmail());
+            //validarEdicion(usuario.getNombre(), usuario.getEmail(), usuarioEditar.getEmail());
             usuarioEditar.setNombre(usuario.getNombre());
             usuarioEditar.setEmail(usuario.getEmail());
 
@@ -185,6 +191,5 @@ public class UsuarioServicio implements UserDetailsService {
 //        if (!contrasenia.equals(contrasenia2)) {
 //            throw new ServiceException("Las contraseñas no coinciden. Por favor verifique la información ingresada.");
 //        }
-    }
 
 }

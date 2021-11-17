@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class LibroController {
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@Valid Libro libro, BindingResult result, HttpSession session) {
-        libroValidador.validate(libro, result);
+         libroValidador.validate(libro, result);
         if(result.hasErrors()) {
             return "redirect:/libros/agregar";
         }
@@ -181,9 +182,10 @@ public class LibroController {
         try {
             Libro libro = libroServicio.getLibro(id);
             if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))){
+                model.addAttribute("error-fecha", "La fecha debe ser en el futuro");
                 model.addAttribute("libro", libro);
-                model.addAttribute("error", "La fecha debe ser en el futuro");
-                return "/libros/editar/" + libro.getId();
+//                model.addAttribute("error", "La fecha debe ser en el futuro");
+                return "redirect:/libros/editar/" + libro.getId();
             } else {
                 libroServicio.cambiarAlta(libro);
                 if(!libro.getMateria().getAlta()){
@@ -204,12 +206,12 @@ public class LibroController {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
             libroServicio.cambiarLeido(libro);
-            return "redirect:/libros/" + materia;
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
         System.out.println(e.getMessage());
             return "index";
         }
+        return "redirect:/libros/" + materia;
 
     }
 
