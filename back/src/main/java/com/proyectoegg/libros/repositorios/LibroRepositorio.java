@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -31,6 +32,10 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
 
  List<Libro> findByUsuarioAndLeidoTrueAndAltaTrue(Usuario usuario);
 
+ List<Libro> findByFechaLimiteAndAltaTrueAndLeidoFalse(Date fechaLimite);
+ 
+ List<Libro> findByFechaAlertaAndAltaTrueAndLeidoFalse(Date fechaAlerta);
+ 
  @Modifying
  @Query(value = "DELETE FROM Libro l WHERE l.id= :id")
  void eliminarPorId(@Param("id") String id);

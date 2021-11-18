@@ -86,8 +86,9 @@ public class UsuarioServicio implements UserDetailsService {
                 idFoto = usuario.getFoto().getId();
             }
             Foto foto = fotoServicio.editar(idFoto, archivo);
+            if(foto != null){
             usuarioEditar.setFoto(foto);
-            System.out.println(usuarioEditar.toString());
+            }
             return usuarioRepositorio.save(usuarioEditar);
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");

@@ -19,22 +19,20 @@ public class MateriaServicio {
     private MateriaRepositorio materiaRepositorio;
 
     // AGREGAR
-
     @Transactional
-    public Materia agregarMateria(Materia materia){
+    public Materia agregarMateria(Materia materia) {
         materia.setAlta(true);
         return materiaRepositorio.save(materia);
     }
 
     // FILTROS
-
     @Transactional(readOnly = true)
-    public Materia getMateriaByUsuario(Usuario usuario, String nombre){
+    public Materia getMateriaByUsuario(Usuario usuario, String nombre) {
         return materiaRepositorio.findByUsuarioAndNombre(usuario, nombre);
     }
 
     @Transactional
-    public List<Materia> getMateriaByUsuarioAlta(Usuario usuario){
+    public List<Materia> getMateriaByUsuarioAlta(Usuario usuario) {
         return materiaRepositorio.findByUsuarioAndAltaTrue(usuario);
     }
 
@@ -44,21 +42,19 @@ public class MateriaServicio {
     }
 
     // ELIMINAR / DAR DE BAJA
-
     @Transactional
-    public void cambiarAlta(Materia materia){
+    public void cambiarAlta(Materia materia) {
         materia.setAlta(!materia.getAlta());
         materiaRepositorio.save(materia);
     }
 
     @Transactional
-    public void darMateriaBaja(Materia materia){
+    public void darMateriaBaja(Materia materia) {
         materia.setAlta(false);
         materiaRepositorio.save(materia);
     }
 
     // EDITAR
-
     @Transactional
     public Materia editar(String id, String nombre) throws ServiceException {
         Optional<Materia> resultado = materiaRepositorio.findById(id);
@@ -78,11 +74,10 @@ public class MateriaServicio {
     }
 
     // BUSCAR MATERIA
-
     @Transactional
-    public Materia encontrarPorID(String id) throws ServiceException{
+    public Materia encontrarPorID(String id) throws ServiceException {
         Optional<Materia> materia = materiaRepositorio.findById(id);
-        if(materia.isPresent()){
+        if (materia.isPresent()) {
             return materiaRepositorio.getById(id);
         } else {
             throw new ServiceException("La materia indicada no se encuentra en el sistema");
@@ -90,13 +85,8 @@ public class MateriaServicio {
     }
 
     @Transactional
-    public Materia getMateriaByNombre(String nombre) throws ServiceException{
-        if(materiaRepositorio.findByNombre(nombre) != null){
-            return materiaRepositorio.findByNombre(nombre);
-        } else {
-            throw new ServiceException("La materia indicada no se encuentra en el sistema");
-        }
+    public Materia getMateriaByUsuarioAndNombre(Usuario usuario, String nombre) throws ServiceException {
+        return materiaRepositorio.findByUsuarioAndNombre(usuario, nombre);
     }
-
 
 }

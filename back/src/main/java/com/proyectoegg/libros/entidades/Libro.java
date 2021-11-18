@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 public class Libro implements Serializable {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -20,9 +21,12 @@ public class Libro implements Serializable {
     @NotBlank
     private String autor;
     @Temporal(javax.persistence.TemporalType.DATE)
-    @DateTimeFormat(iso=ISO.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @NotNull
     private Date fechaLimite;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date fechaAlerta;
     @NotNull
     @Min(1)
     @Max(365)
@@ -46,32 +50,19 @@ public class Libro implements Serializable {
     public Libro() {
     }
 
-    public Libro(String id, String titulo, String autor, Materia materia, Boolean leido, Boolean obligatorio, Date fechaLimite, Integer diasAnticipacion, String descripcion, String idUsuario) {
+      public Libro(String id, String titulo, String autor, Date fechaLimite, Date fechaAlerta, Integer diasAnticipacion, String descripcion, Boolean alta, Boolean leido, Boolean obligatorio, Materia materia, Usuario usuario) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
-        this.materia = materia;
-        this.leido = leido;
-        this.obligatorio = obligatorio;
         this.fechaLimite = fechaLimite;
+        this.fechaAlerta = fechaAlerta;
         this.diasAnticipacion = diasAnticipacion;
         this.descripcion = descripcion;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Boolean getAlta() {
-        return alta;
-    }
-
-    public void setAlta(Boolean alta) {
         this.alta = alta;
+        this.leido = leido;
+        this.obligatorio = obligatorio;
+        this.materia = materia;
+        this.usuario = usuario;
     }
 
     public String getId() {
@@ -98,36 +89,20 @@ public class Libro implements Serializable {
         this.autor = autor;
     }
 
-    public Materia getMateria() {
-        return materia;
-    }
-
-    public void setMateria(Materia materia) {
-        this.materia = materia;
-    }
-
-    public Boolean getLeido() {
-        return leido;
-    }
-
-    public void setLeido(Boolean leido) {
-        this.leido = leido;
-    }
-
-    public Boolean getObligatorio() {
-        return obligatorio;
-    }
-
-    public void setObligatorio(Boolean obligatorio) {
-        this.obligatorio = obligatorio;
-    }
-
     public Date getFechaLimite() {
         return fechaLimite;
     }
 
     public void setFechaLimite(Date fechaLimite) {
         this.fechaLimite = fechaLimite;
+    }
+
+    public Date getFechaAlerta() {
+        return fechaAlerta;
+    }
+
+    public void setFechaAlerta(Date fechaAlerta) {
+        this.fechaAlerta = fechaAlerta;
     }
 
     public Integer getDiasAnticipacion() {
@@ -146,15 +121,59 @@ public class Libro implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @Override
-    public String toString() {
-        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", materia=" + materia + ", leido=" + leido + ", obligatorio=" + obligatorio + ", fechaLimite=" + fechaLimite + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", idUsuario=" + '}';
+    public Boolean getAlta() {
+        return alta;
+    }
+
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
+    }
+
+    public Boolean getLeido() {
+        return leido;
+    }
+
+    public void setLeido(Boolean leido) {
+        this.leido = leido;
+    }
+
+    public Boolean getObligatorio() {
+        return obligatorio;
+    }
+
+    public void setObligatorio(Boolean obligatorio) {
+        this.obligatorio = obligatorio;
+    }
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
+    public String toString() {
+        return "Libro{" + "id=" + id + ", titulo=" + titulo + ", autor=" + autor + ", fechaLimite=" + fechaLimite + ", fechaAlerta=" + fechaAlerta + ", diasAnticipacion=" + diasAnticipacion + ", descripcion=" + descripcion + ", alta=" + alta + ", leido=" + leido + ", obligatorio=" + obligatorio + ", materia=" + materia + ", usuario=" + usuario + '}';
+    }
+
+        @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Libro libro = (Libro) o;
 
