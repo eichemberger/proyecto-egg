@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" th:href="@{/styles/boton.css}">
+    
     <link
       href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
       rel="stylesheet"
@@ -13,7 +15,7 @@
   </head>
   <body>
 
-  <nav th:replace="layout/layout :: nav"></nav>
+    <nav th:replace="layout/layout :: nav"></nav>
 
   <h1 class="titulo-tabla">Materias</h1>
 
@@ -22,8 +24,12 @@
         <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
       </div>
 
-      <div class="botones">
+      <!-- <div class="botones">
         <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
-      </div>
+      </div> -->
+      <div class="input-wrap">
+        <!-- <button style="font-size: 16px;" type="submit">Agregar Materia</button> -->
+        <a style="margin: auto;" th:href="@{/materia/agregar}"><button style="font-size: 16px;" type="submit">Agregar Materia</button></a>
+    </div>
   </body>
 </html>

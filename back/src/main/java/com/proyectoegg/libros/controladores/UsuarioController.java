@@ -4,6 +4,7 @@ import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
+import com.proyectoegg.libros.servicios.EmailService;
 import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
@@ -30,13 +31,15 @@ public class UsuarioController {
     MateriaServicio materiaServicio;
     UsuarioValidador usuarioValidador;
     LibroServicio libroServicio;
+    EmailService emailServicio;
 
     @Autowired
-    public UsuarioController(UsuarioServicio usuarioServicio, MateriaServicio materiaServicio, UsuarioValidador usuarioValidador, LibroServicio libroServicio) {
+    public UsuarioController(UsuarioServicio usuarioServicio, MateriaServicio materiaServicio, UsuarioValidador usuarioValidador, LibroServicio libroServicio, EmailService emailServicio) {
         this.usuarioServicio = usuarioServicio;
         this.materiaServicio = materiaServicio;
         this.usuarioValidador = usuarioValidador;
         this.libroServicio = libroServicio;
+        this.emailServicio = emailServicio;
     }
 
     @InitBinder
@@ -53,13 +56,13 @@ public class UsuarioController {
     @PostMapping("/registro")
     public String registrarUsuario(ModelMap model, @Valid Usuario usuario, BindingResult result, MultipartFile archivo) {
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "registro";
         }
 
         try {
             usuarioServicio.guardar(usuario, archivo);
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e);
             return "registro";
         } catch (Exception ex) {
@@ -67,7 +70,6 @@ public class UsuarioController {
         }
 
         return "redirect:/login";
-
     }
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
@@ -89,6 +91,9 @@ public class UsuarioController {
         System.out.println("Id: " + usuarioId.getId());
         try {
             usuarioServicio.editar(usuario, usuarioId.getId(), archivo);
+
+
+
             return "redirect:/usuario/perfil";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
@@ -109,7 +114,7 @@ public class UsuarioController {
 
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/cambiarContrasenia")
-    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja,@RequestParam String contraseniaNueva ) throws ServiceException {
+    public String cambiarPassword(ModelMap model, HttpSession session, @RequestParam String contraseniaVieja, @RequestParam String contraseniaNueva) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         System.out.println(contraseniaNueva);
         System.out.println(contraseniaVieja);
@@ -119,19 +124,19 @@ public class UsuarioController {
         } else {
             System.out.println("ERROR");
             model.addAttribute("error", "La contraseña actual no es correcta");
-           return "cambiar-contrasenia";
+            return "cambiar-contrasenia";
         }
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         modelo.put("usuario", usuarioServicio.encontrarPorID(usuario.getId()));
-        
+
         List<Libro> leidos = libroServicio.getLibrosLeidos(usuario);
         modelo.put("cantidadLeidos", leidos.size());
-        
+
         return "perfil";
     }
 
@@ -163,6 +168,5 @@ public class UsuarioController {
         }
         return "redirect:/";
     }
-    
 
 }

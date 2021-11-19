@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -7,58 +8,72 @@
   <title>Libro</title>
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <link th:href="@{/styles/mostrar-libro.css}" rel="stylesheet" type="text/css" />
-  <link
-          href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-          rel="stylesheet"
-  />
+  <link th:href="@{/styles/nav.css}" rel="stylesheet" type="text/css" />
+  <link th:href="@{/styles/boton.css}" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet" />
 </head>
 <body>
-<nav th:replace="layout/layout :: nav"></nav>
+  <nav>
+    <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
+  </nav>
 
-<h1 class="titulo">LIBRO</h1>
+  <h2 class="titulo">Libro</h2>
 
-<div class="descripcion-libro">
-  <div class="descripcion-element">
-    <h6>Nombre:</h6>
-    <p th:text="${libro.titulo}">Java 2</p>
+  <div class="descripcion-libro">
+    <div class="div1">
+      <div>
+        <h3>Nombre:</h3>
+        <p th:text="${libro.titulo}">Java 2</p>
+      </div>
+      <div>
+        <h3>Autor:</h3>
+        <p th:text="${libro.autor}">Javier Ceballos</p>
+      </div>
+      <div>
+        <h3>Materia:</h3>
+        <p th:text="${libro.materia.nombre}">Programación</p>
+      </div>
+    </div>
+    <div class="div2">
+      <div>
+        <h3>Obligatorio:</h3>
+        <p th:text="${libro.obligatorio} ? 'Si' : 'No'">Si</p>
+      </div>
+      <div>
+        <h3>Fecha de examen:</h3>
+        <p th:text="${libro.fechaLimite}">23/11/21</p>
+      </div>
+      <!--TODO: CALCULAR FECHA DE ALARMA-->
+      <div>
+        <h3>Alarma:</h3>
+        <p></p>
+      </div>
+    </div>
   </div>
 
-  <div class="descripcion-element">
-    <h6>Autor:</h6>
-    <p th:text="${libro.autor}">Javier Ceballos</p>
-  </div>
-  <div class="descripcion-element">
-    <h6>Materia:</h6>
-    <p th:text="${libro.materia.nombre}">Programación</p>
-  </div>
-  <div class="descripcion-element">
-    <h6>Obligatorio:</h6>
-    <p th:if="${libro.obligatorio} ? 'Si' : 'No'">Sí</p>
-    
-  </div>
-  <div class="descripcion-element">
-    <h6>Fecha de examen:</h6>
-    <p  th:text="${libro.fechaLimite}">23/11/21</p>
-  </div>
-    
-
-    <!--TODO: CALCULAR FECHA DE ALARMA-->
-  <div class="descripcion-element">
-    <h6>Dias restantes: </h6>
-    <p th:text="${diasRestantes}"></p>
-  </div>
-    
-</div>
-
-<!--BOTONES NO FUNCIONAN--> 
-<!--<div class="botones">
+  <!--BOTONES NO FUNCIONAN-->
+  <!--<div class="botones">
   <button class="fill-agg" th:href="@{/libros/editar/}+${libro.id}">Editar</button>
   <button class="fill-eliminar" th:href="@{/libros/eliminar/}+${libro.id}">Eliminar</button>
 </div>-->
-  
-    <a type="button" class="fill-agg" th:href="@{/libros/editar/}+${libro.id}">Editar </a>
-    <a type="button" class="fill-agg" th:href="@{/libros/eliminar/}+${libro.id}">Eliminar </a>
- 
-    
+
+  <!-- <a type="button" class="fill-agg" th:href="@{/libros/editar/}+${libro.id}">Editar </a>
+  <a type="button" class="fill-agg" th:href="@{/libros/eliminar/}+${libro.id}">Eliminar </a> -->
+
+  <div class="divBotones">
+  <div class="divB1"><div class="input-wrap">
+    <!-- <button type="submit">Agregar Libro</button> -->
+    <a style="margin:auto;" th:href="@{/libros/editar/}+${libro.id}"><button type="submit">Editar</button></a>
+  </div></div>
+  <div class="divB2"><div class="input-wrap">
+    <!-- <button type="submit">Agregar Libro</button> -->
+    <a style="margin:auto;" th:href="@{/libros/eliminar/}+${libro.id}"><button type="submit">Eliminar</button></a>
+  </div></div>
+  </div>
 </body>
 </html>

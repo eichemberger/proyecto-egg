@@ -133,7 +133,7 @@ public class LibroServicio {
         return libroRepositorio.findByFechaLimiteAndAltaTrueAndLeidoFalse(new Date());
     }
 
-    public List<Libro> librosFechaAlertaActivosSinLeer(Usuario usuario) {
+    public List<Libro> librosFechaAlertaActivosSinLeer() {
         return libroRepositorio.findByFechaAlertaAndAltaTrueAndLeidoFalse(new Date());
     }
 

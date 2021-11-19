@@ -84,9 +84,8 @@ body {
   
   /* FOOTER */
 .responsive-blog-footer {
-  background: rgb(0, 0, 0, 0.9);
+  background: rgb(99, 224, 137);
   padding: 3rem 3rem;
-  color: #39b385;
 }
 
 @media screen and (max-width: 39.9375em) {

@@ -12,7 +12,6 @@
           href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
           rel="stylesheet"
   />
-
 </head>
 <body>
 
@@ -37,9 +36,14 @@
     <p th:text= "'Cantidad de libros leídos: ' + ${cantidadLeidos}">Libros leidos: 78</p>
   </div>
 
-  <div class="botones">
-    <a th:href="@{/usuario/editar}" type="button" class="fill">Editar</a>
-  </div>
+  <!-- <div class="botones">
+    <a th:href="@{/usuario/editar}" type="button" class="button">Editar</a>
+  </div> -->
+
+  <div class="input-wrap">
+    <!-- <button style="font-size: 16px;" type="submit">Editar</button> -->
+    <a style="margin: auto;" th:href="@{/usuario/editar}"><button style="font-size: 16px;" type="submit">Editar</button></a>
+</div>
 </div>
 </body>
 </html>

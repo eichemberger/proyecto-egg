@@ -1,3 +1,9 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f3f3f3;
@@ -62,7 +68,6 @@ a {
 
 .eliminar-materia {
   margin-left: auto;
-  padding-top: 17px;
 }
 
 .container:hover {
@@ -82,9 +87,9 @@ a {
   margin-right: 5px;
 }
 
-.nav-item {
+/* .nav-item {
   margin: 15px;
-}
+} */
 
 .select-materia {
   margin-left: 62.7vw;
@@ -93,6 +98,7 @@ a {
 
 .titulo-tabla {
   margin: auto;
+  margin-top: 33px;
   padding: 10px;
   text-align: center;
   letter-spacing: 0.2em;
@@ -171,4 +177,51 @@ button {
 .fill-agg:hover::after {
   top: 0px;
   left: 0px;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100vw;
+  height: 60px;
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color:#fff;
+}
+
+.nav-item {
+  padding: 10px;
+}
+
+.primer-item {
+  margin-right: auto;
+}
+
+.input-wrap{
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+button {
+  cursor: pointer;
+  /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
+  padding: 12px 50px;
+  border-radius: 30px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  background-color: #39b385;
+  margin: auto;
+  transition: 500ms ease all;
+  font-family: arial;
+  margin-top: 50px;
+}
+
+button:hover {
+  background-color: #16A085;
+  transform: scale(.98);
 }

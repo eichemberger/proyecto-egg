@@ -1,0 +1,25 @@
+.input-wrap{
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+  }
+  
+  button {
+    cursor: pointer;
+    /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
+    padding: 12px 50px;
+    border-radius: 30px;
+    font-weight: 600;
+    border: none;
+    color: #fff;
+    background-color: #39b385;
+    margin: auto;
+    transition: 500ms ease all;
+    font-family: arial;
+    margin-top: 50px;
+  }
+  
+  button:hover {
+    background-color: #16A085;
+    transform: scale(.98);
+  }

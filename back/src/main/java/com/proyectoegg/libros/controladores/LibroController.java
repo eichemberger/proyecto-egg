@@ -4,6 +4,7 @@ import com.proyectoegg.libros.entidades.Libro;
 import com.proyectoegg.libros.entidades.Materia;
 import com.proyectoegg.libros.entidades.Usuario;
 import com.proyectoegg.libros.excepciones.ServiceException;
+import com.proyectoegg.libros.servicios.EmailService;
 import com.proyectoegg.libros.servicios.LibroServicio;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
@@ -34,6 +35,9 @@ public class LibroController {
     LibroValidador libroValidador;
 
     @Autowired
+    EmailService emailServicio;
+
+    @Autowired
     public LibroController(LibroServicio libroServicio, UsuarioServicio usuarioServicio, MateriaServicio materiaServicio) {
         this.libroServicio = libroServicio;
         this.usuarioServicio = usuarioServicio;
@@ -42,10 +46,10 @@ public class LibroController {
 
     // MUESTRA TODOS LOS LIBROS
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping(value={"/", ""})
+    @GetMapping(value = {"/", ""})
     public String listaLibros(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("libros", libroServicio.getAllLibrosAlta(usuario));     
+        model.addAttribute("libros", libroServicio.getAllLibrosAlta(usuario));
         return "mostrar-libros";
     }
 
@@ -68,8 +72,9 @@ public class LibroController {
     }
 
     // LIBROS SEGUN MATERIA (Alta = True && Leido = False)
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/{materia}")
-    public String libroPorMateria(@PathVariable("materia") String materiaNombre, ModelMap model, HttpSession session){
+    public String libroPorMateria(@PathVariable("materia") String materiaNombre, ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         try {
             Materia materia = materiaServicio.getMateriaByUsuarioAndNombre(usuario, materiaNombre);
@@ -83,7 +88,6 @@ public class LibroController {
     }
 
     // ====================== AGREGAR LIBRO =============================
-
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/agregar")
     public String agregarLibro(ModelMap model, HttpSession session) {
@@ -96,28 +100,27 @@ public class LibroController {
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @PostMapping("/agregar")
     public String agregarLibro(@Valid Libro libro, BindingResult result, HttpSession session) {
-         libroValidador.validate(libro, result);
-        if(result.hasErrors()) {
+        libroValidador.validate(libro, result);
+        if (result.hasErrors()) {
             return "redirect:/libros/agregar";
         }
-        
+
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         libro.setUsuario(usuario);
-        libroServicio.agregarLibro(libro);    
+        libroServicio.agregarLibro(libro);
         return "redirect:/libros/" + libro.getMateria().getNombre();
     }
 
     // ====================== EDITAR LIBRO =============================
-
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/editar/{id}")
     public String editarLibro(@PathVariable("id") String id, ModelMap model, HttpSession session) {
         try {
             Libro libro = libroServicio.getLibro(id);
-            if(getLibrosUsuario(session).contains(libro)) {
+            if (getLibrosUsuario(session).contains(libro)) {
                 model.addAttribute("libro", libro);
             }
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
             return "inicio";
         }
@@ -128,15 +131,15 @@ public class LibroController {
     @PostMapping("/editar/{id}")
     public String editarlibro(@PathVariable("id") String id, @ModelAttribute("libro") Libro libro, BindingResult result, HttpSession session, ModelMap model) {
 
-//        libroValidador.validate(libro, result); //ME TIRA ERROR PAGE 
-        if(result.hasErrors()){
+        libroValidador.validate(libro, result); 
+        if (result.hasErrors()) {
             return "redirect:/libro/editar/" + id;
         }
 
-        if(getLibrosUsuario(session).contains(libro)){
+        if (getLibrosUsuario(session).contains(libro)) {
             try {
                 libroServicio.editarLibro(libro, id);
-            } catch (ServiceException e){
+            } catch (ServiceException e) {
                 model.addAttribute("error", e.getMessage());
             }
         }
@@ -144,11 +147,10 @@ public class LibroController {
     }
 
 // ====================== ELIMINAR LIBRO =============================
-
     // Da de baja el libro
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable("id") String id, ModelMap model){
+    public String eliminar(@PathVariable("id") String id, ModelMap model) {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
             libroServicio.cambiarAlta(libro);
@@ -162,35 +164,34 @@ public class LibroController {
     // Elimina de base de datos
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/eliminar/definitivo/{id}")
-    public String eliminarDefinitivo(@PathVariable String id, ModelMap model){
+    public String eliminarDefinitivo(@PathVariable String id, ModelMap model) {
         try {
             libroServicio.eliminarDefinitivo(id);
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
         }
         return "redirect:/libros/papelera";
     }
 
     // ====================== RECICLAR LEIDO =============================
-
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/reciclar/{id}")
-    public String reciclar(@PathVariable String id, ModelMap model){
+    public String reciclar(@PathVariable String id, ModelMap model) {
         try {
             Libro libro = libroServicio.getLibro(id);
-            if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))){
+            if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))) {
                 model.addAttribute("error-fecha", "La fecha debe ser en el futuro");
                 model.addAttribute("libro", libro);
 //                model.addAttribute("error", "La fecha debe ser en el futuro");
                 return "redirect:/libros/editar/" + libro.getId();
             } else {
                 libroServicio.cambiarAlta(libro);
-                if(!libro.getMateria().getAlta()){
+                if (!libro.getMateria().getAlta()) {
                     materiaServicio.cambiarAlta(libro.getMateria());
                 }
             }
 
-        } catch (ServiceException e){
+        } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
         }
         return "redirect:/libros/papelera";
@@ -199,13 +200,13 @@ public class LibroController {
     // ====================== MARCAR LIBRO COMO LEIDO =============================
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/{materia}/leido/{id}")
-    public String marcarLeido(@PathVariable("materia") String materia, @PathVariable("id") String id, ModelMap model){
+    public String marcarLeido(@PathVariable("materia") String materia, @PathVariable("id") String id, ModelMap model) {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
             libroServicio.cambiarLeido(libro);
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
-        System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
             return "index";
         }
         return "redirect:/libros/" + materia;
@@ -213,30 +214,29 @@ public class LibroController {
     }
 
     // ====================== MOSTRAR LIBRO  =============================
-    
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/ver/{id}")
-    public String marcarLeido(@PathVariable("id") String id, ModelMap model){
+    public String marcarLeido(@PathVariable("id") String id, ModelMap model) {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
-           model.addAttribute("libro", libro);
-           model.addAttribute("diasRestantes", libroServicio.diasRestantesLimite(libro));
-             return "mostrar-libro";
+            model.addAttribute("libro", libro);
+            model.addAttribute("diasRestantes", libroServicio.diasRestantesLimite(libro));
+            return "mostrar-libro";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
-        System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
             return "index";
         }
     }
-    
+
     @ModelAttribute("libros")
-    public List<Libro> getLibrosUsuario(HttpSession session){
+    public List<Libro> getLibrosUsuario(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         return libroServicio.getLibrosUsuario(usuario);
     }
 
     @ModelAttribute("usuario")
-    public Usuario getUsuario(HttpSession session){
+    public Usuario getUsuario(HttpSession session) {
         return (Usuario) session.getAttribute("usuariosession");
     }
 

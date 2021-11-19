@@ -17,16 +17,16 @@ body {
 
 
 }
-nav {
+/* nav {
     display: flex;
     flex-direction: row;
     width: 100vw;
     background-image: linear-gradient(to top left, #39b385, #9be15d);
 
 
-}
+} */
 
-a {
+/* a {
     text-decoration: none;
     color: inherit;
 
@@ -41,7 +41,7 @@ a {
     margin-right: auto;
     margin-top: 2px;
 
-}
+} */
 
 
 
@@ -50,7 +50,7 @@ a {
     height: 550px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     background-color: #fff;
-    margin-top: 0px;
+    margin-top: 33px;
 }
 
 .singup-top{

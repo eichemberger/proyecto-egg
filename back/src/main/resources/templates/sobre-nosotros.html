@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,32 +7,35 @@
 
     <link rel="stylesheet" href="../styles/sobre-nosotros.css">
     <!-- <link rel="stylesheet" href="../styles/sobre-nosotros.css"> -->
-
-
+    <link rel="stylesheet" href="../styles/nav.css">
     <title>Sobre nosotros </title>
 </head>
-
 <body>
   <!--TO DO: AGREGAR NAV-->
-    <div>
-        <h1 class="titulo">About us</h1>
 
+  <nav>
+    <p style="margin-bottom: 0;" class="primer-item"><a style= "margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
+</nav>
+
+    <div>
+        <h1 class="titulo"><span>Sobre Nosotros</span></h1>
     </div>
     <div class="texto1">
-        <h3>
-            A book is a medium for recording information in the form of writing or images,
+        <p>
+            A book is a medium for recording information in the form of writing or images, <br>
             typically composed of many pages (made of papyrus, parchment, vellum, or paper)
-            bound together and protected by a cover.[1] The technical term for this physical
+            bound together and protected by a cover.The technical term for this physical
             arrangement is codex (plural, codices). In the history of hand-held physical supports
             for extended written compositions or records, the codex replaces its predecessor,
             the scroll. A single sheet in a codex is a leaf and each side of a leaf is a page.
-        </h3>
-
-
-
+        </p>
     </div>
     <div class="video1">
-
         <iframe width="560" height="315" src="https://www.youtube.com/embed/beqbhd7q5Xw" title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

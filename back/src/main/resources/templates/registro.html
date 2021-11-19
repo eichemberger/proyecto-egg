@@ -24,7 +24,10 @@
         <title>Registro</title>
     </head>
     <body>
-        <!--AGREGAR NAV QUE LLEVE A INDEX-->
+        
+        <nav>
+            <p style="margin-bottom: 30px;" class="primer-item"><a style="margin-left: 30px; color: #fff;" th:href="@{/}">📚Libros  O' clock</a></p>
+        </nav>
 
         <div class="singup-wrap">
             <div class="singup-top">
@@ -48,7 +51,7 @@
                         <label for="confirmar-contrasenia"></label> <br />
                         <input class="input" type="password" name="confirmar-contrasenia" id="confirmar-contrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
                     </div>
-                    <span id="error-login">Las contraseñas no coinciden</span>  <br />
+                    <span id="error-login" style="color: red;">Las contraseñas no coinciden</span>  <br />
                     <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}">Error</span>                    
                     <div class="input-wrap">
                         <p>Podes adjuntar tu <a><label>

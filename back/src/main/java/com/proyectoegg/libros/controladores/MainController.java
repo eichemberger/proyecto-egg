@@ -88,10 +88,10 @@ public class MainController {
 //        return "inicio";
 //    }
     
-    @PostMapping("/enviarmail")
-    public String enviarMail(@RequestParam String destinatario, @RequestParam String asunto, @RequestParam String contenido) {
-        emailService.enviar(destinatario, contenido, contenido);
-        return "index";
-    }
+//    @PostMapping("/enviarmail")
+//    public String enviarMail(@RequestParam String destinatario, @RequestParam String asunto, @RequestParam String contenido) {
+//        emailService.enviar(destinatario, contenido, contenido);
+//        return "index";
+//    }
     
 }

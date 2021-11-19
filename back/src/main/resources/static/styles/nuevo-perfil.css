@@ -6,9 +6,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-
     background-color: #F4F6F7;
-
 }
 
 a {
@@ -23,9 +21,11 @@ hr {
 }
 
 .profile {
-    width: 80vw;
+    width: 33vw;
+    border: 2px solid rgba(0, 0, 0, 0.8);
     border-radius: 25px;
     margin: auto;
+    margin-top: 23px;
 }
 
 .titulo {
@@ -37,8 +37,6 @@ hr {
     display: flex;
     justify-content: center;
     margin-top: 15px;
-
-
 }
 
 .foto-div{
@@ -46,28 +44,25 @@ hr {
     align-items:center;
 
 }
-.data-usuario{
-
-    text-align: center;
-
-
-}
 
 .foto-perfil {
     width: 200px;
     height: 200px;
-    overflow: hiden;
+    overflow: hidden;
     border-radius: 50%;
     border: 5px solid rgb(44, 47, 221);
     border-color: #39b385;
     background-color:rgb(209, 209, 209);
-
+    margin-top: -50px;
+    margin-bottom: 20px;
 }
 
 .data-usuario {
+    text-align: center;
+    margin-bottom: 33px;
     margin-top: 20px;
-    margin-left: 30px;
-    font-size: 1.3rem;
+    font-size: 18px;
+    font-weight: 300;
 }
 
 h5 {
@@ -75,50 +70,54 @@ h5 {
 }
 
 .nombre1 {
-
-
     background-image: linear-gradient(to top left, #39b385, #9be15d);
-
-    margin-left: 40%;
-    margin-right: 40%;
-
+    box-shadow: 3px 3px 20px black;
+    width: 210px;
+    margin: auto;
 }
 
 .nombre  {
-    margin-top: 15px;
     text-align: center;
-
-
-    margin-bottom: 3%;
-
-
+    font-size: 26px;
+    font-weight: 300;
 }
-
-
 
 /*
 BOTONES
 */
 
-button {
-    color: white;
-    font-family: inherit;
-    font-family: 'Roboto Mono', monospace;
-    width: 80vw;
+.input-wrap{
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
 }
 
-.botones {
+button {
+  cursor: pointer;
+  /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
+  padding: 12px 50px;
+  border-radius: 30px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  background-color: #39b385;
+  margin: auto;
+  transition: 500ms ease all;
+}
+
+button:hover {
+  background-color: #16A085;
+  transform: scale(.98);
+}
+
+/* .botones {
     display: flex;
     align-items: center;
     position: fixed;
     bottom: 25px;
     margin-left: 500px;
-
-
-}
-
-
-
+}  */
+/* 
 .fill {
     font-size: 16px;
     font-weight: 200;
@@ -204,7 +203,7 @@ button {
 .fill-agg:hover::after {
     top: 0px;
     left: 0px;
-}
+} */
 
 @media (min-width: 640px) {
     button {
@@ -287,3 +286,7 @@ button {
     margin-bottom: 30px;
   }
 } */
+
+/*
+BOTONES
+*/

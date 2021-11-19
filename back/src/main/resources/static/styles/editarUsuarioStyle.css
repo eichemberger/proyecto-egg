@@ -7,14 +7,14 @@
 body {
     font-family: "Quicksand", sans-serif;
     font-weight: 400;
-    height: 100vh;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
     background: linear-gradient(to top left, #39b385, #9be15d) fixed;
 }
 
- /*nav {
+nav {
     display: flex;
     flex-direction: row;
     width: 100vw;
@@ -26,7 +26,7 @@ a {
     color: inherit;
 
 }
- .nav-item {
+/* .nav-item {
     padding: 0px;
     margin-left: 20px;
     margin-right: 20px;
@@ -85,7 +85,6 @@ h2{
 .input-wrap p {
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
     margin-top: 10px;
-
     font-size: 15px;
     color: #4e585f;
 }
@@ -134,7 +133,6 @@ button {
     border: none;
     color: #fff;
     background-color: #39b385;
-    margin-right: 16px;
     transition: 500ms ease all;
 }
 
@@ -197,27 +195,4 @@ a {
 
 #error-login{
     display: none;
-}
-
-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    
-    width: 100vw;
-    height: 60px;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color:#fff;
-   
-}
-
-.nav-item {
-    padding: 10px;
-}
-
-.primer-item {
-    margin-right: auto;
 }

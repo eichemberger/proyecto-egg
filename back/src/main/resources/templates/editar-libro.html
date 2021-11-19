@@ -2,167 +2,128 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Bootstrap CSS -->
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-            crossorigin="anonymous"
-    />
-    <link rel="stylesheet" th:href="@{/styles/agregarLibroStyle.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
     <!-- <link rel="stylesheet" href="../styles/agregarLibroStyle.css"> -->
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-            integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-    />
+    <!-- VERVERVER -->
+    <link rel="stylesheet" th:href="@{/styles/editarLibroStyle.css}" />
+    <link rel="stylesheet" href="nav.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
     <title>Editar Libro</title>
 </head>
 
 <body>
+    <nav>
+        <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
+        <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
+        <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
+        <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
+        <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a>
+        </p>
+        <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
+    </nav>
 
-<nav th:replace="layout/layout :: nav"></nav>
+    <div class="singup-wrap">
+        <div class="singup-top">
+            <h2>Editar Libro</h2>
+            <form th:action="@{/libros/editar/}+${libro.id}" method="POST" th:object="${libro}" autocomplete="off">
+                <div th:replace="/fragments/errorSuccess :: errorSuccess"></div>
 
-
-<div class="singup-wrap">
-    <div class="singup-top">
-        <h2>Editar Libro</h2>
-        <form
-                th:action="@{/libros/editar/}+${libro.id}"
-                method="POST"
-                th:object="${libro}"
-                autocomplete="off"
-        >
-            <div th:replace="/fragments/errorSuccess :: errorSuccess"></div>
-
-            <div class="input-wrap">
-                <input
-                        type="text"
-                        name="titulo"
-                        th:field="*{titulo}"
-                        id="titulo"
-                        required
-                        placeholder="Título"
-                />
-            </div>
-            <div class="input-wrap">
-                <input
-                        type="text"
-                        name="autor"
-                        th:field="*{autor}"
-                        id="autor"
-                        placeholder="Autor"
-                />
-            </div>
-            <div class="input-wrap">
-                <select name="materia" id="materia">
-                    <option
-                            th:value="${libro.materia.id}"
-                            th:text="${libro.materia.nombre}"
-                            th:selected="false"
-
-                    ></option>
-                </select>
-            </div>
-            <div class="input-wrap">
-            <textarea
-                    class="box"
-                    name="descripcion"
-                    th:field="*{descripcion}"
-                    id="descripcion"
-                    cols="20"
-                    rows="2"
-                    placeholder="Descripción"
-            ></textarea>
-            </div>
-            <label for="fechaLimite"><span></span>Fecha de Alarma:</label> <br/>
-            <div class="input-wrap">
-                <input
-                        type="date"
-                        name="fechaLimite"
-                        th:field="*{fechaLimite}"
-                        id="fechaLimite"
-                        required
-                />
-            </div>
-            <!-- <div class="input-wrap">
+                <div class="input-wrap">
+                    <input type="text" name="titulo" th:field="*{titulo}" id="titulo" required placeholder="Título" />
+                </div>
+                <div class="input-wrap">
+                    <input type="text" name="autor" th:field="*{autor}" id="autor" placeholder="Autor" />
+                </div>
+                <div class="f" style="margin-bottom: 15px;">
+                    <div>
+                        <label for="diasAnticipacion">Anticipación de alarma:</label>
+                        <br />
+                        <select class="box" name="materia" id="materia">
+                            <option th:value="${libro.materia.id}" th:text="${libro.materia.nombre}" th:selected="false">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="input-wrap">
+                    <select class="box" name="materia" id="materia">
+                        <option th:value="${libro.materia.id}" th:text="${libro.materia.nombre}" th:selected="false">
+                        </option>
+                    </select>
+                </div> -->
+                <div class="input-wrap">
+                    <textarea class="box" name="descripcion" th:field="*{descripcion}" id="descripcion" cols="20"
+                        rows="2" placeholder="Descripción"></textarea>
+                </div>
+                <label for="fechaLimite"><span></span>Fecha de Alarma:</label> <br />
+                <div class="input-wrap">
+                    <input type="date" name="fechaLimite" th:field="*{fechaLimite}" id="fechaLimite" required />
+                </div>
+                <!-- <div class="input-wrap">
               <p>Podes adjuntar tu <a><label>
                 <input type="file" name="archivo" th:value="*{foto}" id="archivo" style="display: none" accept="image/*"/><span
                 style="cursor: pointer;">foto haciendo click aqui!</span></label></a>
               </p>
             </div> -->
-            <div class="f">
-                <div>
-                    <label for="diasAnticipacion">Anticipación de alarma:</label>
-                    <br/>
-                    <select
-                            class="box"
-                            type="number"
-                            name="diasAnticipacion"
-                            th:field="*{diasAnticipacion}"
-                            id="diasAnticipacion"
-                            required
-                    >
-                        <option value="2" selected="true">2 días</option>
-                        <option value="5">5 días</option>
-                        <option value="7">7 días</option>
-                    </select>
+                <div class="f">
+                    <div>
+                        <label for="diasAnticipacion">Anticipación de alarma:</label>
+                        <br />
+                        <select class="box" type="number" name="diasAnticipacion" th:field="*{diasAnticipacion}"
+                            id="diasAnticipacion" required>
+                            <option value="2" selected="true">2 días</option>
+                            <option value="5">5 días</option>
+                            <option value="7">7 días</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="obligatorio">¿Lectura obligatoria?</label> <br />
+                        <select class="box" type="text" name="obligatorio" th:field="*{obligatorio}" id="obligatorio"
+                            required>
+                            <option value="true">Si</option>
+                            <option value="false" selected="true">No</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label for="obligatorio">¿Lectura obligatoria?</label> <br/>
-                    <select
-                            class="box"
-                            type="text"
-                            name="obligatorio"
-                            th:field="*{obligatorio}"
-                            id="obligatorio"
-                            required
-                    >
-                        <option value="true">Si</option>
-                        <option value="false" selected="true">No</option>
-                    </select>
-                </div>
-            </div>
-            <!-- <div class="input-wrap">
+                <!-- <div class="input-wrap">
               <input type="checkbox" />
               <p style="margin-top: 0px;">Aceptar los <a href="#"><span>Terminos y Condiciones</span></a></p>
             </div> -->
-            <div id="fix">
-                <div class="input-wrap">
-                    <button type="submit">Agregar</button>
-                    <!-- <p id="fixLogInMargin">Ya tenes una cuenta? <a href="#"><span>Log In</span></a></p> -->
+                <div id="fix">
+                    <div class="input-wrap">
+                        <button type="submit">Guardar</button>
+                        <!-- <p id="fixLogInMargin">Ya tenes una cuenta? <a href="#"><span>Log In</span></a></p> -->
+                    </div>
                 </div>
+            </form>
+        </div>
+        <div class="singup-botton">
+            <h3>Conoce más de nosotros:</h3>
+            <div class="link-container">
+                <ul>
+                    <li><i class="fab fa-facebook-f"></i></li>
+                    <li><i class="fab fa-twitter"></i></li>
+                    <li><i class="fab fa-google-plus-g"></i></li>
+                </ul>
             </div>
-        </form>
-    </div>
-    <div class="singup-botton">
-        <h3>Conoce más de nosotros:</h3>
-        <div class="link-container">
-            <ul>
-                <li><i class="fab fa-facebook-f"></i></li>
-                <li><i class="fab fa-twitter"></i></li>
-                <li><i class="fab fa-google-plus-g"></i></li>
-            </ul>
         </div>
     </div>
-</div>
-<!-- Option 1: Bootstrap Bundle with Popper -->
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"
-></script>
-<!--<script src="validacion.js"></script>-->
+        crossorigin="anonymous"></script>
+    <!--<script src="validacion.js"></script>-->
 </body>
+
 </html>

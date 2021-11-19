@@ -14,19 +14,19 @@ body {
     background: linear-gradient(to top left, #39b385, #9be15d) fixed;
 }
 
- /*nav {
+/* nav {
     display: flex;
     flex-direction: row;
     width: 100vw;
     background-image: linear-gradient(to top left, #39b385, #9be15d);
-}
+} */
 
 a {
     text-decoration: none;
     color: inherit;
 
 }
- .nav-item {
+/* .nav-item {
     padding: 0px;
     margin-left: 20px;
     margin-right: 20px;
@@ -35,14 +35,15 @@ a {
 .primer-item {
     margin-right: auto;
     margin-top: 2px;
+
 }
 
 .singup-wrap {
     width: 500px;
-    height: 550px;
+    height: 333px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     background-color: #fff;
-    margin-top: 33px;
+    margin-top: 50px;
 }
 
 .singup-top{
@@ -52,18 +53,6 @@ a {
     flex-direction: column;
 }
 
-.singup-top::before{
-    content: "";
-    position: absolute;
-    /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
-    height:35px;
-    bottom: -20px;
-    left: 0;
-    right: 0;
-    transform: sKewY(-3deg);
-    background-color: #fff;
-
-}
 
 h2{
     text-transform: uppercase;
@@ -197,27 +186,4 @@ a {
 
 #error-login{
     display: none;
-}
-
-nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    
-    width: 100vw;
-    height: 60px;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    color:#fff;
-   
-}
-
-.nav-item {
-    padding: 10px;
-}
-
-.primer-item {
-    margin-right: auto;
 }
