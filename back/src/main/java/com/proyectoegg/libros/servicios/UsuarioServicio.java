@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,11 +113,25 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    protected String randomString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // largo del string
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
     public void eliminar(String id) throws ServiceException {
         Optional<Usuario> resultado = usuarioRepositorio.findById(id);
         if (resultado.isPresent()) {
             Usuario usuario = resultado.get();
             usuario.setAlta(Boolean.FALSE);
+            usuario.setEmail(randomString()+"@"+randomString()+".com");
+            usuarioRepositorio.save(usuario);
         } else {
             throw new ServiceException("El usuario indicado no se encuentra en el sistema");
         }

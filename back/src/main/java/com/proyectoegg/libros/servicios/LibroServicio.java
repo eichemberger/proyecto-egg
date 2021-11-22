@@ -36,19 +36,17 @@ public class LibroServicio {
         } else {
             throw new ServiceException("El libro no existe");
         }
-
     }
 
     // AGREGAR
     @Transactional
-    public void agregarLibro(Libro libro) {
+    public void agregarLibro(Libro libro) throws ServiceException {
+
+        valideishon(libro);
+
         libro.setAlta(true);
         libro.setLeido(false);
-        try {
-            setearFechaAlarma(libro);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        setearFechaAlarma(libro);
         libroRepositorio.save(libro);
     }
 
@@ -57,18 +55,18 @@ public class LibroServicio {
     public void editarLibro(Libro libro, String id) throws ServiceException {
         Libro libroEditar = verificarLibroId(id);
 
+        valideishon(libro);
+
         libroEditar.setTitulo(libro.getTitulo());
         libroEditar.setAutor(libro.getAutor());
         libroEditar.setAlta(true);
+        libroEditar.setMateria(libro.getMateria());
         libroEditar.setDescripcion(libro.getDescripcion());
         libroEditar.setFechaLimite(libro.getFechaLimite());
         libroEditar.setDiasAnticipacion(libro.getDiasAnticipacion());
         libroEditar.setObligatorio(libro.getObligatorio());
-        try {
-            setearFechaAlarma(libroEditar);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+
+        setearFechaAlarma(libroEditar);
 
         libroRepositorio.save(libroEditar);
     }
@@ -103,11 +101,10 @@ public class LibroServicio {
 
     @Transactional
     public void cambiarLeido(Libro libro) {
-        libro.setLeido(!libro.getLeido());
+        libro.setLeido(true);
         libroRepositorio.save(libro);
     }
 
-    // FILTROS
     public List<Libro> getAllLibrosAlta(Usuario usuario) {
         return libroRepositorio.findByUsuarioAndAltaTrue(usuario);
     }
@@ -137,7 +134,6 @@ public class LibroServicio {
         return libroRepositorio.findByFechaAlertaAndAltaTrueAndLeidoFalse(new Date());
     }
 
-    // VERIFICACIONES
     public Libro verificarLibroId(String id) throws ServiceException {
         Optional<Libro> resultado = libroRepositorio.findById(id);
         if (resultado.isPresent()) {
@@ -163,4 +159,17 @@ public class LibroServicio {
         libro.setFechaAlerta(fechaAlerta);
         return libro;
     }
+
+    private void valideishon(Libro libro) throws ServiceException {
+        if(libro.getTitulo().trim().isEmpty()){
+            throw new ServiceException("Debe tener un titulo");
+        } else if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))){
+            throw new ServiceException("La fecha no es valida");
+        } else if (libro.getAutor().trim().isEmpty()){
+            throw new ServiceException("Debe tener un autor");
+        } else if(libro.getMateria() == null){
+            throw new ServiceException("El libro debe tener una materia");
+        }
+    }
+
 }

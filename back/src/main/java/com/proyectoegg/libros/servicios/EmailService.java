@@ -58,10 +58,10 @@ public class EmailService {
         Context context = new Context();
         context.setVariable("libros", libros);
         context.setVariable("usuario", usuario);
-        return templateEngine.process("emailAviso", context);
+        return templateEngine.process("mail-alerta", context);
     }
 
-    @Scheduled(cron = "00 12 00 * * *")
+    @Scheduled(cron = "00 00 08 * * *")
     private void enviarAvisosUsuario() {
         if (libroServicio.librosFechaAlertaActivosSinLeer().isEmpty()) {
             return;
@@ -78,6 +78,27 @@ public class EmailService {
         map.forEach((k, v) -> avisoLibro(k, v));
     }
 
+    
+    
+    public void avisoRegistro(Usuario usuario) {
+        String processedHTMLTemplate = this.avisoRegistroHTML();
+        MimeMessagePreparator preparator = message -> {
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+            helper.setFrom("proyectoegg159@gmail.com");
+            helper.setTo(usuario.getEmail());
+            helper.setSubject("Bienvenid@ a Book O'clock");
+            helper.setText(processedHTMLTemplate, true);
+        };
+        mailSender.send(preparator);
+    }
+
+    private String avisoRegistroHTML() {
+        Context context = new Context();
+        return templateEngine.process("mail-registro", context);
+    }
+    
+    
+    
             //ENVIA 1 MAIL X C/ LIBRO    
 //        @Scheduled(cron = "00 12 22 * * *")
 //    private void enviarAvisosEmail() {

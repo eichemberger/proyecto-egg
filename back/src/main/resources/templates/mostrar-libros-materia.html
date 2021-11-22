@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title th:text="${materia}">Tabla de Libros</title>
+    <link rel="icon" th:href="@{assets/favicon.ico}" type="image/x-icon" />
+
+    <!-- MDB icon
+      <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" /> -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <!--<link rel="stylesheet" href="../styles/mdb.min.css" />-->
+    <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
+    <link rel="stylesheet" th:href="@{/styles/nav.css}">
+    <link rel="stylesheet" th:href="@{/styles/boton.css}">
+</head>
+
+<body style="background: linear-gradient(to top left, #39b385, #9be15d) fixed">
+<!-- <nav th:replace="layout/layout :: nav"></nav> -->
+
+<nav>
+    <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
+    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
+</nav>
+
+<h2 style="text-align: center; margin-top: 33px; color: black;" th:text="${materia}"></h2>
+
+<!-- TABLA-->
+<div class="container my-5" style="
+        background-color: #f4f6f7;
+        padding: 0;
+        border-radius: 8px;
+        box-shadow: 1px 1px 4px rgba(242, 243, 244, 0.5);
+      ">
+    <div class="shadow-5 rounded-5 overflow-hidden">
+        <table class="table align-middle mb-0">
+            <thead>
+            <tr style="font-size: 16px; background-color: #ecf0f1">
+                <th>Titulo y Autor</th>
+                <th>Alarma y Anticipación</th>
+                <th>Obligatorio</th>
+                <th>Marcar como leido</th>
+                <th>Eliminar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each=" libro : ${libros}">
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <a class="fw-bold mb-1" th:text="${libro.titulo}" th:href="@{/libros/ver/}+${libro.id}">EGG</a>
+                            <p class="mb-0" th:text="${libro.autor}">Nahuel</p>
+                        </div>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="fw-bold mb-1">
+                    <span class="badge badge-success rounded-pill" style="padding: 10px"
+                          th:text="${libro.fechaLimite}">12/12/2021</span>
+                            </p>
+                            <p class="mb-0 badge badge-primary rounded-pill" style="font-size: 12px;">
+                                <span th:text="${libro.diasAnticipacion}">2</span><span> días de anticipación</span>
+                            </p>
+                        </div>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="d-flex align-items-center">
+                        <p th:text="${libro.obligatorio} ? 'Si' : 'No'">Si</p>
+                    </div>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-primary btn-sm"
+                       th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}">
+                        Marcar como leido
+                    </a>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-danger btn-sm" th:href="@{/libros/eliminar/}+${libro.id}">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="botones">
+    <!--  Volver a Materias (inicio)-->
+    <!-- <a type="button" class="fill-agg" th:href="@{/materia}">Volver &#8629;</a>
+        <a type="button" class="fill" th:href="@{/libros/agregar}">Agregar Libro</a> -->
+</div>
+<!--FINAL DE TABLA-->
+<div class="input-wrap">
+    <!-- <button type="submit">Agregar Libro</button> -->
+    <a style="margin:auto;" th:href="@{/libros/agregar}"><button type="submit">Agregar Libro</button></a>
+</div>
+<!--MDB-->
+<script type="text/javascript" src="js/mdb.min.js"></script>
+<!--Custom scripts-->
+<script type="text/javascript"></script>
+</body>
+
+</html>

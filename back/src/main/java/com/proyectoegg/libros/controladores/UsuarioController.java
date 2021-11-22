@@ -68,7 +68,8 @@ public class UsuarioController {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-
+        
+        emailServicio.avisoRegistro(usuario);
         return "redirect:/login";
     }
 
@@ -139,34 +140,18 @@ public class UsuarioController {
 
         return "perfil";
     }
-
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
-    @GetMapping("/eliminar/definitivo")
-    public String eliminarDefinitivo(ModelMap model, HttpSession session) throws ServiceException {
+    @GetMapping("/eliminar")
+    public String eliminar(ModelMap model, HttpSession session) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        try {
-            for (Libro libro : usuario.getLibros()) {
-                libroServicio.eliminarDefinitivo(libro.getId());
-            }
+        try{
+            usuarioServicio.eliminar(usuario.getId());
+           return "redirect:/logout";
+        } catch(ServiceException e) {
+            model.addAttribute("error", e.getMessage());
 
-        } catch (ServiceException e) {
-            model.addAttribute("error", e.getMessage());
-        }
-        try {
-            for (Materia materia : usuario.getMaterias()) {
-                //Ver después el método de borrar materia
-                materiaServicio.eliminar(materia.getId());
-            }
-
-        } catch (ServiceException e) {
-            model.addAttribute("error", e.getMessage());
-        }
-        try {
-            usuarioServicio.eliminarDefinitivo(usuario.getId());
-        } catch (ServiceException e) {
-            model.addAttribute("error", e.getMessage());
-        }
-        return "redirect:/";
+        return "redirect:/";}
     }
-
 }
+
+

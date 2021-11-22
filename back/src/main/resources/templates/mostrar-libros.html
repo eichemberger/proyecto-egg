@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <title>Tabla de Libros</title>
+  <link rel="icon" th:href="@{assets/favicon.ico}" type="image/x-icon" />
+
   <!-- MDB icon
     <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" /> -->
   <!-- Font Awesome -->
@@ -97,12 +99,12 @@
             </td>
             <td>
               <a type="button" class="btn btn-primary btn-sm"
-                th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}">
+                th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}+'?redireccion=f'">
                 Marcar como leido
               </a>
             </td>
             <td>
-              <a type="button" class="btn btn-danger btn-sm" th:href="@{/libros/eliminar/}+${libro.id}">
+              <a type="button" class="btn btn-danger btn-sm" th:href="@{/libros/eliminar/}+${libro.id}+'?redireccion=f'">
                 Eliminar
               </a>
             </td>
