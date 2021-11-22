@@ -21,7 +21,8 @@
 
       <div th:each="materia  : ${materias}" class="container">
         <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
-        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
+<!--        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>-->
+        <a class="eliminar-materia" th:onclick="eliminar([[${materia.id}]])" href="#">❌</a>
       </div>
 
       <!-- <div class="botones">
@@ -31,5 +32,11 @@
         <!-- <button style="font-size: 16px;" type="submit">Agregar Materia</button> -->
         <a style="margin: auto;" th:href="@{/materia/agregar}"><button style="font-size: 16px;" type="submit">Agregar Materia</button></a>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script th:src="@{scripts/eliminarMateria.js}"></script>
   </body>
 </html>
