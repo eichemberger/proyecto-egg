@@ -4,6 +4,10 @@
     font-family: 'Quicksand', sans-serif;
 }
 
+body {
+    background-color: #F4F6F7;
+  }
+
 h1{
     margin-bottom: 33px;
     text-decoration: underline;
@@ -20,4 +24,8 @@ p{
     margin-top: 33px;
     margin-left: 33px;
     margin-right: 8px;
+}
+
+a{
+    text-decoration: none;
 }

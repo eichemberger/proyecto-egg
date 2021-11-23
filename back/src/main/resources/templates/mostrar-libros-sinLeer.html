@@ -31,13 +31,6 @@
       
 <nav th:replace="layout/layout :: nav"></nav>
 <h1 style="text-align: center; margin-top: 33px; color: black;">Mis Libros por leer</h1>
-
-  
-    <div class="input-wrap">
-    <a style="margin:auto;" th:href="@{/libros/leidos}"><button type="submit">Libros leídos</button></a>
-    <a style="margin:auto;" th:href="@{/libros/porLeer}"><button type="submit">Libros por leer</button></a>
-  </div>
-  
   
     <!-- TABLA-->
   <div class="shadow-5 rounded-5 overflow-hidden">
@@ -118,8 +111,9 @@
   </div>
   <!--FINAL DE TABLA-->
   <div class="input-wrap">
-    <!-- <button type="submit">Agregar Libro</button> -->
     <a style="margin:auto;" th:href="@{/libros/agregar}"><button type="submit">Agregar Libro</button></a>
+    <a style="margin:auto;" th:href="@{/libros/leidos}"><button type="submit">Libros leídos</button></a>
+    <a style="margin:auto;" th:href="@{/libros/porLeer}"><button type="submit">Libros por leer</button></a>
   </div>
   <!--MDB-->
   <script type="text/javascript" src="js/mdb.min.js"></script>

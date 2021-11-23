@@ -20,11 +20,12 @@ body {
 
 .singup-wrap {
     width: 500px;
-    height: 550px;
+    height: 625px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     background-color: #fff;
     margin-top: 33px;
-    margin-bottom: 266px;
+    margin-bottom: 99px;
+    box-shadow: 1px 1px 8px #34495E;
 }
 
 .singup-top{
@@ -32,18 +33,6 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
-}
-
-.singup-top::before{
-    content: "";
-    position: absolute;
-    /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
-    height:55px;
-    bottom: -20px;
-    left: 0;
-    right: 0;
-    transform: sKewY(-3deg);
-    background-color: #fff;
 }
 
 h2{
@@ -124,11 +113,10 @@ button {
 }
 
 button:hover {
-    background-color: #16A085;
     transform: scale(.98);
 }
 
-.singup-botton {
+/* .singup-botton {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,7 +126,7 @@ button:hover {
     background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     padding: 60px 40px 40px;
     color: black;
-}
+} */
 
 h3{
     font-weight: 600;
@@ -194,14 +182,14 @@ a {
 .box {
     width:100%;
     padding:4px;
-    border:2px solid rgba(0, 0, 0, 0.4);
+    border:2px solid #F4F6F6;
     border-radius:4px;
     transition:.3s;
     outline:none;
 }
 
 .box:focus{
-    border-color:black;
+    border-color:#EAECEE;
 }
 
 .f {

@@ -11,7 +11,9 @@
     <!-- <link rel="stylesheet" href="../styles/agregarLibroStyle.css"> -->
     <!-- VERVERVER -->
     <link rel="stylesheet" th:href="@{/styles/editarLibroStyle.css}" />
-    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" th:href="@{/styles/nav.css}" />
+   
+    
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
         integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
@@ -24,7 +26,6 @@
 </head>
 
 <body>
-
 
 <nav th:replace="layout/layout :: nav"></nav>
 
@@ -103,7 +104,7 @@
                 </div>
             </form>
         </div>
-        <div class="singup-botton">
+        <!-- <div class="singup-botton">
             <h3>Conoce más de nosotros:</h3>
             <div class="link-container">
                 <ul>
@@ -112,7 +113,7 @@
                     <li><i class="fab fa-google-plus-g"></i></li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"

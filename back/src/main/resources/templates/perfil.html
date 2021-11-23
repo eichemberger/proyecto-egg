@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="../styles/nuevo-perfil.css">
   <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
+  <link rel="stylesheet" href="../styles/nuevo-perfil.css">
   <link rel="stylesheet" th:href="@{/styles/nav.css}" />
 
   <link
@@ -43,7 +43,7 @@
 
     <hr />
     <p th:text="${usuario.email}" >Mail: tom@mail.com</p>
-    <p th:text= "'Cantidad de libros leídos: ' + ${cantidadLeidos}">Libros leidos: 78</p>
+    <p id="fix1" th:text= "'Cantidad de libros leídos: ' + ${cantidadLeidos}">Libros leidos: 78</p>
   </div>
 
   <!-- <div class="botones">
@@ -54,9 +54,9 @@
     <!-- <button style="font-size: 16px;" type="submit">Editar</button> -->
     <a style="margin: auto;" th:href="@{/usuario/editar}"><button style="font-size: 16px;" type="submit">Editar</button></a>
 </div>
-    <div class="input-wrap">
+    <div class="input-wrap" id="fix1">
     <!-- <button style="font-size: 16px;" type="submit">Editar</button> -->
-    <a style="margin: auto;" th:href="@{/usuario/eliminar}"><button style="font-size: 16px; background-color: #CE2D4F" type="submit">Eliminar usuario</button></a>
+    <a style="margin: auto;" th:href="@{/usuario/eliminar}"><button style="font-size: 16px;" type="submit">Eliminar usuario</button></a>
 </div>
 </div>
 </body>

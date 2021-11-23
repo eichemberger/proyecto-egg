@@ -37,7 +37,7 @@ a {
   justify-content: space-around;
   margin: auto;
   width: 100vh;
-  height: 33vh;
+  height: 50vh;
   align-items: center;
   background: #3FFFD8;
   background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
@@ -51,16 +51,19 @@ a {
 .div1{
   display: flex;
   flex-direction: column;
-  font-size: 20px;
+  font-size: 21px;
+  color: black;
 }
 .div2{
   display: flex;
   flex-direction: column;
-  font-size: 20px;
+  font-size: 21px;
+  color: black;
 }
 
-p{
-  color: white;
+h3{
+  font-size: 22px;
+  color: #F4F6F6;
 }
 
 .divBotones{

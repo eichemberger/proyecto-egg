@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
   <link th:href="@{/styles/mostrar-libro.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/styles/nav.css}" rel="stylesheet" type="text/css" />
   <!-- <link th:href="@{/styles/boton.css}" rel="stylesheet" type="text/css" /> -->
@@ -25,16 +26,8 @@
   <title>Libro</title>
 </head>
 <body>
-  <!-- <nav>
-    <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
-  </nav> -->
-
-  <!-- <h2 class="titulo">Libro</h2> -->
+  
+  <nav th:replace="layout/layout :: nav"></nav>
 
   <div class="descripcion-libro">
     <div class="div1">
