@@ -205,7 +205,7 @@ nav {
 }
 
 button:disabled, button:hover:disabled {
-    background-color: #4f4f4f;
+    background: #4f4f4f;
 }
 
 #error-password{
