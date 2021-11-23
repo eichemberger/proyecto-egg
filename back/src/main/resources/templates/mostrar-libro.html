@@ -5,24 +5,36 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Libro</title>
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
   <link th:href="@{/styles/mostrar-libro.css}" rel="stylesheet" type="text/css" />
   <link th:href="@{/styles/nav.css}" rel="stylesheet" type="text/css" />
-  <link th:href="@{/styles/boton.css}" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap" rel="stylesheet" />
+  <!-- <link th:href="@{/styles/boton.css}" rel="stylesheet" type="text/css" /> -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+    />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+    />
+  <title>Libro</title>
 </head>
 <body>
-  <nav>
+  <!-- <nav>
     <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
     <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
     <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
     <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
     <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
     <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
-  </nav>
+  </nav> -->
 
-  <h2 class="titulo">Libro</h2>
+  <!-- <h2 class="titulo">Libro</h2> -->
 
   <div class="descripcion-libro">
     <div class="div1">
@@ -50,8 +62,8 @@
       </div>
       <!--TODO: CALCULAR FECHA DE ALARMA-->
       <div>
-        <h3>Alarma:</h3>
-        <p></p>
+        <h3>Descripción:</h3>
+        <p th:text="${libro.descripcion}"></p>
       </div>
     </div>
   </div>

@@ -30,7 +30,7 @@
 <body style="background-color: #F4F6F7";>
       
 <nav th:replace="layout/layout :: nav"></nav>
-<h1 style="text-align: center; margin-top: 33px; color: black;">Mis Libros</h1>
+<h1 style="text-align: center; margin-top: 33px; color: black;">Mis Libros por leer</h1>
 
   
     <div class="input-wrap">
@@ -97,9 +97,9 @@
               </div>
             </td>
             <td>
-              <div class="d-flex align-items-center">
-                <p th:text="${libro.leido} ? 'Si' : 'No'">Si</p>
-              </div>
+ <a type="button"   th:if="${!libro.leido}" class="btn btn-primary btn-sm" 
+                th:href="@{/libros/}+${libro.materia.nombre}+'/leido/'+${libro.id}+'?redireccion=f'"
+                > Marcar como leido </a>
             </td>
             <td>
               <a type="button" class="btn btn-danger btn-sm" th:href="@{/libros/eliminar/}+${libro.id}+'?redireccion=f'">

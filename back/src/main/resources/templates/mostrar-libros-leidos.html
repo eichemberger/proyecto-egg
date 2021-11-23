@@ -30,7 +30,7 @@
 <body style="background-color: #F4F6F7";>
       
 <nav th:replace="layout/layout :: nav"></nav>
-<h1 style="text-align: center; margin-top: 33px; color: black;">Mis Libros</h1>
+<h1 style="text-align: center; margin-top: 33px; color: black;">Mis Libros leídos</h1>
 
   
     <div class="input-wrap">
@@ -47,8 +47,8 @@
           <tr style="font-size: 16px; background-color: #ecf0f1">
             <th>Titulo y Autor</th>
             <th>Materia</th>
-            <th>Fecha de alarma</th>
-            <th>Días Restantes</th>
+<!--            <th>Fecha de alarma</th>-->
+<!--            <th>Días Restantes</th>-->
             <th>Obligatorio</th>
             <th>Leído</th>
             <th>Eliminar</th>
@@ -71,36 +71,39 @@
                 </p>
               </div>
             </td>
-            <td>
+<!--            <td>
               <div class="d-flex align-items-center">
                 <div>
                   <p class="fw-bold mb-1">
                     <span class="badge badge-success rounded-pill" style="padding: 10px"
                       th:text="${libro.fechaLimite}">12/12/2021</span>
                   </p>
-<!--                  <p class="mb-0 badge badge-primary rounded-pill" style="font-size: 12px;">
+                  <p class="mb-0 badge badge-primary rounded-pill" style="font-size: 12px;">
                     <span th:text="${libro.diasAnticipacion}">2</span><span> días de anticipación</span>
-                  </p>-->
+                  </p>
                 </div>
               </div>
-            </td>
-            <td>
+            </td>-->
+<!--            <td>
               <div class="d-flex align-items-center">
                 <p class="mb-0 badge badge-warning rounded-pill" style="font-size: 12px;">
                   <span th:text="${libro.diasAnticipacion}">2</span><span> días restantes</span>
                 </p>
               </div>
-            </td>
+            </td>-->
             <td>
               <div class="d-flex align-items-center">
                 <p th:text="${libro.obligatorio} ? 'Si' : 'No'">Si</p>
               </div>
             </td>
+            
             <td>
-              <div class="d-flex align-items-center">
-                <p th:text="${libro.leido} ? 'Si' : 'No'">Si</p>
-              </div>
+                <a type="button"   th:if="${libro.leido}"  class="btn btn-warning btn-sm" 
+                th:href="@{/libros/}+${libro.materia.nombre}+'/noleido/'+${libro.id}+'?redireccion=f'"
+                > Marcar como no leído </a>
             </td>
+
+            
             <td>
               <a type="button" class="btn btn-danger btn-sm" th:href="@{/libros/eliminar/}+${libro.id}+'?redireccion=f'">
                 Eliminar

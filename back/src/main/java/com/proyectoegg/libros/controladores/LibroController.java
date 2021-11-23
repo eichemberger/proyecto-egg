@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/libros")
@@ -41,7 +43,9 @@ public class LibroController {
     @GetMapping(value = {"/", ""})
     public String listaLibros(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("libros", libroServicio.getAllLibrosAlta(usuario));
+        List<Libro> libros = libroServicio.getAllLibrosAlta(usuario);
+        libroServicio.setearDiasRestantes(libros);
+        model.addAttribute("libros", libros);
         return "mostrar-libros";
     }
 
@@ -50,8 +54,20 @@ public class LibroController {
     @GetMapping("/leidos")
     public String listaLeidos(ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-        model.addAttribute("libros", libroServicio.getLibrosLeidos(usuario));
-        return "leidos";
+        List<Libro> libros = libroServicio.getLibrosLeidos(usuario);
+        libroServicio.setearDiasRestantes(libros);
+        model.addAttribute("libros", libros);
+        return "mostrar-libros-leidos";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/porLeer")
+    public String listaPorLeer(ModelMap model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        List<Libro> libros = libroServicio.getLibrosPorLeer(usuario);
+        libroServicio.setearDiasRestantes(libros);
+        model.addAttribute("libros", libros);
+        return "mostrar-libros-sinLeer";
     }
 
     // LIBROS ELIMINADOS
@@ -66,13 +82,19 @@ public class LibroController {
     // LIBROS SEGUN MATERIA (Alta = True && Leido = False)
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/{materia}")
-    public String libroPorMateria(@PathVariable("materia") String materiaNombre, ModelMap model, HttpSession session) {
+    public String libroPorMateria(@PathVariable("materia") String materiaId, ModelMap model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
-
+        Materia materiaAux = null;
         try {
-            Materia materia = materiaServicio.getMateriaByUsuarioAndNombre(usuario, materiaNombre);
+            materiaAux = materiaServicio.encontrarPorID(materiaId);
+        } catch (ServiceException ex) {
+            model.addAttribute("error", "La materia no se encuentra en el sistema");
+            System.out.println(ex.getMessage());
+        }
+        try {
+            Materia materia = materiaServicio.getMateriaByUsuarioAndNombre(usuario, materiaAux.getNombre());
             model.addAttribute("libros", libroServicio.getLibrosByMateriaSinLeer(usuario, materia));
-            model.addAttribute("materia", materiaNombre);
+            model.addAttribute("materia", materiaAux.getNombre());
             return "mostrar-libros-materia";
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
@@ -105,7 +127,7 @@ public class LibroController {
             return "agregar-libro";
         }
 
-        return "redirect:/libros/" + libro.getMateria().getNombre();
+      return "redirect:/libros/" + libro.getMateria().getId();
     }
 
     // ====================== EDITAR LIBRO =============================
@@ -155,11 +177,11 @@ public class LibroController {
             Libro libro = libroServicio.verificarLibroId(id);
             libroServicio.cambiarAlta(libro);
 
-            if (redireccion != null) {
+           if(redireccion!=null){
                 return "redirect:/libros";
             }
 
-            return "redirect:/libros/" + libro.getMateria().getNombre();
+             return "redirect:/libros/" + libro.getMateria().getId();
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
 
@@ -213,13 +235,38 @@ public class LibroController {
     @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
     @GetMapping("/{materia}/leido/{id}")
     public String marcarLeido(@PathVariable("materia") String materia,
-                              @PathVariable("id") String id,
-                              @RequestParam(value = "redireccion", required = false) String redireccion,
-                              ModelMap model) {
+             @PathVariable("id") String id,@RequestParam(value = "redireccion", required = false) String redireccion,
+            ModelMap model) {
+
+        Libro libro = null;
+        try {
+              libro = libroServicio.verificarLibroId(id);
+
+            libroServicio.cambiarLeido(libro);
+
+        } catch (ServiceException e) {
+            model.addAttribute("error", e.getMessage());
+            return "index";
+        }
+
+      if(redireccion!=null){
+                return "redirect:/libros";
+            }
+        return "redirect:/libros/" + libro.getMateria().getId();
+
+    }
+
+    // ====================== MARCAR LIBRO COMO NO LEIDO =============================
+    @PreAuthorize("hasAnyRole('ROLE_USUARIO_REGISTRADO')")
+    @GetMapping("/{materia}/noleido/{id}")
+    public String marcarNoLeido(@PathVariable("materia") String materia,
+            @PathVariable("id") String id,
+            @RequestParam(value = "redireccion", required = false) String redireccion,
+            ModelMap model) {
         try {
             Libro libro = libroServicio.verificarLibroId(id);
 
-            libroServicio.cambiarLeido(libro);
+            libroServicio.cambiarNoLeido(libro);
 
         } catch (ServiceException e) {
             model.addAttribute("error", e.getMessage());
@@ -227,8 +274,8 @@ public class LibroController {
             return "index";
         }
 
-        if(redireccion != null){
-            return "redirect:/libros";
+        if (redireccion != null) {
+            return "redirect:/libros/porLeer";
         }
 
         return "redirect:/libros/" + materia;

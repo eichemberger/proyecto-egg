@@ -1,35 +1,50 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link href="../styles/inicio.css" rel="stylesheet" type="text/css" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mis Materias</title>
+    <link href="../styles/inicio.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
     <link rel="stylesheet" th:href="@{/styles/boton.css}">
-    
+    <link rel="stylesheet" th:href="@{/styles/nav.css}">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" crossorigin="anonymous" />
+    <!-- Google Fonts Roboto -->
     <link
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap"
-      rel="stylesheet"
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+            integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
     />
-  </head>
-  <body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body>
 
-    <nav th:replace="layout/layout :: nav"></nav>
+<nav th:replace="layout/layout :: nav"></nav>
 
-  <h1 class="titulo-tabla">Materias</h1>
+<h1 class="titulo-tabla">Materias</h1>
 
-      <div th:each="materia  : ${materias}" class="container">
-        <p><a th:href="@{/libros/}+${materia.nombre}" th:text="${materia.nombre}" class="item-materia"></a></p>
-        <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
-      </div>
+<div th:each="materia  : ${materias}" class="container">
+    <p><a th:href="@{/libros/}+${materia.id}" th:text="${materia.nombre}" class="item-materia"></a></p>
+    <a class="eliminar-materia" th:href="@{/materia/eliminar/}+${materia.id}">❌</a>
+</div>
 
-      <!-- <div class="botones">
-        <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
-      </div> -->
-      <div class="input-wrap">
-        <!-- <button style="font-size: 16px;" type="submit">Agregar Materia</button> -->
-        <a style="margin: auto;" th:href="@{/materia/agregar}"><button style="font-size: 16px;" type="submit">Agregar Materia</button></a>
-    </div>
-  </body>
+<!-- <div class="botones">
+  <a th:href="@{/materia/agregar}" type="button" class="fill">Agregar</a>
+</div> -->
+<div class="input-wrap">
+    <!-- <button style="font-size: 16px;" type="submit">Agregar Materia</button> -->
+    <a style="margin: auto;" th:href="@{/materia/agregar}">
+        <button style="font-size: 16px;" type="submit">Agregar Materia</button>
+    </a>
+</div>
+</body>
 </html>

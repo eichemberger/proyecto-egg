@@ -1,44 +1,68 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../styles/sobre-nosotros.css">
-    <!-- <link rel="stylesheet" href="../styles/sobre-nosotros.css"> -->
-    <link rel="stylesheet" href="../styles/nav.css">
-    <title>Sobre nosotros </title>
+    <!-- STYLES -->
+    <link rel="stylesheet" th:href="@{/styles/usarLOC-Style.css}" />
+    <!--  -->
+
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!--  -->
+
+    <title>Como usar LOC</title>
+
 </head>
 <body>
-  <!--TO DO: AGREGAR NAV-->
-
-  <nav>
-    <p style="margin-bottom: 0;" class="primer-item"><a style= "margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
-    <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
-</nav>
-
-    <div>
-        <h1 class="titulo"><span>Sobre Nosotros</span></h1>
-    </div>
-    <div class="texto1">
+    <body>
+      <div class="container">
+        
+      <header>
+        <h1>Como usar Libro O'Clock</h1>
+      </header>
+      
+      <section>
+        <h3>Paso 1:</h3>
+        <p>Registra una cuenta e iniciá sesión.</p>
+    
+        <h3>Paso 2:</h3>
+        <p>Agrega tus materias.</p>
+    
+        <h3>Paso 3:</h3>
         <p>
-            A book is a medium for recording information in the form of writing or images, <br>
-            typically composed of many pages (made of papyrus, parchment, vellum, or paper)
-            bound together and protected by a cover.The technical term for this physical
-            arrangement is codex (plural, codices). In the history of hand-held physical supports
-            for extended written compositions or records, the codex replaces its predecessor,
-            the scroll. A single sheet in a codex is a leaf and each side of a leaf is a page.
+          Agrega un libro o bibliografía, selecciona la materia, elegí la fecha
+          límite y los días de anticipación con los que querés que te llegue una
+          notificación para recordarte su lectura. Podés aclarar si se trata de una
+          lectura obligatoria, y dejar una breve descripción.
         </p>
-    </div>
-    <div class="video1">
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/beqbhd7q5Xw" title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-    </div>
+    
+        <div>
+          <p>
+            ¡Y listo! Recibirás un mail el día de anticipación seleccionado a la
+            fecha límite indicada para que no te olvides de tu lectura. ¡Y para
+            tener ese empujoncito final que nunca está de más!
+          </p>
+        </div>
+    
+        <p>
+          ⚠️ Para eliminar un libro, podés hacer click Eliminar en la lista de
+          libros. En la papelera, podés restaurarlos o eliminarlos definitivamente. <br>
+          ⚠️ Para eliminar una materia, hacé click en la X a la derecha del nombre
+          de esta.
+        </p>
+        <p>
+          Si la materia no tiene ningun libro asociado sera eliminada
+          definitivamente. <br>
+          Si la materia posee libros asociados, todos los libros no leidos seran
+          dados de baja y enviados a la papelera.
+        </p>
+      </section>
+      </div>
+      </body>
 </body>
+</html>

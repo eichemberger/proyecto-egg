@@ -25,10 +25,7 @@
     <title>Iniciar sesión</title>
 </head>
 <body>
-
-    <nav>
-        <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: black;" th:href="@{/}"><i class="fas fa-book"></i>&nbspLibro O' clock</a></p>
-    </nav>
+            <!--TO DO: AGREGAR NAV QUE LLEVE A INDEX-->
 
 <div class="singup-wrap">
     <div class="singup-top">
@@ -42,11 +39,15 @@
             </div> -->
             <div class="input-wrap">
                 <input id="username" type="email" name="username" th:value="${email}" required="true"
-                       placeholder="Email">
+                       placeholder="Email"><small
+                    class="form-text text-danger"
+                    th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
             </div>
             <div class="input-wrap">
                 <input id="password" type="password" name="password" th:value="${password}" required="true"
-                       placeholder="Contraseña">
+                       placeholder="Contraseña"><small
+                    class="form-text text-danger"
+                    th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
             </div>
             <!-- <div class="input-wrap">
                 <input type="checkbox">
@@ -54,7 +55,7 @@
             </div> -->
             <div class="input-wrap">
                 <button type="submit">Ingresar</button>
-                <p>No tenes una cuenta?<a th:href="@{/usuario/registro}"><span> Registrate</span></a></p>
+                <p>No tenes una cuenta?<a href="#"><span> Registrate</span></a></p>
             </div>
         </form>
     </div>

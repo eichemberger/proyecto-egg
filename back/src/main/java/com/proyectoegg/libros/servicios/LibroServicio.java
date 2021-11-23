@@ -105,6 +105,12 @@ public class LibroServicio {
         libroRepositorio.save(libro);
     }
 
+        @Transactional
+    public void cambiarNoLeido(Libro libro) {
+        libro.setLeido(false);
+        libroRepositorio.save(libro);
+    }
+    
     public List<Libro> getAllLibrosAlta(Usuario usuario) {
         return libroRepositorio.findByUsuarioAndAltaTrue(usuario);
     }
@@ -120,6 +126,10 @@ public class LibroServicio {
 
     public List<Libro> getLibrosLeidos(Usuario usuario) {
         return libroRepositorio.findByUsuarioAndLeidoTrueAndAltaTrue(usuario);
+    }
+
+    public List<Libro> getLibrosPorLeer(Usuario usuario) {
+        return libroRepositorio.findByUsuarioAndLeidoFalseAndAltaTrue(usuario);
     }
 
     public List<Libro> getLibrosEliminados(Usuario usuario) {
@@ -143,6 +153,14 @@ public class LibroServicio {
         }
     }
 
+    public List<Libro> setearDiasRestantes(List<Libro> libros) {
+        for (Libro libro : libros) {
+            Integer dias = (int) (long) diasRestantesLimite(libro);
+            libro.setDiasAnticipacion(dias);
+        }
+        return libros;
+    }
+
     // CALCULAR DIAS RESTANTES ENTRE EL ACTUAL Y LA FECHA LIMITE
     public Long diasRestantesLimite(Libro libro) {
         Date limite = libro.getFechaLimite();
@@ -161,13 +179,13 @@ public class LibroServicio {
     }
 
     private void valideishon(Libro libro) throws ServiceException {
-        if(libro.getTitulo().trim().isEmpty()){
+        if (libro.getTitulo().trim().isEmpty()) {
             throw new ServiceException("Debe tener un titulo");
-        } else if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))){
+        } else if ((libro.getFechaLimite().before(new Date())) || (libro.getFechaLimite().equals(new Date()))) {
             throw new ServiceException("La fecha no es valida");
-        } else if (libro.getAutor().trim().isEmpty()){
+        } else if (libro.getAutor().trim().isEmpty()) {
             throw new ServiceException("Debe tener un autor");
-        } else if(libro.getMateria() == null){
+        } else if (libro.getMateria() == null) {
             throw new ServiceException("El libro debe tener una materia");
         }
     }

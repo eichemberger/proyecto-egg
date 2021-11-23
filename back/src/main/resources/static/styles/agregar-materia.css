@@ -11,7 +11,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to top left, #39b385, #9be15d) fixed;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A)fixed;
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A) fixed;
 }
 
 .singup-wrap {

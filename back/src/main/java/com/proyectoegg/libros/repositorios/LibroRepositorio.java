@@ -31,6 +31,8 @@ public interface LibroRepositorio extends JpaRepository<Libro, String> {
  List<Libro> findByUsuarioAndAltaFalse(Usuario usuario);
 
  List<Libro> findByUsuarioAndLeidoTrueAndAltaTrue(Usuario usuario);
+ 
+ List<Libro> findByUsuarioAndLeidoFalseAndAltaTrue(Usuario usuario);
 
  List<Libro> findByFechaLimiteAndAltaTrueAndLeidoFalse(Date fechaLimite);
  

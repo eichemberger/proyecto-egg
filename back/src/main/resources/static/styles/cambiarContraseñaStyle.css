@@ -11,7 +11,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to top left, #39b385, #9be15d) fixed;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A)fixed;
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A) fixed;
 }
 
 /* nav {
@@ -61,7 +64,7 @@ h2{
     font-weight: 500;
     text-align: center;
     margin-bottom: 26px;
-    color: #148F77;
+    color: black;
 }
 
 .input-wrap{
@@ -98,7 +101,7 @@ input {
 input:focus {
     outline: none;
     box-shadow: 0 1px 0 0 #A2D9CE;
-    border-color: #A2D9CE;
+    border-color: #48C9B0;
 }
 
 input[type="checkbox"] {
@@ -121,8 +124,11 @@ button {
     border-radius: 30px;
     font-weight: 600;
     border: none;
-    color: #fff;
-    background-color: #39b385;
+    color: black;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A)fixed;
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A) fixed;
     margin-right: 16px;
     transition: 500ms ease all;
 }

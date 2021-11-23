@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Tabla de Libros</title>
+    <title>Papelera</title>
     <!-- MDB icon
     <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" /> -->
     <!-- Font Awesome -->
@@ -18,30 +18,40 @@
     />
     <!-- Google Fonts Roboto -->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-    />
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+            integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+            />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+            />
     <!-- MDB -->
     <!--<link rel="stylesheet" href="../styles/mdb.min.css" />-->
     <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
     <link rel="stylesheet" th:href="@{/styles/nav.css}">
     <link rel="stylesheet" th:href="@{/styles/boton.css}">
   </head>
-  <body
-    style="background: linear-gradient(to top left, #39b385, #9be15d) fixed"
-  >
+  <body style="background-color: #F4F6F7;">
     <!-- <nav th:replace="layout/layout :: nav"></nav> -->
   
-    <nav>
+    <!-- <nav>
       <p style="margin-bottom: 0;" class="primer-item"><a style= "margin-left: 10px; color: #fff;" th:href="@{/}">📚 Libros  O' clock</a></p>
       <p style="margin-bottom: 0;" class="nav-item"><a th:href="@{/libros/papelera}"> 🗑️</a></p>
       <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/materia}">Mis materias</a></p>
       <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/libros}">Mis libros</a></p>
       <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/usuario/perfil}">Mi Perfil</a></p>
       <p style="margin-bottom: 0;" class="nav-item"><a style="color: #fff;" th:href="@{/logout}">Cerrar Sesión</a></p>
-  </nav>
+  </nav> -->
 
-  <h2 style="text-align: center; margin-top: 33px; color: black;">Papelera de Reciclaje</h2>
+    <nav th:replace="layout/layout :: nav"></nav>
+
+
+    <h1 style="text-align: center; margin-top: 33px; color: black;">Papelera</h1>
 
     <!-- TABLA-->
     <div
@@ -59,7 +69,9 @@
             <tr style="font-size: 16px; background-color: #ecf0f1">
               <th>Titulo y Autor</th>
               <th>Materia</th>
-              <th>Recuperar Libro</th>
+              <!-- <th>Alarma y Anticipación</th> -->
+              <th>Obligatorio</th>
+              <th>Recuperar libro</th>
               <th>Eliminar definitivamente</th>
             </tr>
           </thead>
@@ -102,10 +114,18 @@
                   </div>
                 </div>
               </td> -->
-              <!--    <td th:text="${diasRestantes}"></td>-->
               <td>
-                <a type="button" class="btn btn-primary btn-sm" th:href="@{/libros/reciclar/}+${libro.id}">
-                  ♻
+                <div class="d-flex align-items-center">
+                  <p th:text="${libro.obligatorio} ? 'Si' : 'No'">Si</p>
+<!-- TODO:  si / no?  -->
+    <!--<td th:if="${libro.obligatorio} ? 'Si' : 'No'"></td>-->      
+                </div>
+              </td>
+    <!-- TODO:  dias?  -->
+<!--    <td th:text="${diasRestantes}"></td>-->
+              <td>
+                <a type="button" class="btn btn-success btn-sm" th:href="@{/libros/reciclar/}+${libro.id}">
+                  Recuperar
                 </a>
               </td>
               <td>

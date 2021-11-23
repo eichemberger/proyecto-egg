@@ -7,35 +7,15 @@
 body {
     font-family: "Quicksand", sans-serif;
     font-weight: 400;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to top left, #39b385, #9be15d) fixed;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A)fixed;
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A) fixed;
 }
 
-nav {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-
-}
-/* .nav-item {
-    padding: 0px;
-    margin-left: 20px;
-    margin-right: 20px;
-} */
-
-.primer-item {
-    margin-right: auto;
-    margin-top: 2px;
-}
 
 .singup-wrap {
     width: 500px;
@@ -72,7 +52,7 @@ h2{
     font-weight: 500;
     text-align: center;
     margin-bottom: 26px;
-    color: #148F77;
+    color: black;
 }
 
 .input-wrap{
@@ -90,7 +70,7 @@ h2{
 }
 
 span{
-    color: #16A085;
+    color: #13B28A;
     font-weight: 600;
     cursor: pointer;
 }
@@ -131,8 +111,11 @@ button {
     border-radius: 30px;
     font-weight: 600;
     border: none;
-    color: #fff;
-    background-color: #39b385;
+    color: black;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     transition: 500ms ease all;
 }
 
@@ -145,9 +128,12 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #39b385;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     padding: 60px 40px 40px;
-    color: #fff;
+    color: black;
 }
 
 h3{
@@ -176,7 +162,11 @@ i {
 }
 
 i:hover {
-    color:#4e585f;
+    color:#fff;
+}
+
+ol, ul {
+    padding-left: 0;
 }
 
 a {

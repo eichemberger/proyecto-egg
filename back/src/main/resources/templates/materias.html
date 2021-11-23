@@ -13,6 +13,7 @@
     />
     <!--    <link rel="stylesheet" href="registroStyle.css" />-->
     <link rel="stylesheet" th:href="@{/styles/cambiarContraseñaStyle.css}" />
+    <link rel="stylesheet" th:href="@{/styles/tabla-libros.css}" />
     <link rel="stylesheet" href="../styles/nav.css" />
     <link
       rel="stylesheet"
@@ -31,30 +32,10 @@
   </head>
 
   <body>
-    <nav>
-      <p style="margin-bottom: 0" class="primer-item">
-        <a style="margin-left: 10px; color: #fff" th:href="@{/}"
-          >📚 Libros  O' clock</a
-        >
-      </p>
-      <p style="margin-bottom: 0" class="nav-item">
-        <a th:href="@{/libros/papelera}"> 🗑️</a>
-      </p>
-      <p style="margin-bottom: 0" class="nav-item">
-        <a style="color: #fff" th:href="@{/materia}">Mis materias</a>
-      </p>
-      <p style="margin-bottom: 0" class="nav-item">
-        <a style="color: #fff" th:href="@{/libros}">Mis libros</a>
-      </p>
-      <p style="margin-bottom: 0" class="nav-item">
-        <a style="color: #fff" th:href="@{/usuario/perfil}">Mi Perfil</a>
-      </p>
-      <p style="margin-bottom: 0" class="nav-item">
-        <a style="color: #fff" th:href="@{/logout}">Cerrar Sesión</a>
-      </p>
-    </nav>
+  <nav th:replace="layout/layout :: nav"></nav>
 
-    <div class="singup-wrap">
+
+  <div class="singup-wrap">
       <div class="singup-top">
         <h2>Nueva Materia</h2>
         <form

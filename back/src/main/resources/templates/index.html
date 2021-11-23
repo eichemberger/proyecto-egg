@@ -11,7 +11,7 @@
 <body>
 <!-- NAVBAR -->
 <header style="z-index: 1;" class="sticky-shrinknav-header">
-  <h1 class="sticky-shrinknav-header-title">Bo<span style="color: rgba(0, 0, 0, 0.8);">oks</span></h1>
+  <h1 class="sticky-shrinknav-header-title">Libro <span style="color: rgba(0, 0, 0, 0.8);">O´clock</span></h1>
   <ul class="menu align-center sticky-shrinknav-menu">
     <li th:if="${usuario == null}"><a th:href="@{/login}">Login</a></li>
     <li th:if="${usuario == null}"><a th:href="@{/usuario/registro}">Registro</a></li>
@@ -23,8 +23,8 @@
 <div class="verticalContainer">
   <div class="mainContainer">
     <div class="leftContainer">
-      <h1>Bo<span>oks</span></h1>
-      <h3>Always keep your <span> mind on books</span></h3>
+      <h1>Libro<span> O´clock</span></h1>
+      <h3>Manten tu mente <span> en los libros</span></h3>
       <p>
         Muchas gracias por visitarnos! <br />
         Creamos esta pagína para ayudarte con tus examanes. <br />
@@ -32,11 +32,11 @@
       </p>
       <!-- BOTON JOANA <a href="#"><button type="button">Aprende más</button></a> -->
       <!-- use a tag for links to other locations -->
-      <a class="button button-rounded-hover" th:href="@{/info}">Aprende más</a>
+      <a class="button button-rounded-hover" th:href="@{/info}">Aprende a usar Libro O´clock</a>
     </div>
-    <div class="rightContainer">
+    <!-- <div class="rightContainer">
       <img src="https://resources.careersandenterprise.co.uk/sites/default/files/2020-07/Group%20612.svg" alt="">
-    </div>
+    </div> -->
   </div>
 
   <div class="IImainContainer">
@@ -56,45 +56,32 @@
 <!-- FOOTER -->
 <footer class="responsive-blog-footer">
   <div class="row">
-    <div
-            class="medium-8 columns small-order-2 medium-order-1 about-container"
-    >
+    <div class="medium-8 columns small-order-2 medium-order-1 about-container">
       <div class="row">
         <div class="hide-for-small-only medium-4 columns about-section">
-          <!-- <img src="https://placehold.it/250x250" /> -->
+          <!-- <img src="https://placehold.it/250x250"> -->
         </div>
         <div class="medium-8 columns about-section">
-          <h4>Sobre Nosotros</h4>
-          <p>
-            Somos un grupo de estudiantes de programación y ...
-          </p>
-          <a th:href="@{/info}">Leer más</a>
+          <h4> Sobre nosotros:</h4>
+          <p>Somos un grupo de estudiantes de programación con ganas de cooperar y ayudar.</p>
+          <a href="">Conoce más</a>
         </div>
       </div>
     </div>
-    <div
-            class="
-            small-12
-            medium-4
-            columns
-            small-order-1
-            medium-order-2
-            mailing-container
-          "
-    >
-<!--      <h4 class="mailing-list">Queres estudiar de una forma más eficiente? Suscribite ahora para recibir información:</h4>-->
-<!--      <input type="text" placeholder="Email" />-->
-<!--      <a class="button expanded subscribe-button" href="#">Suscribirme</a>-->
+    <div class="small-12 medium-4 columns small-order-1 medium-order-2 mailing-container">
+      <h4 class="mailing-list">Queres estudiar de una forma más eficiente? Nosotros te ayudamos</h4>
+      <input type="text" placeholder="Email">
+      <a class="button expanded subscribe-button" href="#">Suscribirme</a>
     </div>
   </div>
-  <!-- <div class="row tag-search">
+  <div class="row tag-search">
     <div class="columns">
-      <h4>Buscar por tag:</h4>
+      <h4>Buscar por tag</h4>
       <ul class="menu simple tag-section">
         <li><a href="">Libros</a></li>
         <li><a href="">Materias</a></li>
         <li><a href="">Estudiantes</a></li>
-        <li><a href="">Contacto</a></li>
+        <li><a href="">Cooperar</a></li>
         <!-- <li><a href="">word</a></li>
         <li><a href="">word</a></li>
         <li><a href="">word</a></li> -->
@@ -102,11 +89,9 @@
     </div>
   </div>
   <div class="row columns flex-container align-justify">
-    <p>Todos los derechos reservados</p>
+     <p> Todos los derechos reservados.</p>
     <div class="up-arrow">
-      <a href="#top"
-      ><i class="fa fa-chevron-circle-up" aria-hidden="true"></i
-      ></a>
+      <a href="#top"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i></a>
     </div>
   </div>
 </footer>

@@ -57,7 +57,10 @@ body {
     -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     text-align: center;
     position: fixed;
     top: 0;
@@ -83,58 +86,59 @@ body {
   }
   
   /* FOOTER */
-.responsive-blog-footer {
-  background: rgb(99, 224, 137);
-  padding: 3rem 3rem;
-}
 
-@media screen and (max-width: 39.9375em) {
-  .responsive-blog-footer h4 {
-    font-size: 1.5rem;
+  .responsive-blog-footer {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 3rem 3rem;
+    color: white;
   }
-}
-
-.responsive-blog-footer p {
-  color: #8a8a8a;
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.responsive-blog-footer .mailing-list {
-  margin-bottom: 1.5rem;
-}
-
-.responsive-blog-footer .mailing-container {
-  margin-bottom: 2rem;
-}
-
-.responsive-blog-footer .about-section, .responsive-blog-footer .tag-section {
-  margin-bottom: 2rem;
-}
-
-.responsive-blog-footer .about-section a, .responsive-blog-footer .tag-section a {
-  color: #fff;
-}
-
-.responsive-blog-footer .subscribe-button {
-  background-color: #148F77;
-}
-
-.responsive-blog-footer .subscribe-button:hover {
-  background-color: #39b385;
-  transition: color 0.3s ease-in;
-}
-
-.responsive-blog-footer .fa-chevron-circle-up {
-  font-size: 3rem;
-  color: #8a8a8a;
-}
-
-.responsive-blog-footer .fa-chevron-circle-up:hover {
-  color: #b0b0b0;
-  transition: color 0.3s ease-in;
-}
-
+  
+  @media screen and (max-width: 39.9375em) {
+    .responsive-blog-footer h4 {
+      font-size: 1.5rem;
+    }
+  }
+  
+  .responsive-blog-footer p {
+    color: #8a8a8a;
+  }
+  
+  .responsive-blog-footer .mailing-list {
+    margin-bottom: 1.5rem;
+  }
+  
+  .responsive-blog-footer .mailing-container {
+    margin-bottom: 2rem;
+  }
+  
+  .responsive-blog-footer .about-section, .responsive-blog-footer .tag-section {
+    margin-bottom: 2rem;
+  }
+  
+  .responsive-blog-footer .about-section a, .responsive-blog-footer .tag-section a {
+    color: #13B28A;
+  }
+  
+  .responsive-blog-footer .subscribe-button {
+    color: black;
+    background-color: #13B28A;
+  }
+  
+  .responsive-blog-footer .subscribe-button:hover {
+    background-color: #3FFFD8;
+    transition: color 0.3s ease-in;
+  }
+  
+  .responsive-blog-footer .fa-chevron-circle-up {
+    font-size: 3rem;
+    color: #8a8a8a;
+  }
+  
+  .responsive-blog-footer .fa-chevron-circle-up:hover {
+    color: #b0b0b0;
+    transition: color 0.3s ease-in;
+  }
+  
 /* BUTTON */
 
 .button-rounded-hover {
@@ -173,14 +177,14 @@ body {
   bottom: 0px;
   left: 0px;
   right: 0px;
-  border: 5px solid #148F77;
+  /* border: 5px solid #13B28A; */
   content: '';
   border-radius: inherit;
 }
 
 .button-rounded-hover:hover,
 .button-rounded-hover:focus {
-  background-color: #148F77;
+  background-color: #13B28A;
 }
 
 .button-rounded-hover:hover:before,
@@ -196,8 +200,8 @@ body {
 .mainContainer {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
-  margin-left: 5vh;
+  justify-content: center;
+  width: 100vw;
   margin-top: -10vh;
 }
 
@@ -209,10 +213,11 @@ body {
 .leftContainer h1{
   font-size: 100px;
   font-weight: 500;
+  margin-left: -5px;
 }
 
 .leftContainer span{
-  color: #9be15d;
+  color: #13B28A;
 }
 
 .leftContainer h3{
@@ -226,20 +231,21 @@ body {
   margin-bottom: 5vh;
   font-size: 20px;
   font-weight: 400;
-  color: #626567;
+  color: black;
 }
 
 .rightContainer img{
-  width: 95%;
-  margin-top: 2vh;
+  max-width: 66%;
+  margin-top: 33px;
+  margin-left: 99px;
 }
 
 .IImainContainer {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
-  margin-top: 15vh;
-  margin-bottom: -15vh;
+  margin-top: 3vh;
+  margin-bottom: -25vh;
 }
 
 .IIrightContainer a {
@@ -248,7 +254,9 @@ body {
   align-items: center;
   font-size: 45px;
   font-weight: 600;
-  color:#148F77;
+  color:#13B28A;
+  margin-top: -100px;
+  margin-left: 33px;
 }
 
 .IIImainContainer{

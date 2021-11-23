@@ -26,7 +26,7 @@
     <body>
         
         <nav>
-            <p style="margin-bottom: 30px;" class="primer-item"><a style="margin-left: 30px; color: #fff;" th:href="@{/}">📚Libros  O' clock</a></p>
+            <p style="margin-bottom: 0;" class="primer-item"><a style="margin-left: 10px; color: black;" th:href="@{/}"><i class="fas fa-book"></i>&nbspLibro O' clock</a></p>
         </nav>
 
         <div class="singup-wrap">
@@ -52,7 +52,7 @@
                         <input class="input" type="password" name="confirmar-contrasenia" id="confirmar-contrasenia" required="true" placeholder="Confirme aquí su contraseña"/>
                     </div>
                     <span id="error-login" style="color: red;">Las contraseñas no coinciden</span>  <br />
-                    <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}">Error</span>                    
+                    <span th:if="${#fields.hasErrors('contrasenia')}" th:errors="*{contrasenia}" id="erorr-password">Error</span>                    
                     <div class="input-wrap">
                         <p>Podes adjuntar tu <a><label>
                                     <input type="file" name="archivo" th:value="*{foto}" id="archivo" style="display: none" accept="image/*"/><span

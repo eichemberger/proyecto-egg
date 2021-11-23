@@ -11,8 +11,11 @@
     border-radius: 30px;
     font-weight: 600;
     border: none;
-    color: #fff;
-    background-color: #39b385;
+    color: black;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     margin: auto;
     transition: 500ms ease all;
     font-family: arial;
@@ -20,6 +23,6 @@
   }
   
   button:hover {
-    background-color: #16A085;
+    /* background-color: #16A085; */
     transform: scale(.98);
   }

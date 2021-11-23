@@ -7,34 +7,14 @@
 body {
     font-family: "Quicksand", sans-serif;
     font-weight: 400;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to top left, #39b385, #9be15d) fixed;
-}
-
- /*nav {
-    display: flex;
-    flex-direction: row;
-    width: 100vw;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-
-}
- .nav-item {
-    padding: 0px;
-    margin-left: 20px;
-    margin-right: 20px;
-} */
-
-.primer-item {
-    margin-right: auto;
-    margin-top: 2px;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A)fixed;
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A) fixed;
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A) fixed;
 }
 
 .singup-wrap {
@@ -43,6 +23,7 @@ a {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     background-color: #fff;
     margin-top: 33px;
+    margin-bottom: 180px;
 }
 
 .singup-top{
@@ -72,7 +53,7 @@ h2{
     font-weight: 500;
     text-align: center;
     margin-bottom: 26px;
-    color: #148F77;
+    color: black;
 }
 
 .input-wrap{
@@ -85,13 +66,12 @@ h2{
 .input-wrap p {
     /* MODIFICADO PARA CORREGIR BOOTSTRAP STYLES */
     margin-top: 10px;
-
     font-size: 15px;
-    color: #4e585f;
+    color: black;
 }
 
 span{
-    color: #16A085;
+    color: black;
     font-weight: 600;
     cursor: pointer;
 }
@@ -109,7 +89,7 @@ input {
 input:focus {
     outline: none;
     box-shadow: 0 1px 0 0 #A2D9CE;
-    border-color: #A2D9CE;
+    border-color: #48C9B0;
 }
 
 input[type="checkbox"] {
@@ -132,14 +112,16 @@ button {
     border-radius: 30px;
     font-weight: 600;
     border: none;
-    color: #fff;
-    background-color: #39b385;
+    color: black;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     margin-right: 16px;
     transition: 500ms ease all;
 }
 
 button:hover {
-    background-color: #16A085;
     transform: scale(.98);
 }
 
@@ -147,9 +129,12 @@ button:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #39b385;
+    background: #3FFFD8;
+    background: -webkit-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: -moz-linear-gradient(top left, #3FFFD8, #13B28A);
+    background: linear-gradient(to bottom right, #3FFFD8, #13B28A);
     padding: 60px 40px 40px;
-    color: #fff;
+    color: black;
 }
 
 h3{
@@ -178,7 +163,11 @@ i {
 }
 
 i:hover {
-    color:#4e585f;
+    color:#fff;
+}
+
+ol, ul {
+    padding-left: 0;
 }
 
 a {
@@ -203,21 +192,22 @@ nav {
     display: flex;
     flex-direction: row;
     align-items: center;
-    
     width: 100vw;
-    height: 60px;
-    background-image: linear-gradient(to top left, #39b385, #9be15d);
-    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-    font-size: 16px;
+    height: 80px;
+    background-color: #F0F3F4;
+    font-size: 28px;
     font-weight: 500;
-    color:#fff;
-   
-}
-
-.nav-item {
-    padding: 10px;
+    box-shadow: 1px 1px 10px #34495E;
 }
 
 .primer-item {
-    margin-right: auto;
+    margin-left: 33px;
+}
+
+button:disabled, button:hover:disabled {
+    background-color: #4f4f4f;
+}
+
+#error-password{
+    color: red;
 }
