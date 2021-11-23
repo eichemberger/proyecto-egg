@@ -1,7 +1,7 @@
 function eliminar(id) {
     swal({
         title: "Esta seguro de Eliminar?",
-        text: "Todos los libros no leidos vinculados a esta materia seran eliminados",
+        text: "Todos los libros no leídos vinculados a esta materia serán eliminados",
         icon: "warning",
         buttons: true,
         dangerMode: true,
