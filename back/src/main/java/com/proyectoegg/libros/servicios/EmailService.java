@@ -61,7 +61,7 @@ public class EmailService {
         return templateEngine.process("mail-alerta", context);
     }
 
-    @Scheduled(cron = "00 32 22 * * *")
+    @Scheduled(cron = "00 39 13 * * *")
     private void enviarAvisosUsuario() {
         if (libroServicio.librosFechaAlertaActivosSinLeer().isEmpty()) {
             return;
@@ -97,6 +97,23 @@ public class EmailService {
         return templateEngine.process("mail-registro", context);
     }
     
+    public void avisoUsuarioEliminado(Usuario usuario) {
+        String processedHTMLTemplate = this.avisoUsuarioEliminadoHTML(usuario);
+        MimeMessagePreparator preparator = message -> {
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED, "UTF-8");
+            helper.setFrom("proyectoegg159@gmail.com");
+            helper.setTo(usuario.getEmail());
+            helper.setSubject("Usuario eliminado correctamente");
+            helper.setText(processedHTMLTemplate, true);
+        };
+        mailSender.send(preparator);
+    }
+
+    private String avisoUsuarioEliminadoHTML(Usuario usuario) {
+        Context context = new Context();
+        context.setVariable("usuario", usuario);
+        return templateEngine.process("mail-usuario-eliminado", context);
+    }
     
     
             //ENVIA 1 MAIL X C/ LIBRO    

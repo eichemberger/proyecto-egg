@@ -145,6 +145,7 @@ public class UsuarioController {
     public String eliminar(ModelMap model, HttpSession session) throws ServiceException {
         Usuario usuario = (Usuario) session.getAttribute("usuariosession");
         try{
+            emailServicio.avisoUsuarioEliminado(usuario);
             usuarioServicio.eliminar(usuario.getId());
            return "redirect:/logout";
         } catch(ServiceException e) {
