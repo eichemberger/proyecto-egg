@@ -61,7 +61,7 @@ public class EmailService {
         return templateEngine.process("mail-alerta", context);
     }
 
-    @Scheduled(cron = "00 00 08 * * *")
+    @Scheduled(cron = "00 32 22 * * *")
     private void enviarAvisosUsuario() {
         if (libroServicio.librosFechaAlertaActivosSinLeer().isEmpty()) {
             return;

@@ -42,11 +42,11 @@ public class LibroServicio {
     @Transactional
     public void agregarLibro(Libro libro) throws ServiceException {
 
+        setearFechaAlarma(libro);
         valideishon(libro);
 
         libro.setAlta(true);
         libro.setLeido(false);
-        setearFechaAlarma(libro);
         libroRepositorio.save(libro);
     }
 
@@ -187,6 +187,8 @@ public class LibroServicio {
             throw new ServiceException("Debe tener un autor");
         } else if (libro.getMateria() == null) {
             throw new ServiceException("El libro debe tener una materia");
+        } else if (libro.getFechaAlerta().before(new Date())) {
+            throw new ServiceException("La fecha o cantidad de días de anticipacion no son válidos");
         }
     }
 

@@ -1,25 +1,19 @@
 package com.proyectoegg.libros.controladores;
 
 import com.proyectoegg.libros.entidades.Usuario;
-import com.proyectoegg.libros.servicios.EmailService;
 import com.proyectoegg.libros.servicios.MateriaServicio;
 import com.proyectoegg.libros.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
-import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAnyRole;
 
 @Controller
 @RequestMapping("/")
@@ -31,8 +25,6 @@ public class MainController {
     @Autowired
     UsuarioServicio usuarioServicio;
 
-    @Autowired
-    private EmailService emailService;
 
     @ModelAttribute("usuario")
     public Usuario getUsuario(HttpSession session) {

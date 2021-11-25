@@ -250,7 +250,7 @@ public class LibroController {
         }
 
       if(redireccion!=null){
-                return "redirect:/libros";
+                return "redirect:/libros/leidos";
             }
         return "redirect:/libros/" + libro.getMateria().getId();
 
